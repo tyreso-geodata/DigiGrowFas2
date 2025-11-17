@@ -1,0 +1,38 @@
+.dropdown {
+  height: 100%;
+  width: 100%;
+}
+
+.dropdown button {
+  height: 100%;
+  position: relative;
+  width: 100%;
+}
+
+.dropdown .collapse-container {
+  position: absolute;
+  width: 100%;
+}
+
+.dropdown .collapse-header {
+  height: 100%;
+}
+
+.dropdown li {
+  padding: .25rem .5rem;
+}
+
+.dropdown li:hover {
+  background-color: #eee;
+  cursor: pointer;
+}
+
+.dropdown li:focus {
+  background-color: #eee;
+  cursor: pointer;
+}
+
+.dropdown li:focus:not(:focus-visible) {
+  background-color: #000;
+  cursor: pointer;
+}
