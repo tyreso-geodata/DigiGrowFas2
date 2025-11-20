@@ -1,7 +1,4 @@
-# DigigrowFas2
-Digigrow - Fas2
-
-# Projektöversikt
+# Projektöversikt DigigrowFas2
 
 Detta repo innehåller konfigurationer, installationer och byggfiler för vår Origo-baserade kartklient, inklusive:
 
@@ -9,9 +6,6 @@ Detta repo innehåller konfigurationer, installationer och byggfiler för vår O
 * **QGIS Server (IIS FastCGI)**
 * **Origo-klient (statisk build + plugins)**
 * **Miljöspecifika TEST och PROD-konfigurationer**
-
-Systemet är organiserat så att varje teknik och miljö har sina egna konfigurationsfiler och installationsguider.
-
 
 # Versionsinformation
 
