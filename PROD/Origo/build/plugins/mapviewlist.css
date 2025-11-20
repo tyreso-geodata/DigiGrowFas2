@@ -1,0 +1,68 @@
+@charset "UTF-8";
+/* The border around the button */
+.active-border::before {
+  content: '';
+  position: absolute;
+  top: 12%;
+  left: 70%;
+  transform: translate(-50%, -50%);
+  width: calc(110% - 2px);
+  /* The width of the left half of the border */
+  height: calc(100% + 2px);
+  /* The height of the border */
+  border-top: 4px solid #008ff5;
+  /* Color and thickness of the upper part of the border line */
+  border-bottom: 4px solid #008ff5;
+  /* Color and thickness of the lower part of the border line */
+  border-left: 4px solid #008ff5;
+  /* Color and thickness of the left part of the border */
+  border-right: 4px solid white;
+  /* Color and thickness of the right part of the border */
+  border-radius: 50px;
+  /* Rounds the corners to match the shape of the button */
+  box-sizing: border-box;
+  /* Make sure the border includes the size of the button */
+  rotate: -35deg;
+  /* Turn the border against the direction of the border */ }
+
+/* Arrow pointing to the direction of the border */
+.active-border::after {
+  content: '';
+  position: absolute;
+  width: 0;
+  height: 0;
+  top: 50%;
+  right: 2px;
+  /* Adjust the arrow position more to the left */
+  margin-top: -22px;
+  /* Adjust the arrow position vertically */
+  border: 7px solid transparent;
+  border-left-color: #008ff5;
+  /* Color of the arrow, match the color of the border */
+  transform: rotate(-2deg);
+  /* Turn the arrow towards the direction of the edge line */ }
+
+.subbuttons-container-grid {
+  display: grid !important;
+  grid-template-columns: repeat(6, 1fr);
+  /* Skapa 6 kolumner */
+  grid-gap: 8px 0;
+  /* Lägg till mellanrum mellan rader och kolumner */
+  border-radius: 0.5rem !important; }
+
+.subbutton-row-grid {
+  display: flex;
+  flex-wrap: nowrap;
+  /* Undvik att knapparna wrapar på raden */ }
+
+.subbutton-grid {
+  flex: 1;
+  /* Varje knapp tar lika stor plats */
+  padding: 10px;
+  margin: 0;
+  background-color: #ccc;
+  border: none;
+  text-align: center; }
+
+.subbuttons-container-grid-behind {
+  z-index: -5; }
