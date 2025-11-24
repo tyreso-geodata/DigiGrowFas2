@@ -1,4 +1,4 @@
-## Förberedelser
+## Förberedelser.
 
 ### Installera Java (JDK 17+)
 
