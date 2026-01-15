@@ -1,0 +1,618 @@
+{
+  "controls": [
+    {
+      "name": "mapmenu",
+      "options": {
+        "isActive": false,
+        "autoHide": "always"
+      }
+    },
+    {
+      "name": "about",
+      "options": {
+        "buttonText": "Om kartan",
+        "title": "Om cykelkartan",
+        "content": "Cykelkarta är en karttjänst som använder <a href='https://github.com/origo-map'>Origo</a> som &auml;r ett ramverk f&ouml;r webbkartor."
+      }
+    },
+    {
+      "name": "externalurl",
+      "options": {
+        "tooltipText": "Kartlänkar",
+        "links": [
+          {
+            "name": "osm",
+            "tooltipText": "OpenStreetMap",
+            "method": "LatLon",
+            "url": "https://www.openstreetmap.org/#map=17/{{LAT}}/{{LON}}",
+            "buttonImage": "img/png/Openstreetmap.png"
+          },
+          {
+            "name": "googlestreet",
+            "tooltipText": "Google street view",
+            "method": "LatLon",
+            "url": "https://www.google.com/maps/@?api=1&map_action=pano&viewpoint={{LAT}},{{LON}}&heading=-45&pitch=10&fov=80",
+            "buttonImage": "img/png/street-view.png"
+          },
+          {
+            "name": "Street Smart",
+            "tooltipText": "Street Smart",
+            "method": "XY",
+            "projection": "EPSG:3006",
+            "url": "https://streetsmart.cyclomedia.com/streetsmart?q={{X}};{{Y}}",
+            "buttonImage": "img/png/StreetSmart.png"
+          },
+          {
+            "name": "mapspace",
+            "tooltipText": "Mapspace",
+            "method": "XY",
+            "projection": "EPSG:3011",
+            "url": "https://your.mapspace.com/index.html?workspace=default&userkey=7-NRPgX9pTVNvxehr0CPAF13cYuo&srs=EPSG:3011&x={{X}}&y={{Y}}&viewers=%271,2%27",
+            "buttonImage": "img/png/Mapspace.png"
+          },
+          {
+            "name": "Cesium",
+            "tooltipText": "Cesium",
+            "method": "LatLon",
+            "url": "https://mkartan.tyreso.se/cesium_test?view={{LON}},{{LAT}},1000",
+            "buttonImage": "img/png/Cesium.png"
+          },
+          {
+            "name": "IsyRoad",
+            "tooltipText": "IsyRoad",
+            "method": "XY",
+            "url": "https://isyroad.isy.se/Sodertorn/?view/=167768;6566608#explorer",
+            "buttonImage": "img/png/Isyroad.png"
+          },
+          {
+            "name": "NVDB",
+            "tooltipText": "Trafikverket-NVDB",
+            "method": "XY",
+            "projection": "EPSG:3006",
+            "url": "https://nvdbpakarta.trafikverket.se/map?&backgroundLayer=1LantmaterietsTopowebbkartaNedtonad&wmslayers=VagnatOchNoder|Vagtrafiknat&east={{X}}&north={{Y}}&scale=500",
+            "buttonImage": "img/png/nvdb.png"
+          }
+        ]
+      }
+    },
+    {
+      "name": "fullscreen",
+      "options": {
+        "hideWhenEmbedded": true
+      }
+    },
+    {
+      "name": "geoposition",
+      "options": {
+        "zoomLevel": 17,
+        "autoEnable": false,
+        "hideWhenEmbedded": false
+      }
+    },
+    {
+      "name": "legend",
+      "options": {
+        "labelOpacitySlider": "Opacity",
+        "useGroupIndication": true
+      }
+    }
+  ],
+  "pageSettings": {
+    "footer": {
+      "img": "https://www.tyreso.se/webdav/files/System/resources/graphics/icons/favicon-16x16.png",
+      "url": "https://www.tyreso.se"
+    },
+    "mapGrid": {
+      "visible": false
+    },
+    "mapInteractions": {
+      "embedded": false
+    }
+  },
+  "projectionCode": "EPSG:3011",
+  "projectionExtent": [-359975.93, 544975.44, 6092807.68, 7685875.07],
+  "proj4Defs": [
+    {
+      "code": "EPSG:3011",
+      "alias": "urn:ogc:def:crs:EPSG::3011",
+      "projection": "+proj=tmerc +lat_0=0 +lon_0=18 +k=1 +x_0=150000 +y_0=0 +ellps=GRS80 +towgs84=0,0,0,0,0,0,0 +units=m +no_defs"
+    },
+    {
+      "code": "EPSG:3006",
+      "projection": "+proj=utm +zone=33 +ellps=GRS80 +towgs84=0,0,0,0,0,0,0 +units=m +no_defs"
+    }
+  ],
+  "extent": [-359975.93, 544975.44, 6092807.68, 7685875.07],
+  "center": [167900.809843, 6566700.532076],
+  "home": [-359975.93, 544975.44, 6092807.68, 7685875.07],
+  "zoom": 6,
+  "resolutions": [1146.88, 573.44, 286.72, 143.36, 71.68, 35.84, 17.92, 8.96, 4.48, 2.24, 1.12, 0.56, 0.28, 0.14],
+  "featureinfoOptions": {
+    "clusterFeatureinfoLevel": 1,
+    "infowindow": "sidebar",
+    "pinning": false,
+    "hitTolerance": 7,
+    "changePointerOnHover": true,
+    "layerspecificinfowindow": true,
+    "selectionStyles": {
+      "Point": [
+        {
+          "circle": {
+            "radius": 5,
+            "stroke": {
+              "color": [
+                0,
+                153,
+                255,
+                1
+              ],
+              "width": 0
+            },
+            "fill": {
+              "color": [
+                0,
+                153,
+                255,
+                1
+              ]
+            }
+          }
+        }
+      ],
+      "LineString": [
+        {
+          "stroke": {
+            "color": [
+              255,
+              255,
+              255,
+              0.2
+            ],
+            "width": 5,
+            "zIndex": -1000
+          }
+        },
+        {
+          "stroke": {
+            "color": [
+              0,
+              0,
+              0,
+              0.1
+            ],
+            "width": 3,
+            "zIndex": -1000
+          }
+        }
+      ],
+      "Polygon": [
+        {
+          "stroke": {
+            "color": [
+              255,
+              255,
+              255,
+              1
+            ],
+            "width": 5
+          }
+        },
+        {
+          "stroke": {
+            "color": [
+              0,
+              153,
+              255,
+              1
+            ],
+            "width": 3
+          }
+        }
+      ]
+    }
+  },
+  "source": {
+	  "basemap": {
+      "url": "https://kommunkarta.tyreso.se/geoserver/wms"
+    },
+    "local_wfs": {
+      "url": "https://kommunkarta.tyreso.se/geoserver/wfs"
+    },
+    "projekt": {
+      "url": "https://kommunkarta.tyreso.se/geoserver/wfs"
+    },
+    "framtidabus": {
+      "url": "https://kommunkarta.tyreso.se/qgis/framtidabus?SERVICE=WMS&VERSION=1.3.0&REQUEST=GetCapabilities"
+    },
+    "framtidagcv": {
+      "url": "https://kommunkarta.tyreso.se/qgis/framtidagcv?VERSION=1.3.0"
+    },
+	"skyfallskartering": {
+      "url": "https://kommunkarta.tyreso.se/qgis/skyfallskartering?VERSION=1.3.0"
+    }
+  },
+  "groups": [
+    {
+      "name": "background",
+      "title": "Bakgrundskartor",
+      "expanded": false
+    },
+    {
+      "name": "kartunderlag",
+      "title": "Kartunderlag",
+      "expanded": true
+    },
+	  {
+      "name": "framtidskarta",
+      "title": "Framtidskarta",
+      "expanded": false
+    },
+    {
+      "name": "arende",
+      "title": "Ärende - LEX",
+      "expanded": false
+    },
+    {
+      "name": "lager",
+      "title": "Testlager",
+      "expanded": false
+    }
+  ],
+  "layers": [
+    {
+      "name": "origo-mask",
+      "opacity": 0.25,
+      "title": "origo-mask",
+      "group": "none",
+      "queryable": false,
+      "source": "/origo/build/data/mask.geojson",
+      "style": "mask",
+      "type": "GEOJSON",
+      "visible": true
+    },
+    {
+      "name": "shn_handling_y",
+      "source": "local_wfs",
+      "type": "WFS",
+      "isTable": true,
+      "attributes": [
+        {
+          "name": "beskrivning",
+          "type": "text"
+        },
+        {
+          "name": "beteckning",
+          "type": "text"
+        },
+        {
+          "name": "filtyp",
+          "type": "text"
+        },
+        {
+          "name": "handling_id",
+          "type": "text"
+        }
+      ]
+    },
+    {
+      "name": "shn_arende_y",
+	    "title": "Arende - SHN",
+      "queryable": true,
+      "group": "arende",
+      "source": "local_wfs",
+      "type": "WFS",
+      "visible": false,
+      "editable": true,
+      "allowedEditOperations": [
+        "updateAttributes"
+      ],
+      "attributes": [
+        {
+          "name": "rubrik",
+          "type": "text",
+          "title": "Rubrik: ",
+          "readonly": true
+        },
+        {
+          "name": "diarie_nummer",
+          "type": "text",
+          "title": "Diarienummer: ",
+          "readonly": true
+        },
+        {
+          "name": "arendetyp",
+          "type": "text",
+          "title": "Ärendetyp: ",
+          "readonly": true
+        },
+        {
+          "name": "skapad",
+          "type": "text",
+          "title": "Skapad: ",
+          "readonly": true
+        },
+        {
+          "name": "kopplad_handling",
+          "type": "html",
+          "title": "Handlingar",
+          "readonly": true
+        }
+      ],
+      "relatedLayers": [
+        {
+          "layerName": "shn_handling_y",
+          "FK": "arende_id",
+          "PK": "arende_id",
+          "featureTitle": "beskrivning",
+          "promoteAttribs": [
+          {
+            "parentName": "kopplad_handling",
+            "html": "<details style='margin:8px 0; border:1px solid #ccc; border-radius:6px; background:#fafafa;'><summary style='padding:8px 10px; font-weight:bold; font-size:14px; cursor:pointer; list-style:none;'>{{beskrivning}} <span style='font-weight:normal; color:#666;'>({{filtyp}})</span></summary><div style='padding:6px 10px 10px 10px; border-top:1px solid #eee; margin-top:4px;'><b>Typ:</b> {{beteckning}}<br><b>Registrerad:</b> {{handregdatum}}<br><b>Filtyp:</b> {{filtyp}}<br><b>ID:</b> {{handling_id}}<br><br><a target='_blank' href='https://kommunkarta.tyreso.se/lex_handling/view/{{handling_id}}'>Visa handlingen</a><br><a target='_blank' href='https://kommunkarta.tyreso.se/lex_handling/download/{{handling_id}}'>Ladda ner handling</a></div></details>"
+          }
+          ]
+        }
+      ]
+    },
+    {
+      "attribution": "&copy Tyresö kommun",
+      "name": "projekt_y",
+      "title": "Projekt",
+      "group": "lager",
+      "type": "WFS",
+      "source": "projekt",
+      "style": "g_detaljplan",
+      "featureinfoTitle": "{{name}}",
+      "infowindow": "sidebar",
+      "queryable": true,
+      "visible": true,
+      "attributes": [
+        {
+          "html": "<img src='https://kommunkarta.tyreso.se/origo/build/data/projekt/{{projekt_nr}}.jpg' alt='Visionbild {{projekt_nr}}'>"
+        },
+        {
+          "name": "name",
+          "title": "Projektnamn: "
+        },
+        {
+          "name": "status",
+          "title": "Status: "
+        },
+        {
+          "name": "paborjad",
+          "title": "Projektstart: "
+        },
+        {
+          "name": "avslutas",
+          "title": "Planerat projektslut: "
+        },
+        {
+          "html": "<br><a target='_blank' href='#'>Länk till sharepoint</a>"
+        }
+      ]
+    },
+    {
+      "name": "dp_plan_y",
+      "title": "Gällande detaljplaner",
+      "source": "local_wfs",
+      "group": "kartunderlag",
+      "type": "WFS",
+      "style": "g_detaljplan",
+      "visible": false,
+      "isUnderSwiper": true,
+	  "label": "dp_aktnummer", 
+      "attributes": [
+        {
+          "name": "dp_aktnummer",
+          "title": "Aktnummer: ",
+          "type": "text",
+          "maxLength": 50
+        },
+        {
+          "name": "dp_laga_kraft_datum",
+          "title": "Lagakraft: ",
+          "type": "text",
+          "maxLength": 50
+        },
+        {
+          "name": "dp_plannummer",
+          "title": "Plannummer: ",
+          "type": "text",
+          "maxLength": 50
+        },
+        {
+          "name": "dp_plantyp",
+          "title": "Plantyp: ",
+          "type": "text",
+          "maxLength": 50
+        },
+        {
+          "html": "<br><a target='_blank' href='{{dp_planhandlingar}}'>Länk till planbeskrivning samt andra tillhörande dokument</a>"
+        }
+      ]
+    },
+	{
+      "name": "projektkarta:avtal_url_y",
+      "title": "Avtal",
+      "source": "local_wfs",
+      "group": "kartunderlag",
+      "queryable": true,
+      "type": "WMS",
+      "searchable": true,
+      "visible": false,
+      "thematicStyling": true,
+      "hasThemeLegend": true
+    },
+	{
+      "name": "projektkarta:kommunens_fastigheter_y",
+      "title": "Kommunens fastigheter",
+      "source": "local_wfs",
+      "group": "kartunderlag",
+      "queryable": true,
+      "type": "WMS",
+      "searchable": true,
+      "visible": false,
+      "thematicStyling": true,
+      "hasThemeLegend": true
+    },
+	{
+      "name": "Maximalt vattendjup",
+      "title": "Maximalt vattendjup vid 100-årsregn",
+      "source": "skyfallskartering",
+      "group": "kartunderlag",
+      "type": "WMS",
+      "searchable": true,
+      "visible": false,
+      "thematicStyling": true,
+      "hasThemeLegend": true
+    },
+	{
+      "name": "Maximalt vattenflöde",
+      "title": "Maximalt vattenflöde vid 100-årsregn",
+      "source": "skyfallskartering",
+      "group": "kartunderlag",
+      "queryable": true,
+      "type": "WMS",
+      "searchable": true,
+      "visible": false,
+      "thematicStyling": true,
+      "hasThemeLegend": true
+    },
+	{
+      "name": "framtidabus",
+      "title": "Framtida busnät",
+      "source": "framtidabus",
+      "format": "image/png",
+      "group": "framtidskarta",
+      "type": "WMS",
+      "hasThemeLegend": true,
+      "legendParams": {
+        "legend_options": "dpi:90"
+      },
+      "visible": false
+    },
+	{
+      "name": "framtidagcv",
+      "title": "Framtida cykelväg",
+      "source": "framtidagcv",
+      "format": "image/png",
+      "group": "framtidskarta",
+      "type": "WMS",
+      "hasThemeLegend": true,
+      "legendParams": {
+        "legend_options": "dpi:90"
+      },
+      "visible": false
+    },
+	  {
+      "attribution": "&copy Lantmäteriet Geodatasamverkan | Tyresö kommun",
+      "format": "image/png",
+      "group": "background",
+      "name": "topowebbkartan_nedtonad",
+      "source": "basemap",
+      "title": "LM - Nedtonad",
+      "type": "WMS",
+      "style": "topo_gra",
+      "visible": true,
+      "isUnderSwiper": true,
+      "tiled": true
+    },
+	  {
+      "name": "osm",
+      "title": "OpenStreetMap",
+      "group": "background",
+      "queryable": false,
+      "style": "karta_osm",
+      "type": "OSM",
+      "visible": false
+    }
+  ],
+  "styles": {
+    "tom": [
+      [
+        {}
+      ]
+    ],
+    "mask": [
+      [
+        {
+          "stroke": {
+            "color": "rgba(0,0,0,1.0)"
+          },
+          "fill": {
+            "color": "rgba(0,0,0,1.0)"
+          }
+        }
+      ]
+    ],
+    "cirkel": [
+      [
+        {
+          "circle": {
+            "radius": 6,
+            "stroke": {
+              "color": "rgba(0,0,0,1)",
+              "width": 2
+            },
+            "fill": {
+              "color": "rgba(0,0,0,0.5)"
+            }
+          }
+        }
+      ]
+    ],
+    "kommunkarta": [
+      [
+        {
+          "image": {
+            "src": "img/png/kommunkarta.png"
+          }
+        }
+      ]
+    ],
+    "topo_gra": [
+      [
+        {
+          "image": {
+            "src": "img/png/gra.png"
+          }
+        }
+      ]
+    ],
+    "topo_farg": [
+      [
+        {
+          "image": {
+            "src": "img/png/farg.png"
+          }
+        }
+      ]
+    ],
+    "topo_inverterad": [
+      [
+        {
+          "image": {
+            "src": "img/png/topo_inverterad.png"
+          }
+        }
+      ]
+    ],
+    "orto": [
+      [
+        {
+          "image": {
+            "src": "img/png/orto.png"
+          }
+        }
+      ]
+    ],
+    "karta_osm": [
+      [
+        {
+          "image": {
+            "src": "img/png/osm.png"
+          }
+        }
+      ]
+    ]
+  }
+}

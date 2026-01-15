@@ -1,26 +1,176 @@
 <!DOCTYPE html>
 <html lang="sv">
 <head>
-	<meta charset="utf-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-	<meta http-equiv="X-UA-Compatible" content="IE=Edge;chrome=1">
-	<!-- On production systems a Content-Security-Policy and referrer meta-tag should be added, see below.
-	The CSP should be modified with adding specific sources that should be allowed, f.e. connect-src 'self' webanalysis.example.com geospatialdata.example.com; -->
-	<!-- <meta http-equiv="Content-Security-Policy" content="default-src 'none'; img-src * data:; script-src 'self' 'unsafe-inline' 'unsafe-eval'; connect-src 'self'; style-src 'self' 'unsafe-inline'; style-src-elem 'self' 'unsafe-inline'; base-uri 'self'; form-action 'self';">
-	<meta name="referrer" content="same-origin"> -->
-	<title>Digigrow</title>
-	<link href="/origo/build/css/style.css" rel="stylesheet">
-	<link rel="shortcut icon" href="/origo/build/img/png/logo.png">
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Projektkartan - DigiGrow</title>
+  <link href="/origo/build/css/style.css" rel="stylesheet">
+  <link href="/origo/build/css/digifilter.css" rel="stylesheet">
+  
+  <!-- Favicons -->
+  <link rel="apple-touch-icon" sizes="180x180" href="/favicon/apple-touch-icon.png">
+  <link rel="shortcut icon" href="https://www.tyreso.se/webdav/files/System/resources/graphics/icons/favicon-16x16.png">
 </head>
 <body>
-<div id="app-wrapper">
-</div>
-<script src="/origo/build/js/tyrorigo.min.js"></script>
-<script type="text/javascript">
-  //Init origo
-  var origo = Origo('/origo/maps/digigrow/index.json', {
-    baseUrl: '/origo/build/'
-  });
-</script>
+  <!-- Header -->
+  <header class="header">
+    <div class="header-brand">
+      Projektkartan
+    </div>
+    <div class="header-actions">
+      <button class="header-toggle-btn" id="header-toggle-btn">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <rect x="3" y="3" width="7" height="7" rx="1"/>
+          <rect x="14" y="3" width="7" height="7" rx="1"/>
+          <rect x="3" y="14" width="7" height="7" rx="1"/>
+          <rect x="14" y="14" width="7" height="7" rx="1"/>
+        </svg>
+        Projekt
+      </button>
+    </div>
+    <nav class="header-nav">
+      <a href="#" class="header-link" target="_blank">Relationshandlingar</a>
+      <a href="#" class="header-link" target="_blank">GDPR</a>
+      <a href="#" class="header-link" target="_blank">DigiGrow</a>
+    </nav>
+    <img src="https://www.tyreso.se/webdav/files/System/resources/graphics/logo.svg" 
+         class="header-logo" 
+         alt="Tyresö kommuns logotyp" />
+  </header>
+
+  <!-- Map Container -->
+  <div class="map-container">
+    <div id="app-wrapper"></div>
+  </div>
+
+  <!-- Project Selector Panel -->
+  <div class="project-selector collapsed" id="project-selector">
+    <div class="selector-header">
+      <h2 class="selector-title">Pågående projekt</h2>
+      <button class="close-btn" id="close-selector">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M18 6L6 18M6 6l12 12"/>
+        </svg>
+      </button>
+    </div>
+    <div class="project-list" id="project-list"></div>
+  </div>
+
+  <!-- Features -->
+  <div class="features-panel" id="features-panel">
+    <div class="features-header">
+      <h2 class="features-title">Träffar inom projektområdet</h2>
+      <button class="close-btn" id="close-features">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M18 6L6 18M6 6l12 12"/>
+        </svg>
+      </button>
+    </div>
+    
+    <!-- Tab Navigation -->
+    <div class="features-tabs">
+      <button class="features-tab active" data-tab="arenden">LEX - Ärenden</button>
+      <button class="features-tab" data-tab="handlingar">LEX - Handlingar</button>
+    </div>
+    
+    <!-- Ärenden -->
+    <div class="tab-content active" id="tab-arenden">
+      <div class="arenden-search">
+        <input type="text" 
+               id="arenden-search-input" 
+               placeholder="Sök efter rubrik...">
+      </div>
+      
+      <div class="features-filter" id="features-filter" style="display: none;">
+        <div class="filter-label">Filtrera efter ärendetyp</div>
+        <div class="filter-dropdown-wrapper">
+          <button class="filter-dropdown-btn" id="filter-dropdown-btn">
+            <span id="filter-btn-text">Alla ärendetyper</span>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <polyline points="6 9 12 15 18 9"/>
+            </svg>
+          </button>
+          <div class="filter-dropdown-menu" id="filter-dropdown-menu"></div>
+        </div>
+      </div>
+      
+      <div class="features-content" id="features-content"></div>
+    </div>
+    
+    <!-- Handlingar -->
+    <div class="tab-content" id="tab-handlingar">
+      <div class="handlingar-search">
+        <input type="text" 
+               id="handlingar-search-input" 
+               placeholder="Sök i beskrivning...">
+      </div>
+      
+      <div class="handlingar-filter">
+        <div class="filter-label">Filtrera efter beteckning</div>
+        <div class="handlingar-filter-dropdown-wrapper">
+          <button class="handlingar-filter-dropdown-btn" id="handlingar-filter-dropdown-btn">
+            <span id="handlingar-filter-btn-text">Alla beteckningar</span>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <polyline points="6 9 12 15 18 9"/>
+            </svg>
+          </button>
+          <div class="handlingar-filter-dropdown-menu" id="handlingar-filter-dropdown-menu"></div>
+        </div>
+      </div>
+      
+      <div class="handlingar-list" id="handlingar-list"></div>
+    </div>
+  </div>
+  <script src="/origo/build/js/tyrorigo.min.js"></script>
+  <script>
+    window.PROJECTS_CONFIG = [
+      {
+        id: 1,
+        name: "Bollmoravägen",
+        image: "/origo/build/data/projekt/1.jpg",
+        projectmanager: "Naser Daabas"
+      },
+      {
+        id: 2,
+        name: "Norra Tyresö Centrum",
+        image: "/origo/build/data/projekt/2.png",
+        projectmanager: "Leif Ledarsson"
+      },
+      {
+        id: 3,
+        name: "Wättingebacken",
+        image: "/origo/build/data/projekt/3.jpg",
+        projectmanager: "Ulla Projekt"
+      },
+      {
+        id: 4,
+        name: "Granängstorget",
+        image: "/origo/build/data/projekt/4.jpg",
+        projectmanager: "Sara Ledarsson"
+      },
+      {
+        id: 5,
+        name: "Trollbäckens Centrumstråk",
+        image: "/origo/build/data/projekt/5.jpg",
+        projectmanager: "Gunnar Ledarsson"
+      },
+      {
+        id: 6,
+        name: "Fornudden",
+        image: "/origo/build/data/projekt/6.jpg",
+        projectmanager: "Anna Ledarsson"
+      }
+    ];
+  </script>
+  <script src="/origo/build/js/digifilter.js"></script>
+  <script>
+    var origo = Origo('/origo/maps/digigrow/digigrow.json', {
+      baseUrl: '/origo/build/'
+    });
+    
+    origo.on('load', function(viewer) {
+      initMapLogic(viewer, origo);
+    });
+  </script>
 </body>
 </html>
