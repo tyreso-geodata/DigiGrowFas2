@@ -18,7 +18,14 @@ const state = {
   currentSearchTerm: '',
   currentBeteckningFilter: 'all',
   selectedBeteckningar: new Set(),
-  currentArendenSearchTerm: ''
+  currentArendenSearchTerm: '',
+  handlingarDateFrom: '',
+  handlingarDateTo: ''
+};
+
+// Store references to document-level event listeners to prevent duplicates
+const eventListeners = {
+  handlingarFilterDocumentClick: null
 };
 
 const elements = {
@@ -36,7 +43,9 @@ const elements = {
   filterBtnText: document.getElementById('filter-btn-text'),
   arendenSearchInput: document.getElementById('arenden-search-input'),
   handlingarSearchInput: document.getElementById('handlingar-search-input'),
-  handlingarList: document.getElementById('handlingar-list')
+  handlingarList: document.getElementById('handlingar-list'),
+  handlingarDateFrom: document.getElementById('handlingar-date-from'),
+  handlingarDateTo: document.getElementById('handlingar-date-to')
 };
 
 function initMapLogic(viewerInstance, origo) {
@@ -53,6 +62,7 @@ function initMapLogic(viewerInstance, origo) {
 }
 
 function init() {
+  createLoadingOverlay();
   setupEventListeners();
   renderProjects();
   initTabSwitching();
@@ -60,13 +70,42 @@ function init() {
   hideSidebar();
 }
 
+function createLoadingOverlay() {
+  const overlay = document.createElement('div');
+  overlay.className = 'loading-overlay';
+  overlay.innerHTML = `
+    <div class="loading-overlay-content">
+      <div class="loading-overlay-spinner"></div>
+      <div class="loading-overlay-text">Hämtar ärenden och handlingar...</div>
+    </div>
+  `;
+  document.body.appendChild(overlay);
+  elements.loadingOverlay = overlay;
+}
+
+function showLoading() {
+  if (elements.loadingOverlay) {
+    elements.loadingOverlay.classList.add('visible');
+  }
+}
+
+function hideLoading() {
+  if (elements.loadingOverlay) {
+    elements.loadingOverlay.classList.remove('visible');
+  }
+}
+
 function setupEventListeners() {
-  elements.headerToggleBtn.addEventListener('click', toggleSelector);
+  elements.headerToggleBtn.addEventListener('click', () => {
+    toggleSelector();
+    // Stäng och nollställ ärenderutan när projektknappen klickas
+    if (state.selectorVisible) {
+      closeFeaturesPanel();
+    }
+  });
   
   elements.closeBtn.addEventListener('click', toggleSelector);
-  elements.closeFeaturesBtn.addEventListener('click', () => {
-    elements.featuresPanel.classList.remove('visible');
-  });
+  elements.closeFeaturesBtn.addEventListener('click', closeFeaturesPanel);
   
   elements.filterDropdownBtn.addEventListener('click', (e) => {
     e.stopPropagation();
@@ -77,6 +116,16 @@ function setupEventListeners() {
     if (!elements.filterDropdownMenu.contains(e.target) && 
         !elements.filterDropdownBtn.contains(e.target)) {
       elements.filterDropdownMenu.classList.remove('visible');
+    }
+  });
+
+  document.addEventListener('click', (e) => {
+    if (e.target.classList.contains('lex-trigger-link')) {
+      e.preventDefault();
+      const projektNr = e.target.dataset.projektnr;
+      if (projektNr) {
+        zoomToProjektNr(projektNr);
+      }
     }
   });
   
@@ -94,23 +143,33 @@ function setupEventListeners() {
     });
   }
   
+  if (elements.handlingarDateFrom) {
+    elements.handlingarDateFrom.addEventListener('change', (e) => {
+      state.handlingarDateFrom = e.target.value;
+      renderHandlingarList();
+    });
+  }
+  
+  if (elements.handlingarDateTo) {
+    elements.handlingarDateTo.addEventListener('change', (e) => {
+      state.handlingarDateTo = e.target.value;
+      renderHandlingarList();
+    });
+  }
+  
   origoInstance.api().getMap().on("click", function(e) {
     const hitTolerance = 7;
     this.forEachFeatureAtPixel(e.pixel, function(feature, layer) {
       if (layer && layer.get('name') === CONFIG.LAYER_NAME) {
         const projektNr = feature.get('projekt_nr');
         
-        if (state.activeProjectId === projektNr) {
-          if (!state.selectorVisible) {
-            toggleSelector();
-          }
-        } else {
-          source.setFilter(`projekt_nr = '${projektNr}'`);
+        if (state.activeProjectId !== projektNr) {
+          source.setFilter(null);
           state.activeProjectId = projektNr;
           setActiveProjectUI(projektNr);
+         // zoomToFeatureExtent(feature);
+          //zoomToProjektNr(projektNr); // 
         }
-        
-        zoomToFeatureExtent(feature);
       }
     }, { hitTolerance });
   });
@@ -190,79 +249,49 @@ function computeGeoJSONExtent(geometry) {
   return [minX, minY, maxX, maxY];
 }
 
-async function fetchIntersectingFeatures(extent, layerName) {
+async function fetchIntersectingFeatures(extent, layerName, projektNr) {
   try {
     const layer = origoInstance.api().getLayer(layerName);
-    
-    if (!layer) {
-      console.warn(`Layer ${layerName} not found`);
-      return [];
-    }
-    
-    const layerSource = layer.getSource();
-    
-    if (layer.get('type') === 'WFS') {
-      const [minX, minY, maxX, maxY] = extent;
-      
-      //Change SourceName here (same as in your Origo index.json)
-      let wfsSourceName = 'projekt';
+    if (!layer) return [];
 
-      const sourceConfig = viewer.getMapSource()[wfsSourceName];
-      
-      if (!sourceConfig) {
-        console.error(`Source config not found for ${wfsSourceName}`);
-        return [];
-      }
-      
-      const wfsUrl = sourceConfig.url;
-      const typeName = layerName;
-      const url = `${wfsUrl}?service=WFS&version=1.1.0&request=GetFeature` +
-        `&typeName=${encodeURIComponent(typeName)}` +
+    if (layer.get('type') === 'WFS') {
+      const projektGeometry = await fetchProjektGeometry(projektNr);
+      if (!projektGeometry) return [];
+
+      const wkt = geometryToWKT(projektGeometry);
+      // Precision query: only touches the blue shape
+      const intersectsFilter = `INTERSECTS(geom, ${wkt})`; 
+
+      const url = `${CONFIG.WFS_BASE}?service=WFS&version=1.1.0&request=GetFeature` +
+        `&typeName=${encodeURIComponent(layerName)}` +
         `&outputFormat=application/json` +
         `&srsname=${CONFIG.WFS_SRS}` +
-        `&bbox=${minX},${minY},${maxX},${maxY},${CONFIG.WFS_SRS}`;
-      
+        `&CQL_FILTER=${encodeURIComponent(intersectsFilter)}`;
+
       const response = await fetch(url);
-      
-      if (!response.ok) {
-        console.error(`WFS request failed: ${response.status} ${response.statusText}`);
-        return [];
+      if (response.ok) {
+        const json = await response.json();
+        return json.features || [];
       }
-      
-      const json = await response.json();
-      return json.features || [];
     }
     
-    const features = layerSource.getFeatures();
-    const intersecting = features.filter(feature => {
-      const geom = feature.getGeometry();
-      if (!geom) return false;
-      
-      const featureExtent = geom.getExtent();
-      return ol.extent.intersects(extent, featureExtent);
-    });
-    
-    return intersecting.map(f => ({
-      type: 'Feature',
-      properties: f.getProperties(),
-      geometry: null
-    }));
+    // Fallback for local layers
+    return layer.getSource().getFeatures().filter(f => 
+      extentsIntersect(extent, f.getGeometry().getExtent())
+    );
   } catch (error) {
-    console.error(`Error fetching features from ${layerName}:`, error);
     return [];
   }
 }
 
-async function queryAllLayersInExtent(extent) {
+async function queryAllLayersInExtent(extent, projektNr) {
   const results = {};
-  
   for (const layerName of CONFIG.QUERYABLE_LAYERS) {
-    const features = await fetchIntersectingFeatures(extent, layerName);
+    const features = await fetchIntersectingFeatures(extent, layerName, projektNr);
     if (features.length > 0) {
       results[layerName] = features;
     }
   }
-  
   return results;
 }
 
@@ -274,7 +303,6 @@ async function fetchRelatedFeatures(layerName, featureProps) {
     return [];
   }
   
-  // Falls back to `values_` if standard getters aren't available to prevent crashes
   const layerValues = layerConfig.get ? 
     layerConfig.getProperties() : 
     layerConfig.values_ || layerConfig;
@@ -328,16 +356,32 @@ async function fetchRelatedFeatures(layerName, featureProps) {
 }
 
 async function fetchHandlingarForArenden(arendeFeatures) {
-  const allHandlingar = [];
+  if (!arendeFeatures.length) return [];
+  
   const wfsUrl = 'https://kommunkarta.tyreso.se/geoserver/wfs';
   const typeName = 'projektkarta:shn_handling_y';
   
-  for (const arende of arendeFeatures) {
-    const arendeId = arende.properties.arende_id;
-    if (!arendeId) continue;
+  // Collect all arende_ids
+  const arendeIds = arendeFeatures
+    .map(a => a.properties.arende_id)
+    .filter(id => id);
+  
+  if (!arendeIds.length) return [];
+  
+  // Create a map of arende properties for quick lookup
+  const arendeMap = new Map(
+    arendeFeatures.map(a => [a.properties.arende_id, a.properties])
+  );
+  
+  // Batch into groups of 20 to avoid URL length limits
+  const batchSize = 20;
+  const allHandlingar = [];
+  
+  for (let i = 0; i < arendeIds.length; i += batchSize) {
+    const batch = arendeIds.slice(i, i + batchSize);
+    const cql = batch.map(id => `arende_id='${id}'`).join(' OR ');
     
     try {
-      const cql = `arende_id='${arendeId}'`;
       const url = `${wfsUrl}?service=WFS&version=1.1.0&request=GetFeature` +
         `&typeName=${encodeURIComponent(typeName)}` +
         `&outputFormat=application/json` +
@@ -345,7 +389,10 @@ async function fetchHandlingarForArenden(arendeFeatures) {
         `&CQL_FILTER=${encodeURIComponent(cql)}`;
       
       const response = await fetch(url);
-      if (!response.ok) continue;
+      if (!response.ok) {
+        console.warn(`Batch ${i / batchSize + 1} failed with status ${response.status}`);
+        continue;
+      }
       
       const json = await response.json();
       
@@ -353,17 +400,20 @@ async function fetchHandlingarForArenden(arendeFeatures) {
         allHandlingar.push(
           ...json.features.map(f => ({
             ...f.properties,
-            arendeDiarie: arende.properties.diarie_nummer,
-            arendeSkapad: arende.properties.skapad,
-            _parentProps: arende.properties
+            arendeDiarie: arendeMap.get(f.properties.arende_id)?.diarie_nummer,
+            arendeSkapad: arendeMap.get(f.properties.arende_id)?.skapad,
+            arendeFastighet: arendeMap.get(f.properties.arende_id)?.fastighet,
+            arendeRubrik: arendeMap.get(f.properties.arende_id)?.rubrik,
+            _parentProps: arendeMap.get(f.properties.arende_id)
           }))
         );
       }
     } catch (error) {
-      console.error(`Error fetching handlingar for arende ${arendeId}:`, error);
+      console.error(`Error fetching batch ${i / batchSize + 1}:`, error);
     }
   }
   
+  console.log(`Fetched ${allHandlingar.length} handlingar in ${Math.ceil(arendeIds.length / batchSize)} batches`);
   return allHandlingar;
 }
 
@@ -470,51 +520,60 @@ async function waitForFeatureInSource(projektNr, timeoutMs = 2500) {
 }
 
 async function zoomToProjektNr(projektNr) {
-  source.setFilter(`projekt_nr = '${projektNr}'`);
-  state.activeProjectId = projektNr;
+  showLoading();
   
-  const extent = await fetchExtentByProjektNr(projektNr);
-  
-  if (!extent) {
-    console.error("No feature returned for projekt_nr:", projektNr);
-    return;
-  }
-  
-  fitToExtent(extent);
-  
-  const intersectingFeatures = await queryAllLayersInExtent(extent);
-  const featureCounts = {};
-  
-  Object.entries(intersectingFeatures).forEach(([layerName, features]) => {
-    featureCounts[layerName] = features.length;
-  });
-  
-  updateProjectCardCounts(projektNr, featureCounts);
-  displayFeaturesPanel(intersectingFeatures);
-  
-  const arendeFeatures = intersectingFeatures['shn_arende_y'] || [];
-  if (arendeFeatures.length > 0) {
-    state.allHandlingarData = await fetchHandlingarForArenden(arendeFeatures);
-    populateBeteckningFilter(state.allHandlingarData);
-    renderHandlingarList();
-  }
-  
-  const realFeature = await waitForFeatureInSource(projektNr);
-  
-  if (realFeature) {
-    origoInstance.api().getFeatureinfo().showInfo({
-      [CONFIG.LAYER_NAME]: [realFeature.getId()]
+  try {
+    source.setFilter(null);
+    state.activeProjectId = projektNr;
+    
+    const extent = await fetchExtentByProjektNr(projektNr);
+    
+    if (!extent) {
+      console.error("No feature returned for projekt_nr:", projektNr);
+      hideLoading();
+      return;
+    }
+    
+    fitToExtent(extent);
+    
+    const intersectingFeatures = await queryAllLayersInExtent(extent, projektNr);
+    const featureCounts = {};
+    
+    Object.entries(intersectingFeatures).forEach(([layerName, features]) => {
+      featureCounts[layerName] = features.length;
     });
     
-    if (state.isMobile) {
-      const sidebar = await waitForSidebar();
-      if (sidebar) {
-        sidebar.style.transform = 'translate(-50%, 0)';
-        setTimeout(() => {
-          sidebar.classList.add('o-sidebar-show');
-        }, 150);
+    updateProjectCardCounts(projektNr, featureCounts);
+    displayFeaturesPanel(intersectingFeatures);
+    
+    const arendeFeatures = intersectingFeatures['shn_arende_y'] || [];
+    if (arendeFeatures.length > 0) {
+      state.allHandlingarData = await fetchHandlingarForArenden(arendeFeatures);
+      populateBeteckningFilter(state.allHandlingarData);
+      renderHandlingarList();
+    }
+    
+    const realFeature = await waitForFeatureInSource(projektNr);
+    
+    if (realFeature) {
+      origoInstance.api().getFeatureinfo().showInfo({
+        [CONFIG.LAYER_NAME]: [realFeature.getId()]
+      });
+      
+      if (state.isMobile) {
+        const sidebar = await waitForSidebar();
+        if (sidebar) {
+          sidebar.style.transform = 'translate(-50%, 0)';
+          setTimeout(() => {
+            sidebar.classList.add('o-sidebar-show');
+          }, 150);
+        }
       }
     }
+  } catch (error) {
+    console.error("Error in zoomToProjektNr:", error);
+  } finally {
+    hideLoading();
   }
 }
 
@@ -675,7 +734,7 @@ function updateFilterButtonText() {
 /*
 Filtering logic:
   - Filters by 'arendetyp'
-  - Searches in 'rubrik'
+  - Searches in 'rubrik, fastighet, diarie_nummer'
   - Displays 'rubrik', 'arendetyp', 'diarie_nummer'
   
   To customize:
@@ -688,26 +747,30 @@ Filtering logic:
 function renderFilteredFeatures() {
   elements.featuresContent.innerHTML = '';
   let filteredData = state.allFeaturesData;
-  
+
   if (state.selectedArendetyper.size > 0) {
-    filteredData = state.allFeaturesData.filter(({ feature }) => 
+    filteredData = state.allFeaturesData.filter(({ feature }) =>
       state.selectedArendetyper.has(feature.properties.arendetyp)
     );
   }
-  
+
   if (state.currentArendenSearchTerm) {
     filteredData = filteredData.filter(({ feature }) => {
       const rubrik = (feature.properties.rubrik || '').toLowerCase();
-      return rubrik.includes(state.currentArendenSearchTerm);
+      const fastighet = (feature.properties.fastighet || '').toLowerCase();
+      const diarieNummer = (feature.properties.diarie_nummer || '').toLowerCase();
+      return rubrik.includes(state.currentArendenSearchTerm) ||
+             fastighet.includes(state.currentArendenSearchTerm) ||
+             diarieNummer.includes(state.currentArendenSearchTerm);
     });
   }
-  
+
   if (filteredData.length === 0) {
-    elements.featuresContent.innerHTML = 
+    elements.featuresContent.innerHTML =
       '<p class="no-features">Inga ärenden matchar filtret.</p>';
     return;
   }
-  
+
   const groupedByLayer = {};
   filteredData.forEach(({ layerName, feature }) => {
     if (!groupedByLayer[layerName]) {
@@ -715,17 +778,18 @@ function renderFilteredFeatures() {
     }
     groupedByLayer[layerName].push(feature);
   });
-  
+
+
   Object.entries(groupedByLayer).forEach(([layerName, layerFeatures]) => {
     if (layerFeatures.length === 0) return;
-    
+
     const section = document.createElement('div');
     section.className = 'feature-section';
-    
-    const layerDisplayName = layerName.includes('shn_arende') ? 
-      'Ärenden' : 
+
+    const layerDisplayName = layerName.includes('shn_arende') ?
+      'Ärenden' :
       layerName.replace(/_/g, ' ');
-    
+
     section.innerHTML = `
       <div class="feature-section-title">Ärenden (${layerFeatures.length})</div>
       <ul class="feature-list">
@@ -734,7 +798,7 @@ function renderFilteredFeatures() {
           let name = 'Okänd';
           let type = '';
           let diarie = '';
-          
+
           if (props.rubrik) {
             name = props.rubrik;
             type = props.arendetyp || '';
@@ -743,11 +807,12 @@ function renderFilteredFeatures() {
             name = props.namn || props.name;
             type = props.typ || '';
           }
-          
+
           return `
-            <li class="feature-item" 
-                data-layer="${layerName}" 
-                data-feature='${JSON.stringify(props).replace(/'/g, "&apos;")}' 
+            <li class="feature-item"
+                data-layer="${layerName}"
+                data-feature='${JSON.stringify(props).replace(/'/g, "&apos;")}'
+                data-full-feature='${JSON.stringify(feature).replace(/'/g, "&apos;")}'
                 data-feature-id="${props.id || feature.id}">
               <div class="feature-item-name">${name}</div>
               <div class="feature-item-type">${type}</div>
@@ -757,15 +822,31 @@ function renderFilteredFeatures() {
         }).join('')}
       </ul>
     `;
-    
+
     elements.featuresContent.appendChild(section);
   });
-  
+
+
   document.querySelectorAll('.feature-item').forEach(item => {
     item.addEventListener('click', () => {
       const layerName = item.dataset.layer;
-      const featureData = JSON.parse(item.dataset.feature);
-      showFeatureDetail(layerName, featureData);
+
+      const featureProps = JSON.parse(item.dataset.feature); 
+
+      const fullFeature = JSON.parse(item.dataset.fullFeature); 
+
+      showFeatureDetail(layerName, featureProps);
+      
+      highlightFeatures([fullFeature]);
+    });
+  });
+
+  const items = document.querySelectorAll('.feature-item');
+
+  items.forEach(item => {
+    item.addEventListener('click', () => {
+      const fullFeature = JSON.parse(item.dataset.fullFeature);
+      highlightFeatures([fullFeature]);
     });
   });
 }
@@ -851,20 +932,33 @@ function addHandlingarFilterListeners() {
     });
   });
   
+  // FIXED: Remove old button click listener by cloning the button
   if (filterBtn) {
-    filterBtn.addEventListener('click', (e) => {
+    const newFilterBtn = filterBtn.cloneNode(true);
+    filterBtn.parentNode.replaceChild(newFilterBtn, filterBtn);
+    
+    newFilterBtn.addEventListener('click', (e) => {
       e.stopPropagation();
       filterMenu.classList.toggle('visible');
     });
   }
   
-  document.addEventListener('click', (e) => {
-    if (filterMenu && filterBtn && 
+  // FIXED: Remove old document click listener before adding new one
+  if (eventListeners.handlingarFilterDocumentClick) {
+    document.removeEventListener('click', eventListeners.handlingarFilterDocumentClick);
+  }
+  
+  // Create and store the new listener function
+  eventListeners.handlingarFilterDocumentClick = (e) => {
+    const currentFilterBtn = document.getElementById('handlingar-filter-dropdown-btn');
+    if (filterMenu && currentFilterBtn && 
         !filterMenu.contains(e.target) && 
-        !filterBtn.contains(e.target)) {
+        !currentFilterBtn.contains(e.target)) {
       filterMenu.classList.remove('visible');
     }
-  });
+  };
+  
+  document.addEventListener('click', eventListeners.handlingarFilterDocumentClick);
 }
 
 function updateHandlingarFilterButtonText() {
@@ -895,9 +989,44 @@ function renderHandlingarList() {
   }
   
   if (state.currentSearchTerm) {
+
+      filtered = filtered.filter(h => {
+        const beskrivning = (h.beskrivning || '').toLowerCase();
+        const fastighet = (h.arendeFastighet || '').toLowerCase();
+        
+        // Look in both the mapped diarie name and the raw property
+        const diarie = (h.arendeDiarie || h.diarie_nummer || '').toLowerCase();
+        
+        const match = beskrivning.includes(state.currentSearchTerm) || 
+                      fastighet.includes(state.currentSearchTerm) ||
+                      diarie.includes(state.currentSearchTerm);
+                      
+        return match;
+      });
+      
+      console.log(`Filtering complete. Items remaining: ${filtered.length}`);
+  }
+  
+  // Date filtering
+  if (state.handlingarDateFrom || state.handlingarDateTo) {
     filtered = filtered.filter(h => {
-      const beskrivning = (h.beskrivning || '').toLowerCase();
-      return beskrivning.includes(state.currentSearchTerm);
+      if (!h.registrerat) return false;
+      
+      const handlingDate = new Date(h.registrerat);
+      
+      if (state.handlingarDateFrom) {
+        const fromDate = new Date(state.handlingarDateFrom);
+        if (handlingDate < fromDate) return false;
+      }
+      
+      if (state.handlingarDateTo) {
+        const toDate = new Date(state.handlingarDateTo);
+        // Set to end of day for inclusive comparison
+        toDate.setHours(23, 59, 59, 999);
+        if (handlingDate > toDate) return false;
+      }
+      
+      return true;
     });
   }
   
@@ -926,11 +1055,20 @@ function renderHandlingarList() {
       <div class="handling-item-beskrivning">
         ${handling.beskrivning || 'Ingen beskrivning'}
       </div>
+      <div class="handling-item-beskrivning">
+        Registrerad: ${handling.registrerat || 'Saknar datum'}
+      </div>
       ${handling.arendeDiarie ? 
         `<div class="handling-item-datum">Diarie: ${handling.arendeDiarie}</div>` : 
         ''}
+      ${handling.arendeRubrik ? 
+        `<div class="handling-item-datum">Ärenderubrik: ${handling.arendeRubrik}</div>` : 
+        ''}
+      ${handling.arendeFastighet ? 
+        `<div class="handling-item-datum">Objekt: ${handling.arendeFastighet}</div>` : 
+        ''}
       ${handling.arendeSkapad ? 
-        `<div class="handling-item-datum">Skapad: ${handling.arendeSkapad}</div>` : 
+        `<div class="handling-item-datum">Ärende skapat: ${handling.arendeSkapad}</div>` : 
         ''}
     </div>
   `).join('');
@@ -983,8 +1121,16 @@ function renderRelatedFeatureHTML(feature, config) {
 }
 
 async function showFeatureDetail(layerName, featureProps) {
+  // Stäng alla öppna modaler först
+  closeAllModals();
+  
+  // Skapa en unik ID för denna modal
+  const featureId = featureProps.id || featureProps.arende_id || Date.now();
+  const modalId = `feature-modal-${featureId}-${Date.now()}`;
+  
   const newModal = document.createElement('div');
   newModal.className = 'detail-modal visible';
+  newModal.id = modalId;
   newModal.innerHTML = `
     <div class="detail-modal-content">
       <div class="detail-modal-header">
@@ -1075,11 +1221,16 @@ async function showFeatureDetail(layerName, featureProps) {
 }
 
 function showHandlingInIframe(handling) {
+  closeAllModals();
+  
   const handlingId = handling.handling_id;
   const handlingUrl = `https://kommunkarta.tyreso.se/lex_handling/view/${handlingId}`;
   
+  const modalId = `handling-modal-${handlingId}-${Date.now()}`;
+  
   const newModal = document.createElement('div');
   newModal.className = 'detail-modal handling-modal visible';
+  newModal.id = modalId;
   newModal.innerHTML = `
     <div class="detail-modal-content">
       <div class="detail-modal-header">
@@ -1137,6 +1288,60 @@ function showHandlingInIframe(handling) {
   });
 }
 
+function closeFeaturesPanel() {
+  elements.featuresPanel.classList.remove('visible');
+  
+  const layer = viewer.getLayer('shn_arende_y');
+  if (layer) {
+    const baseStyle = layer.get('__baseStyle');
+    layer.setStyle(baseStyle || layer.getStyle());
+    layer.setVisible(false);
+    layer.changed();        
+  }
+
+  // Nollställ sökfält
+  if (elements.arendenSearchInput) {
+    elements.arendenSearchInput.value = '';
+    state.currentArendenSearchTerm = '';
+  }
+  
+  if (elements.handlingarSearchInput) {
+    elements.handlingarSearchInput.value = '';
+    state.currentSearchTerm = '';
+  }
+  
+  // Nollställ datumfilter
+  if (elements.handlingarDateFrom) {
+    elements.handlingarDateFrom.value = '';
+    state.handlingarDateFrom = '';
+  }
+  
+  if (elements.handlingarDateTo) {
+    elements.handlingarDateTo.value = '';
+    state.handlingarDateTo = '';
+  }
+  
+  // Nollställ filter
+  state.selectedArendetyper.clear();
+  state.selectedBeteckningar.clear();
+  updateFilterButtonText();
+  updateHandlingarFilterButtonText();
+  
+  // Avmarkera alla checkboxes
+  document.querySelectorAll('.filter-checkbox').forEach(cb => cb.checked = false);
+  document.querySelectorAll('.handlingar-filter-checkbox').forEach(cb => cb.checked = false);
+  const selectAllArenden = document.getElementById('filter-select-all');
+  const selectAllHandlingar = document.getElementById('handlingar-filter-select-all');
+  if (selectAllArenden) selectAllArenden.checked = false;
+  if (selectAllHandlingar) selectAllHandlingar.checked = false;
+}
+
+function closeAllModals() {
+  document.querySelectorAll('.detail-modal').forEach(modal => {
+    modal.remove();
+  });
+}
+
 function toggleSelector() {
   state.selectorVisible = !state.selectorVisible;
   elements.projectSelector.classList.toggle('collapsed', !state.selectorVisible);
@@ -1158,6 +1363,56 @@ function initTabSwitching() {
       document.getElementById(`tab-${targetTab}`).classList.add('active');
     });
   });
+}
+
+
+const BASE_STYLE_KEY = '__baseStyle';
+
+function highlightFeatures(features) {
+  if (!features?.length) return;
+
+  const target = features[0];
+  const targetId =
+    target.id ??
+    target.properties?.id ??
+    target.properties?.arende_id;
+
+  const layer = viewer.getLayer('shn_arende_y');
+  if (!layer || targetId == null) return;
+
+  // Cache base style ONCE (before we ever override it)
+  let baseStyle = layer.get(BASE_STYLE_KEY);
+  if (!baseStyle) {
+    baseStyle = layer.getStyle();
+    layer.set(BASE_STYLE_KEY, baseStyle);
+  }
+
+  layer.setVisible(true);
+
+  layer.setStyle((f, resolution) => {
+    const fId = f.getId?.() ?? f.get?.('id') ?? f.get?.('arende_id');
+    if (String(fId) === String(targetId)) {
+      return typeof baseStyle === 'function' ? baseStyle(f, resolution) : baseStyle;
+    }
+    return null;
+  });
+
+  layer.changed();
+}
+
+function clearHighlight() {
+  const layer = viewer.getLayer('shn_arende_y');
+  if (!layer) return;
+  const baseStyle = layer.get('__baseStyle');
+  if (baseStyle) layer.setStyle(baseStyle);
+  layer.changed();
+}
+
+function extentsIntersect(a, b) {
+  return a[0] <= b[2] && 
+         a[2] >= b[0] && 
+         a[1] <= b[3] && 
+         a[3] >= b[1];
 }
 
 function makeDraggable(element, handle) {
@@ -1209,6 +1464,38 @@ function makeDraggable(element, handle) {
     document.onmouseup = null;
     document.onmousemove = null;
   }
+}
+
+function geometryToWKT(geometry) {
+  if (!geometry) return null;
+  // WFS 1.1.0 needs Y (North) then X (East)
+  const formatCoord = c => `${c[1]} ${c[0]}`; 
+
+  if (geometry.type === 'Polygon') {
+    const coords = geometry.coordinates[0].map(formatCoord).join(',');
+    return `POLYGON((${coords}))`;
+  } else if (geometry.type === 'MultiPolygon') {
+    const polys = geometry.coordinates.map(poly => 
+      `((${poly[0].map(formatCoord).join(',')}))`
+    ).join(',');
+    return `MULTIPOLYGON(${polys})`;
+  }
+  return null;
+}
+
+async function fetchProjektGeometry(projektNr) {
+  if (!projektNr || projektNr === 'undefined') return null;
+  const url = `${CONFIG.WFS_BASE}?service=WFS&version=1.1.0&request=GetFeature` +
+    `&typeName=${encodeURIComponent(CONFIG.WFS_TYPENAME)}` +
+    `&outputFormat=application/json` +
+    `&srsname=${encodeURIComponent(CONFIG.WFS_SRS)}` +
+    `&CQL_FILTER=${encodeURIComponent(`projekt_nr=${projektNr}`)}`;
+  
+  try {
+    const response = await fetch(url);
+    const json = await response.json();
+    return json.features?.[0]?.geometry || null;
+  } catch (e) { return null; }
 }
 
 function checkScreenSize() {

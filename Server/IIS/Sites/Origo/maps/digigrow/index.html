@@ -10,6 +10,7 @@
   <!-- Favicons -->
   <link rel="apple-touch-icon" sizes="180x180" href="/favicon/apple-touch-icon.png">
   <link rel="shortcut icon" href="https://www.tyreso.se/webdav/files/System/resources/graphics/icons/favicon-16x16.png">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/ol@v6.15.1/ol.css"> 
 </head>
 <body>
   <!-- Header -->
@@ -17,16 +18,12 @@
     <div class="header-brand">
       Projektkartan
     </div>
-    <div class="header-actions">
-      <button class="header-toggle-btn" id="header-toggle-btn">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-          <rect x="3" y="3" width="7" height="7" rx="1"/>
-          <rect x="14" y="3" width="7" height="7" rx="1"/>
-          <rect x="3" y="14" width="7" height="7" rx="1"/>
-          <rect x="14" y="14" width="7" height="7" rx="1"/>
-        </svg>
-        Projekt
-      </button>
+    <button class="header-toggle-btn" id="header-toggle-btn">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M6 9l6 6 6-6" />
+      </svg>
+      Projekt
+    </button>
     </div>
     <nav class="header-nav">
       <a href="#" class="header-link" target="_blank">Relationshandlingar</a>
@@ -78,7 +75,7 @@
       <div class="arenden-search">
         <input type="text" 
                id="arenden-search-input" 
-               placeholder="Sök efter rubrik...">
+               placeholder="Sök efter rubrik, diarienummer, fastighet...">
       </div>
       
       <div class="features-filter" id="features-filter" style="display: none;">
@@ -102,7 +99,7 @@
       <div class="handlingar-search">
         <input type="text" 
                id="handlingar-search-input" 
-               placeholder="Sök i beskrivning...">
+               placeholder="Sök efter rubrik, diarienummer, fastighet...">
       </div>
       
       <div class="handlingar-filter">
@@ -115,6 +112,23 @@
             </svg>
           </button>
           <div class="handlingar-filter-dropdown-menu" id="handlingar-filter-dropdown-menu"></div>
+        </div>
+      </div>
+      
+      <div class="handlingar-date-filter">
+        <div class="date-filter-inputs">
+          <div class="date-input-group">
+            <label for="handlingar-date-from">Registrerad från:</label>
+            <input type="date" 
+                   id="handlingar-date-from" 
+                   class="date-input">
+          </div>
+          <div class="date-input-group">
+            <label for="handlingar-date-to">Registrerad till:</label>
+            <input type="date" 
+                   id="handlingar-date-to" 
+                   class="date-input">
+          </div>
         </div>
       </div>
       
@@ -162,6 +176,7 @@
       }
     ];
   </script>
+  <script src="https://cdn.jsdelivr.net/npm/ol@v6.15.1/dist/ol.js"></script>
   <script src="/origo/build/js/digifilter.js"></script>
   <script>
     var origo = Origo('/origo/maps/digigrow/digigrow.json', {

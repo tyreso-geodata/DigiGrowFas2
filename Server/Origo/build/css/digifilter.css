@@ -65,6 +65,7 @@ body {
   color: var(--text);
   transition: all 0.2s;
   display: flex;
+  margin: 10px;
   align-items: center;
   gap: 6px;
 }
@@ -360,6 +361,50 @@ body {
 .handlingar-filter {
   padding: 12px;
   border-bottom: 1px solid var(--border);
+}
+
+.handlingar-date-filter {
+  padding: 12px;
+  border-bottom: 1px solid var(--border);
+}
+
+.date-filter-inputs {
+  display: flex;
+  gap: 12px;
+}
+
+.date-input-group {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.date-input-group label {
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--text-secondary);
+}
+
+.date-input {
+  width: 100%;
+  padding: 8px;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  background: var(--surface);
+  font-size: 13px;
+  transition: all 0.2s;
+  font-family: inherit;
+}
+
+.date-input:hover {
+  background: var(--surface-hover);
+}
+
+.date-input:focus {
+  outline: none;
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
 }
 
 .filter-label {
@@ -823,4 +868,83 @@ body {
   .o-map .o-sidebar .o-card-content {
     overflow-y: auto !important;
   }
+}
+
+.detail-modal-content {
+  resize: both;
+  overflow: auto;
+  min-width: 400px;
+  min-height: 300px;
+}
+
+.detail-modal-header {
+  cursor: move;
+  user-select: none;
+  flex-shrink: 0;
+}
+
+.detail-modal-body {
+  overflow: auto;
+  flex: 1;
+}
+
+.detail-modal.handling-modal .detail-modal-content {
+  display: flex;
+  flex-direction: column;
+}
+
+.detail-modal.handling-modal .detail-modal-body {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-height: 0;
+}
+
+.detail-modal-iframe {
+  flex: 1;
+  min-height: 0;
+}
+
+.loading-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.4);
+  backdrop-filter: blur(2px);
+  z-index: 9999;
+  display: none;
+  align-items: center;
+  justify-content: center;
+}
+
+.loading-overlay.visible {
+  display: flex;
+}
+
+.loading-overlay-content {
+  background: var(--surface);
+  padding: 32px 48px;
+  border-radius: 16px;
+  box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.2);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+}
+
+.loading-overlay-spinner {
+  width: 48px;
+  height: 48px;
+  border: 4px solid var(--border);
+  border-top-color: var(--primary);
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+
+.loading-overlay-text {
+  font-size: 16px;
+  font-weight: 500;
+  color: var(--text);
 }

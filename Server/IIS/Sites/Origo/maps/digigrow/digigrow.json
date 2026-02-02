@@ -300,6 +300,7 @@
       "queryable": true,
       "group": "arende",
       "source": "local_wfs",
+      "style": "highlight",
       "type": "WFS",
       "visible": false,
       "editable": true,
@@ -374,6 +375,14 @@
           "title": "Projektnamn: "
         },
         {
+          "name": "projekt_ledare",
+          "title": "Projektledare: "
+        },
+        {
+          "name": "beskrivning",
+          "title": "Om projektet: "
+        },
+        {
           "name": "status",
           "title": "Status: "
         },
@@ -387,6 +396,9 @@
         },
         {
           "html": "<br><a target='_blank' href='#'>Länk till sharepoint</a>"
+        },
+        {
+          "html": "<br><a href='javascript:void(0)' class='lex-trigger-link' data-projektnr='{{projekt_nr}}'>Visa LEX-ärenden samt tillhörande handlingar</a>"
         }
       ]
     },
@@ -530,6 +542,19 @@
     "tom": [
       [
         {}
+      ]
+    ],
+    "highlight": [
+      [
+        {
+          "stroke": {
+            "color": "rgba(245,245,66,1.0)",
+            "width": 4
+          },
+          "fill": {
+            "color": "rgba(245,245,66,0)"
+          }
+        }
       ]
     ],
     "mask": [
