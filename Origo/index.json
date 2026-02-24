@@ -125,23 +125,48 @@
       "name": "background",
       "title": "Bakgrundskartor",
       "expanded": true
-    }
+    },
+    {
+      "name": "threed",
+      "title": "3D informationsmodeller",
+      "expanded": true,
+      "groups": [
+      ]
+	  }
   ],
   "layers": [
-    {
-      "name": "origo-cities",
-      "title": "Origokommuner",
-      "group": "root",
-      "source": "data/origo-cities-3857.geojson",
-      "style": "origo-logo",
-      "type": "GEOJSON",
-      "attributes": [
-        {
-          "name": "name"
-        }
-      ],
-      "visible": true
-    },
+    // {
+    //   "name": "origo-cities",
+    //   "title": "Origokommuner",
+    //   "group": "root",
+    //   "source": "data/origo-cities-3857.geojson",
+    //   "style": "origo-logo",
+    //   "type": "GEOJSON",
+    //   "altitudeMode": "clampToGround",
+    //   "attributes": [
+    //     {
+    //       "name": "name"
+    //     }
+    //   ],
+    //   "visible": true
+    // },
+  	{
+      "name": "Byggnader",
+      "title": "Byggnader DB",
+      "type": "THREEDTILE",
+      "abstract": "Byggnader",
+      "url": "../data/output/tileset.json",
+      "group": "threed",
+      "queryable": true,
+      "maximumScreenSpaceError": 16,
+      "maximumMemoryUsage": 2048,
+      "showOutline": true,
+      "outlineColor": "BLACK",
+      "visible": true,
+      "style": {
+        "color": "color('#FFFFFF', 1)"
+      }
+	  },
     {
       "name": "origo-mask",
       "opacity": 0.25,
@@ -151,6 +176,7 @@
       "source": "data/origo-mask-3857.geojson",
       "style": "mask",
       "type": "GEOJSON",
+      "altitudeMode": "clampToGround",
       "visible": true
     },
     {
