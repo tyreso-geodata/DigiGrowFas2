@@ -8,8 +8,6 @@ Ett plugin till **Origo** som låter användaren rita ett område (Rektangel, Po
 - **Transformera:** Omvandlar automatiskt från kartans projektion (t.ex. SWEREF 99 TM) till **WGS84 (EPSG:4326)**.
 - **FME-integration:** Bygger en URL med parametern `dynamicParameterData` som FME Flow kan läsa in direkt.
 
----
-
 ## Så här fungerar det
 
 1. Klicka på uppladdningsknappen i kartans verktygsrad
@@ -17,8 +15,6 @@ Ett plugin till **Origo** som låter användaren rita ett område (Rektangel, Po
 3. Rita ett område på kartan
 4. En förhandsvisning av geometrin visas i en modal
 5. Klicka "Skicka data" för att öppna FME Flow med geometrin, eller "Rita om" för att rita på nytt
-
----
 
 ## Utveckling
 
@@ -33,8 +29,6 @@ Bygget skapar följande filer:
 - `build/js/areaselect.min.js`
 - `build/css/areaselect.css`
 
----
-
 ## Installation
 
 Kopiera de kompilerade filerna till din Origo-installation:
@@ -45,8 +39,6 @@ plugins/
     js/areaselect.min.js
     css/areaselect.css
 ```
-
----
 
 ## Konfiguration
 
@@ -73,8 +65,8 @@ Lägg till följande i din `index.html`:
 
 ### Options
 
-| Parameter     | Typ    | Standard               | Beskrivning                                                                                  |
-| :------------ | :----- | :--------------------- | :------------------------------------------------------------------------------------------- |
-| `fmeBaseUrl`  | String | `""`                   | **Obligatorisk.** URL till ditt FME Flow workspace.      |
-| `buttonIcon`  | String | `"#ic_upload_file_24px"` | Valfri. SVG-symbol-id för huvudknappens ikon.                                              |
-| `tooltipText` | String | `"Ladda upp data"`     | Valfri. Tooltip-text som visas när användaren hovrar över huvudknappen.                      |
+| Parameter     | Standard               | Beskrivning                                                                                  |
+| :------------ | :--------------------- | :------------------------------------------------------------------------------------------- |
+| `fmeBaseUrl`  | `""`                   | **Obligatorisk.** URL till ditt FME Flow workspace.      |
+| `buttonIcon`  | `"#ic_upload_file_24px"` | Valfri. SVG-symbol-id för huvudknappens ikon.                                              |
+| `tooltipText` | `"Ladda upp data"`     | Valfri. Tooltip-text som visas när användaren hovrar över huvudknappen.                      |
