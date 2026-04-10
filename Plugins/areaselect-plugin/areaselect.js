@@ -1,6 +1,4 @@
 import Origo from "Origo";
-import VectorLayer from "ol/layer/Vector";
-import VectorSource from "ol/source/Vector";
 import Draw, { createBox } from "ol/interaction/Draw";
 import GeoJSON from "ol/format/GeoJSON";
 
@@ -17,7 +15,6 @@ const AreaSelect = function AreaSelect(options = {}) {
   let targetId;
   let isActive = false;
   let drawInteraction = null;
-  let sketchLayer = null;
   let rootEl;
   let button;
 
@@ -38,10 +35,6 @@ const AreaSelect = function AreaSelect(options = {}) {
     isActive = active;
     const btnEl = document.getElementById(button.getId());
     if (btnEl) btnEl.classList.toggle("active", isActive);
-  }
-
-  function clearSketch() {
-    sketchLayer?.getSource()?.clear();
   }
 
   function stopDraw() {
@@ -78,14 +71,12 @@ const AreaSelect = function AreaSelect(options = {}) {
   function createDraw(drawType) {
     if (drawType === "rectangle") {
       return new Draw({
-        source: sketchLayer.getSource(),
         type: "Circle",
         geometryFunction: createBox(),
       });
     }
 
     return new Draw({
-      source: sketchLayer.getSource(),
       type: drawType,
     });
   }
@@ -164,7 +155,6 @@ const AreaSelect = function AreaSelect(options = {}) {
     modalObserver = new MutationObserver(() => {
       if (!document.contains(modalElement)) {
         stopModalObserver();
-        clearSketch();
         deactivate();
         confirmationModal = null;
       }
@@ -191,7 +181,6 @@ const AreaSelect = function AreaSelect(options = {}) {
 
     setActive(false);
     stopDraw();
-    clearSketch();
     closeConfirmationModal();
     hideToolButtons();
 
@@ -279,7 +268,6 @@ const AreaSelect = function AreaSelect(options = {}) {
       if (retryBtn) {
         retryBtn.onclick = () => {
           closeConfirmationModal();
-          clearSketch();
           startDraw(activeDrawType);
         };
       }
@@ -382,14 +370,6 @@ const AreaSelect = function AreaSelect(options = {}) {
       map = viewer.getMap();
       component = this; //
       targetId = viewer.getMain().getMapTools().getId();
-
-      sketchLayer = new VectorLayer({
-        className: "o-areaselect-sketch-layer",
-        source: new VectorSource(),
-        zIndex: 9000,
-      });
-
-      map.addLayer(sketchLayer);
       this.render();
     },
 
@@ -397,10 +377,6 @@ const AreaSelect = function AreaSelect(options = {}) {
       stopModalObserver();
       stopDraw();
       closeConfirmationModal();
-
-      if (map && sketchLayer) {
-        map.removeLayer(sketchLayer);
-      }
     },
 
     render() {
