@@ -1,20 +1,21 @@
 # Origo AreaSelect Plugin
 
-Ett plugin till **Origo** som låter användaren rita ett område (Rektangel, Polygon eller Punkt) på kartan och skicka geometrin direkt till ett **FME Flow** workspace som en **WGS84 GeoJSON**.
+Ett plugin till **Origo** som låter användaren rita ett område (Rektangel eller Polygon) på kartan och skicka geometrin till **FME Flow** som en **WGS84 GeoJSON**.
 
 ## Funktioner
 
-- **Rita:** Välj mellan rektangel, polygon eller punkt.
+- **Rita:** Välj mellan rektangel eller polygon.
 - **Transformera:** Omvandlar automatiskt från kartans projektion (t.ex. SWEREF 99 TM) till **WGS84 (EPSG:4326)**.
 - **FME-integration:** Bygger en URL med parametern `dynamicParameterData` som FME Flow kan läsa in direkt.
+- **Konfigurerbara destinationer:** Valfritt antal knappar i modalen, var och en med eget namn och URL till ett FME Flow workspace.
 
 ## Så här fungerar det
 
 1. Klicka på uppladdningsknappen i kartans verktygsrad
-2. Välj ritverktyg (rektangel, polygon eller punkt)
+2. Välj ritverktyg (rektangel eller polygon)
 3. Rita ett område på kartan
 4. En förhandsvisning av geometrin visas i en modal
-5. Klicka "Skicka data" för att öppna FME Flow med geometrin, eller "Rita om" för att rita på nytt
+5. Välj destination för att öppna FME Flow med geometrin, eller "Rita om" för att rita på nytt, eller "Avbryt" för att avsluta
 
 ## Utveckling
 
@@ -54,7 +55,12 @@ Lägg till följande i din `index.html`:
   origo.on("load", function (viewer) {
 
     var areaSelect = areaselect({
-      fmeBaseUrl: "https://fme.se/fmeserver/mitt-workspace", // Obligatorisk
+      destinations: [
+        { label: "Relationshandlingar", url: "https://fme.se/fmeserver/relationshandlingar" },
+        { label: "Övriga ritunderlag",  url: "https://fme.se/fmeserver/ovriga-ritunderlag" },
+        { label: "Rita projektyta",     url: "https://fme.se/fmeserver/projektyta" },
+      ],
+      geometryParamName: "GEOMETRY", // Valfri
       buttonIcon: "#ic_upload_file_24px", // Valfri
       tooltipText: "Ladda upp data", // Valfri
     });
@@ -65,8 +71,18 @@ Lägg till följande i din `index.html`:
 
 ### Options
 
-| Parameter     | Standard               | Beskrivning                                                                                  |
-| :------------ | :--------------------- | :------------------------------------------------------------------------------------------- |
-| `fmeBaseUrl`  | `""`                   | **Obligatorisk.** URL till ditt FME Flow workspace.      |
-| `buttonIcon`  | `"#ic_upload_file_24px"` | Valfri. SVG-symbol-id för huvudknappens ikon.                                              |
-| `tooltipText` | `"Ladda upp data"`     | Valfri. Tooltip-text som visas när användaren hovrar över huvudknappen.                      |
+| Parameter | Standard | Beskrivning |
+| :--- | :--- | :--- |
+| `destinations` | Se nedan | **Obligatorisk.** Array av objekt med `label` och `url`. Varje objekt blir en knapp i modalen. |
+| `geometryParamName` | `"GEOMETRY"` | Valfri. Styr vilket namn geometrin får som `name` i `dynamicParameterData`. |
+| `buttonIcon` | `"#ic_upload_file_24px"` | Valfri. SVG-symbol-id för huvudknappens ikon. |
+| `tooltipText` | `"Ladda upp data"` | Valfri. Tooltip-text som visas när användaren hovrar över huvudknappen. |
+
+### destinations
+
+Varje objekt i `destinations`-arrayen har följande egenskaper:
+
+| Egenskap | Beskrivning |
+| :--- | :--- |
+| `label` | Text som visas på knappen i modalen. |
+| `url` | URL till ett FME Flow workspace. Geometrin bifogas automatiskt som `dynamicParameterData` i query-strängen. |

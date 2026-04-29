@@ -5,7 +5,8 @@ import GeoJSON from "ol/format/GeoJSON";
 const AreaSelect = function AreaSelect(options = {}) {
   // Konfigurationsalternativ som kan skickas in när pluginet skapas
   const {
-    fmeBaseUrl = "",
+    destinations = [],
+    geometryParamName = "GEOMETRY",
     buttonIcon = "#ic_upload_file_24px",
     tooltipText = "Ladda upp data",
   } = options;
@@ -20,7 +21,6 @@ const AreaSelect = function AreaSelect(options = {}) {
 
   let rectangleButton;
   let polygonButton;
-  let pointButton;
 
   let activeToolButton = null;
   let activeDrawType = "rectangle";
@@ -29,7 +29,7 @@ const AreaSelect = function AreaSelect(options = {}) {
   let modalElement = null;
   let component = null;
 
-  const toolButtons = () => [rectangleButton, polygonButton, pointButton];
+  const toolButtons = () => [rectangleButton, polygonButton];
 
   function setActive(active) {
     isActive = active;
@@ -94,13 +94,6 @@ const AreaSelect = function AreaSelect(options = {}) {
 
   // Skapar en SVG-förhandsvisning av den ritade geometrin
   function geometryToSvg(geoJsonGeometry) {
-    // Punkt: visa en enkel cirkel mitt i SVG:en
-    if (geoJsonGeometry.type === "Point") {
-      return `<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
-      <circle cx="50" cy="50" r="8" fill="#58a978" stroke="#44835d" stroke-width="2"/>
-    </svg>`;
-    }
-
     // Polygon/Rektangel: hämta koordinaterna från GeoJSON
     const coords =
       geoJsonGeometry.type === "Polygon"
@@ -192,83 +185,112 @@ const AreaSelect = function AreaSelect(options = {}) {
     }
   }
 
+  function sendToUrl(url, geoJsonGeometry) {
+    try {
+      const targetUrl = new URL(url);
+
+      const dynamicParameterData = [
+        {
+          name: geometryParamName,
+          defaultValue: JSON.stringify(geoJsonGeometry),
+        },
+      ];
+
+      targetUrl.searchParams.set(
+        "dynamicParameterData",
+        JSON.stringify(dynamicParameterData),
+      );
+
+      window.open(targetUrl.toString(), "_blank", "noopener,noreferrer");
+      deactivate();
+    } catch (err) {
+      console.error("AreaSelect: Ogiltig URL:", err);
+      alert("Kunde inte skapa en giltig länk till uppladdningsformuläret.");
+    }
+  }
+
   function showConfirmationModal(geoJsonGeometry) {
     closeConfirmationModal();
 
     const modalContentId = `areaselect-modal-${Date.now()}`;
 
+    const destButtonsHtml = destinations.length
+      ? destinations
+          .map(
+            ({ label }, i) =>
+              `<button
+          class="o-areaselect-btn o-areaselect-btn-destination"
+          data-index="${i}"
+          type="button">
+          ${label}
+        </button>`,
+          )
+          .join("")
+      : `<p class="o-areaselect-no-destinations">
+      Inga destinationer är konfigurerade. Kontakta administratören.
+    </p>`;
+
     confirmationModal = Origo.ui.Modal({
-      title: "Bekräfta geometri",
+      title: "Skicka till formulär",
       target: viewer.getId(),
       content: `
-        <div id="${modalContentId}" class="o-areaselect-modal-content">
-          <p class="o-areaselect-modal-text">
-            Vill du skicka den valda geometrin till FME Flow?
-          </p>
+      <div id="${modalContentId}" class="o-areaselect-modal-content">
 
-          <!-- SVG-förhandsvisning av den ritade geometrin -->
-          <div class="o-areaselect-preview">
-            ${geometryToSvg(geoJsonGeometry)}
-          </div>
-
-          <div class="o-areaselect-actions">
-            <button class="o-areaselect-retry o-areaselect-btn o-areaselect-btn-secondary" type="button">
-              Rita om
-            </button>
-            <button class="o-areaselect-confirm o-areaselect-btn o-areaselect-btn-primary" type="button">
-              Skicka data
-            </button>
-          </div>
+        <div class="o-areaselect-preview">
+          ${geometryToSvg(geoJsonGeometry)}
         </div>
-      `,
+
+        <p class="o-areaselect-modal-text">
+          Välj vart du vill skicka det markerade området:
+        </p>
+
+        <div class="o-areaselect-destinations">
+          ${destButtonsHtml}
+        </div>
+
+        <div class="o-areaselect-actions">
+          <button class="o-areaselect-cancel o-areaselect-btn o-areaselect-btn-secondary" type="button">
+            Avbryt
+          </button>
+          <button class="o-areaselect-retry o-areaselect-btn o-areaselect-btn-secondary" type="button">
+            Rita om
+          </button>
+        </div>
+
+      </div>
+    `,
     });
 
     component.addComponent(confirmationModal);
-
+    // Fördröjning för att ge Origo tid att rendera modalen i DOM:en
+    // innan vi försöker hämta element och sätta event listeners
     setTimeout(() => {
       startModalObserver();
 
       const modalRoot = document.getElementById(modalContentId);
       if (!modalRoot) return;
 
-      const confirmBtn = modalRoot.querySelector(".o-areaselect-confirm");
+      modalRoot
+        .querySelectorAll(".o-areaselect-btn-destination")
+        .forEach((btn) => {
+          btn.onclick = () => {
+            const dest = destinations[Number(btn.dataset.index)];
+            sendToUrl(dest.url, geoJsonGeometry);
+          };
+        });
+
       const retryBtn = modalRoot.querySelector(".o-areaselect-retry");
-
-      if (confirmBtn) {
-        confirmBtn.onclick = () => {
-          if (!fmeBaseUrl) {
-            alert("FME-servern är inte konfigurerad (fmeBaseUrl saknas).");
-            return;
-          }
-
-          try {
-            const url = new URL(fmeBaseUrl);
-
-            const dynamicParameterData = [
-              {
-                name: "GEOMETRY",
-                defaultValue: JSON.stringify(geoJsonGeometry),
-              },
-            ];
-
-            url.searchParams.set(
-              "dynamicParameterData",
-              JSON.stringify(dynamicParameterData),
-            );
-
-            window.open(url.toString(), "_blank", "noopener,noreferrer");
-            deactivate();
-          } catch (err) {
-            console.error("Ogiltig FME-URL:", err);
-            alert("Kunde inte skapa en giltig länk till FME.");
-          }
-        };
-      }
-
       if (retryBtn) {
         retryBtn.onclick = () => {
           closeConfirmationModal();
           startDraw(activeDrawType);
+        };
+      }
+
+      const cancelBtn = modalRoot.querySelector(".o-areaselect-cancel");
+      if (cancelBtn) {
+        cancelBtn.onclick = () => {
+          deactivate();
         };
       }
     }, 50);
@@ -345,30 +367,13 @@ const AreaSelect = function AreaSelect(options = {}) {
         },
       });
 
-      pointButton = Origo.ui.Button({
-        cls: "o-areaselect-tool padding-small margin-bottom-smaller icon-smaller round light box-shadow hidden",
-        icon: "#ic_place_24px",
-        tooltipText: "Punkt",
-        tooltipPlacement: "east",
-        click: () => {
-          setActiveTool(pointButton, "Point");
-          startDraw("Point");
-        },
-      });
-
-      this.addComponents([
-        rootEl,
-        button,
-        rectangleButton,
-        polygonButton,
-        pointButton,
-      ]);
+      this.addComponents([rootEl, button, rectangleButton, polygonButton]);
     },
 
     onAdd(e) {
       viewer = e.target;
       map = viewer.getMap();
-      component = this; //
+      component = this;
       targetId = viewer.getMain().getMapTools().getId();
       this.render();
     },
