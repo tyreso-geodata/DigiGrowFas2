@@ -13,7 +13,6 @@
   padding: 8px;
 }
 
-/* Container för hela modalens innehåll */
 .o-areaselect-modal-content {
   padding: 8px;
   display: flex;
@@ -40,7 +39,12 @@
   }
 }
 
-/* Knappraden */
+.o-areaselect-destinations {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
 .o-areaselect-actions {
   display: flex;
   justify-content: space-around;
@@ -48,7 +52,6 @@
   margin-top: 8px;
 }
 
-/* Gemensamma bas-stilar för modal-knappar */
 .o-areaselect-btn {
   padding: 8px 16px;
   border-radius: 8px;
@@ -56,8 +59,32 @@
   border: 1px solid;
   transition: all 0.2s ease;
   font-weight: 500;
+  text-align: center;
 }
 
+/* Felmeddelande som visas i modalen när inga destinationer är konfigurerade */
+.o-areaselect-no-destinations {
+  margin: 0;
+  color: #c0392b;
+  font-size: 0.9em;
+}
+
+/* Destinationsknappar */
+.o-areaselect-destinations .o-areaselect-btn-destination {
+  background-color: #58a978;
+  color: #fff;
+  border-color: #58a978;
+  width: 100%;
+}
+
+.o-areaselect-destinations .o-areaselect-btn-destination:hover {
+  background-color: #44835d;
+  color: #fff;
+  border-color: #44835d;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Sekundärknappar: Avbryt och Rita om */
 .o-areaselect-actions .o-areaselect-btn-secondary {
   background-color: #f2f2f2;
   color: #202330;
@@ -68,17 +95,4 @@
   background-color: #cecece;
   color: #202330;
   border-color: #ccc;
-}
-
-.o-areaselect-actions .o-areaselect-btn-primary {
-  background-color: #58a978;
-  color: #fff;
-  border-color: #58a978;
-}
-
-.o-areaselect-actions .o-areaselect-btn-primary:hover {
-  background-color: #44835d;
-  color: #fff;
-  border-color: #44835d;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
 }
