@@ -1,0 +1,36 @@
+{
+  "name": "areaselect",
+  "version": "1.0.0",
+  "description": "Area select plugin for Origo",
+  "main": "areaselect.js",
+  "scripts": {
+    "start": "npm-run-all --parallel watch-js watch-sass",
+    "watch-js": "webpack-dev-server --config ./tasks/webpack.dev.js --mode development",
+    "watch-sass": "node-sass -w --include-path scss scss/areaselect.scss ../origo/plugins/areaselect.css",
+    "prewatch-sass": "node-sass --include-path scss scss/areaselect.scss ../origo/plugins/areaselect.css",
+    "build": "webpack --config ./tasks/webpack.prod.js && npm run build-sass",
+    "build-sass": "node-sass --include-path scss scss/areaselect.scss build/css/areaselect.css"
+  },
+  "author": "Origo",
+  "license": "MIT",
+  "dependencies": {
+    "npm-run-all2": "^6.2.3",
+    "ol": "^10.8.0"
+  },
+  "devDependencies": {
+    "autoprefixer": "^10.4.20",
+    "compression-webpack-plugin": "^11.1.0",
+    "eslint": "^8.57.1",
+    "eslint-config-airbnb-base": "^15.0.0",
+    "eslint-plugin-import": "^2.30.0",
+    "mini-css-extract-plugin": "^2.9.1",
+    "node-sass": "^9.0.0",
+    "postcss": "^8.5.8",
+    "postcss-loader": "^8.2.1",
+    "webpack": "^5.94.0",
+    "webpack-bundle-analyzer": "^4.10.2",
+    "webpack-cli": "^5.1.4",
+    "webpack-dev-server": "^5.1.0",
+    "webpack-merge": "^6.0.1"
+  }
+}

@@ -4,7 +4,8 @@ import mapUtils from '../maputils';
 const Scalepicker = function Scalepicker(options = {}) {
   const {
     buttonPrefix = '',
-    listItemPrefix = ''
+    listItemPrefix = '',
+    localization
   } = options;
   let map;
   let viewer;
@@ -12,19 +13,28 @@ const Scalepicker = function Scalepicker(options = {}) {
   let resolutions;
   let dropdown;
 
+  function localize(key) {
+    return localization.getStringByKeys({ targetParentKey: 'scalepicker', targetKey: key });
+  }
+
   function getScales() {
-    return resolutions.map(resolution => `${listItemPrefix}${mapUtils.resolutionToFormattedScale(resolution, projection)}`);
+    const theScales = resolutions.map(resolution => {
+      const scale = mapUtils.resolutionToScale(resolution, projection);
+      return {
+        label: `${listItemPrefix || localize('listItemPrefix')}${mapUtils.resolutionToFormattedScale(resolution, projection, localization)}`,
+        value: scale
+      };
+    });
+    return theScales;
   }
 
   function setMapScale(scale) {
-    const scaleDenominator = parseInt(scale.replace(/\s+/g, '').split(':').pop(), 10);
-    const resolution = mapUtils.scaleToResolution(scaleDenominator, projection);
-
+    const resolution = mapUtils.scaleToResolution(scale, projection);
     map.getView().animate({ resolution });
   }
 
   function onZoomChange() {
-    dropdown.setButtonText(`${buttonPrefix}${mapUtils.resolutionToFormattedScale(map.getView().getResolution(), projection)}`);
+    dropdown.setButtonText(`${buttonPrefix || localize('buttonPrefix')}${mapUtils.resolutionToFormattedScale(map.getView().getResolution(), projection, localization)}`);
   }
 
   return Component({
@@ -39,7 +49,7 @@ const Scalepicker = function Scalepicker(options = {}) {
       this.addComponent(dropdown);
       this.render();
 
-      dropdown.setButtonText(`${buttonPrefix}${mapUtils.resolutionToFormattedScale(map.getView().getResolution(), projection)}`);
+      dropdown.setButtonText(`${buttonPrefix || localize('buttonPrefix')}${mapUtils.resolutionToFormattedScale(map.getView().getResolution(), projection, localization)}`);
       dropdown.setItems(getScales());
 
       map.getView().on('change:resolution', onZoomChange);
@@ -50,7 +60,7 @@ const Scalepicker = function Scalepicker(options = {}) {
         cls: 'o-scalepicker text-white flex',
         contentCls: 'bg-grey-darker text-smallest rounded',
         buttonCls: 'bg-black text-white',
-        ariaLabel: 'Välj skala',
+        ariaLabel: localize('selectScaleAriaLabel'),
         buttonIconCls: 'white'
       });
     },
@@ -66,7 +76,7 @@ const Scalepicker = function Scalepicker(options = {}) {
       this.dispatch('render');
 
       document.getElementById(dropdown.getId()).addEventListener('dropdown:select', (evt) => {
-        setMapScale(evt.target.textContent);
+        setMapScale(evt.detail.value);
       });
     }
   });

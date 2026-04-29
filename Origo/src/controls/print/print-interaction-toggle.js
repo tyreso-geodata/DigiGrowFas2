@@ -9,8 +9,13 @@ export default function PrintInteractionToggle(options = {}) {
     target,
     toggleIcon = '#ic_map_24px',
     mapInteractionsActive,
-    pageSettings
+    pageSettings,
+    localization
   } = options;
+
+  function localize(key) {
+    return localization.getStringByKeys({ targetParentKey: 'print', targetKey: key });
+  }
 
   const interactions = mapInteractions({ target, mapInteractions: pageSettings && pageSettings.mapInteractions ? pageSettings.mapInteractions : {} });
   let mapInteractionToggleButton;
@@ -45,7 +50,7 @@ export default function PrintInteractionToggle(options = {}) {
       mapInteractionToggleButton = Button({
         cls: 'padding-small icon-smaller round light box-shadow',
         icon: toggleIcon,
-        tooltipText: 'Ändra kartans läge',
+        tooltipText: localize('mapInteractionButtonTooltip'),
         tooltipPlacement: 'east',
         state: 'active',
         validStates: ['initial', 'active'],
