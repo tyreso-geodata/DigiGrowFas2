@@ -29,10 +29,12 @@ import 'drag-drop-touch';
 import permalink from './src/permalink/permalink';
 import * as Loader from './src/loading';
 import Spinner from './src/utils/spinner';
+import OLCesium from 'olcs/OLCesium';
 import layerType from './src/layer/layertype';
 
 const Origo = function Origo(configPath, options = {}) {
   /** Reference to the returned Component */
+  window.OLCesium = OLCesium;
   let origo;
   let viewer;
   const origoConfig = {

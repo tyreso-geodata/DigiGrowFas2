@@ -1,24 +1,71 @@
 <!DOCTYPE html>
 <html lang="sv">
-<head>
-	<meta charset="utf-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-	<meta http-equiv="X-UA-Compatible" content="IE=Edge;chrome=1">
-	<!-- On production systems a Content-Security-Policy and referrer meta-tag should be added, see below.
-	The CSP should be modified with adding specific sources that should be allowed, f.e. connect-src 'self' webanalysis.example.com geospatialdata.example.com; -->
-	<!-- <meta http-equiv="Content-Security-Policy" content="default-src 'none'; img-src * data:; script-src 'self' 'unsafe-inline' 'unsafe-eval'; connect-src 'self'; style-src 'self' 'unsafe-inline'; style-src-elem 'self' 'unsafe-inline'; base-uri 'self'; form-action 'self';">
-	<meta name="referrer" content="same-origin"> -->
-	<title>Origo exempel</title>
-	<link href="css/style.css" rel="stylesheet">
-	<link rel="shortcut icon" href="img/png/logo.png">
-</head>
-<body>
-<div id="app-wrapper">
-</div>
-<script src="js/origo.js"></script>
-<script type="text/javascript">
-	//Init origo
-		var origo = Origo('index.json');
-</script>
-</body>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+		<meta http-equiv="X-UA-Compatible" content="IE=Edge;chrome=1">
+		<!-- On production systems a Content-Security-Policy and referrer meta-tag should be added, see below.
+		The CSP should be modified with adding specific sources that should be allowed, f.e. connect-src 'self' webanalysis.example.com geospatialdata.example.com; -->
+		<!-- <meta http-equiv="Content-Security-Policy" content="default-src 'none'; img-src * data:; script-src 'self' 'unsafe-inline' 'unsafe-eval'; connect-src 'self'; style-src 'self' 'unsafe-inline'; style-src-elem 'self' 'unsafe-inline'; base-uri 'self'; form-action 'self';">
+		<meta name="referrer" content="same-origin"> -->
+		<title>Origo exempel</title>
+		<link rel="preload" href="css/style.css" as="style">
+		<link rel="preload" href="plugins/globe/globe.css" as="style">
+		<link href="css/style.css" rel="stylesheet">
+		<link href="plugins/globe/globe.css" rel="stylesheet">
+		<link rel="shortcut icon" href="img/png/logo.png">
+	</head>
+	<body>
+		<div id="app-wrapper">
+		</div>
+		<script src="js/origo.js"></script>
+    	<script src="plugins/globe/globe.min.js"></script>
+		<script defer>
+			//Init origo
+			const origo = Origo('index.json');
+			window.Origo.layerType.THREEDTILE = window.Globe().threedtiletype();
+			origo.on('load', (viewer) => {
+				const globe = Globe({
+					showGlobe: true,
+					globeOnStart: true,
+					viewShed: true,
+					streetView: true,
+					fx: false,
+					cameraControls: true,
+					measure: true,
+					quickTimeShadowPicker: true,
+					flyTo: false,
+					deactivateControls: [],
+					settings: {
+					depthTestAgainstTerrain: true,
+					enableAtmosphere: true,
+					enableGroundAtmosphere: true,
+					enableFog: false,
+					enableLighting: true,
+					shadows: {
+						darkness: 0.3,
+						fadingEnabled: true,
+						maximumDistance: 1000,
+						normalOffset: true,
+						size: 4096,
+						softShadows: false
+					},
+					skyBox: {
+							url: '../plugins/globe/cesiumassets/Assets/Textures/SkyBox/',
+							images: {
+							pX: 'tycho2t3_80_px.jpg',
+							nX: 'tycho2t3_80_mx.jpg',
+							pY: 'tycho2t3_80_py.jpg',
+							nY: 'tycho2t3_80_my.jpg',
+							pZ: 'tycho2t3_80_pz.jpg',
+							nZ: 'tycho2t3_80_mz.jpg'
+							}
+						}
+					},
+					cesiumTerrainProvider: '../data/terrain/',
+				});
+				viewer.addComponent(globe);
+			});
+		</script>
+	</body>
 </html>
