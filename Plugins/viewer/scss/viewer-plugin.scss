@@ -1,0 +1,672 @@
+/**
+ * Viewer Plugin Styles
+ * Three.js GLB/DXF Viewer for Origo
+ */
+
+@use "sass:color";
+
+// Variables
+$primary-color: #007bff;
+$success-color: #28a745;
+$error-color: #dc3545;
+$warning-color: #ffc107;
+$info-color: #17a2b8;
+$dark-color: #343a40;
+$light-color: #f8f9fa;
+$border-color: #dee2e6;
+$text-color: #333;
+$text-muted: #6c757d;
+
+// Floating panel (replaces Origo modal — no overlay)
+.viewer-float-panel {
+  position: absolute;
+  top: 60px;
+  right: 20px;
+  width: 55vw;
+  height: 70vh;
+  min-width: 300px;
+  min-height: 200px;
+  background: #fff;
+  border-radius: 6px;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.4);
+  z-index: 1100;
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+  overflow: hidden;
+}
+
+.viewer-float-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px 12px;
+  background: #f7f7f7;
+  border-bottom: 1px solid #e0e0e0;
+  border-radius: 6px 6px 0 0;
+  cursor: move;
+  user-select: none;
+}
+
+.viewer-float-title {
+  font-weight: bold;
+  font-size: 14px;
+  font-family: Arial, sans-serif;
+}
+
+.viewer-float-close {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 16px;
+  line-height: 1;
+  color: #666;
+  padding: 2px 6px;
+  border-radius: 3px;
+
+  &:hover {
+    background: #e0e0e0;
+    color: #333;
+  }
+}
+
+// Viewer Plugin Modal (kept for .viewer-plugin-content etc.)
+.viewer-plugin-modal {
+  .o-modal-content {
+    padding: 0;
+    overflow: hidden;
+    max-height: none;
+  }
+}
+
+// Viewer Content Container
+.viewer-plugin-content {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  flex: 1;
+  min-height: 0; // allow shrinking in flex container
+}
+
+// Viewer Toolbar
+.viewer-toolbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 12px;
+  background: $light-color;
+  border-bottom: 1px solid $border-color;
+  
+  &-left,
+  &-right {
+    display: flex;
+    gap: 8px;
+  }
+}
+
+.viewer-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 6px 12px;
+  font-size: 14px;
+  border: 1px solid $border-color;
+  border-radius: 4px;
+  background: white;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  
+  &:hover {
+    background: $light-color;
+    border-color: $primary-color;
+  }
+  
+  &:active {
+    transform: scale(0.98);
+  }
+  
+  span {
+    font-size: 16px;
+  }
+}
+
+// View-direction preset button row (2D mode)
+.viewer-toolbar-views {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 12px;
+  background: color.adjust($light-color, $lightness: -3%);
+  border-bottom: 1px solid $border-color;
+  flex-wrap: wrap;
+
+  &.hidden { display: none; }
+
+  .viewer-views-label {
+    font-size: 12px;
+    color: #666;
+    margin-right: 2px;
+  }
+
+  .viewer-btn-view {
+    padding: 3px 9px;
+    font-size: 12px;
+  }
+}
+
+// Resize handle (bottom-right corner drag)
+.viewer-resize-handle {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  width: 18px;
+  height: 18px;
+  cursor: se-resize;
+  z-index: 1200;
+
+  &::after {
+    content: '';
+    position: absolute;
+    bottom: 4px;
+    right: 4px;
+    width: 8px;
+    height: 8px;
+    border-right: 2px solid #aaa;
+    border-bottom: 2px solid #aaa;
+  }
+}
+
+// Three.js Viewer Container
+.viewer-container {
+  position: relative;
+  overflow: hidden;
+  background: #f0f0f0;
+  flex: 1;
+  min-height: 0; // allow shrinking in flex container
+  
+  canvas {
+    display: block;
+    width: 100%;
+    height: 100%;
+  }
+}
+
+// Loading Overlay
+.viewer-loading {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: rgba(255, 255, 255, 0.9);
+  z-index: 10;
+  
+  &-spinner {
+    width: 48px;
+    height: 48px;
+    border: 4px solid $border-color;
+    border-top-color: $primary-color;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+  }
+  
+  &-text {
+    margin-top: 16px;
+    font-size: 14px;
+    color: $text-muted;
+  }
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+// Status Bar
+.viewer-status {
+  padding: 8px 12px;
+  background: $light-color;
+  border-top: 1px solid $border-color;
+}
+
+.viewer-status-text {
+  font-size: 13px;
+  color: $text-muted;
+  
+  &.status-success {
+    color: $success-color;
+  }
+  
+  &.status-error {
+    color: $error-color;
+  }
+  
+  &.status-warning {
+    color: $warning-color;
+  }
+  
+  &.status-info {
+    color: $info-color;
+  }
+}
+
+// Progress Bar
+.viewer-progress {
+  height: 4px;
+  margin-top: 8px;
+  background: $border-color;
+  border-radius: 2px;
+  overflow: hidden;
+}
+
+.viewer-progress-bar {
+  height: 100%;
+  background: $primary-color;
+  transition: width 0.3s ease;
+}
+
+// ==========================================
+// Test UI Styles
+// ==========================================
+
+.test-ui {
+  padding: 20px;
+  background: $light-color;
+  border: 1px solid $border-color;
+  border-radius: 8px;
+  margin-top: 20px;
+  
+  h3 {
+    margin: 0 0 16px 0;
+    font-size: 18px;
+    color: $dark-color;
+  }
+}
+
+.test-ui-params {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 16px;
+  margin-bottom: 16px;
+  
+  .param-group {
+    display: flex;
+    flex-direction: column;
+    
+    label {
+      font-size: 13px;
+      font-weight: 500;
+      color: $text-muted;
+      margin-bottom: 4px;
+    }
+    
+    input {
+      padding: 8px 12px;
+      font-size: 14px;
+      border: 1px solid $border-color;
+      border-radius: 4px;
+      
+      &:focus {
+        outline: none;
+        border-color: $primary-color;
+        box-shadow: 0 0 0 3px rgba($primary-color, 0.1);
+      }
+    }
+  }
+}
+
+.test-ui-buttons {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.test-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 20px;
+  font-size: 14px;
+  font-weight: 500;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  
+  .icon {
+    font-size: 16px;
+  }
+  
+  &.primary {
+    background: $primary-color;
+    color: white;
+    
+    &:hover {
+      background: color.adjust($primary-color, $lightness: -10%);
+    }
+  }
+  
+  &.secondary {
+    background: white;
+    color: $text-color;
+    border: 1px solid $border-color;
+    
+    &:hover {
+      background: $light-color;
+      border-color: $primary-color;
+    }
+  }
+  
+  &.small {
+    padding: 6px 12px;
+    font-size: 12px;
+  }
+  
+  &.danger {
+    background: $error-color;
+    color: white;
+    
+    &:hover {
+      background: color.adjust($error-color, $lightness: -10%);
+    }
+  }
+  
+  &:active {
+    transform: scale(0.98);
+  }
+  
+  &:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+  }
+}
+
+.test-ui-utils {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 16px;
+}
+
+.test-ui-urls {
+  padding: 12px;
+  background: white;
+  border: 1px solid $border-color;
+  border-radius: 4px;
+  margin-bottom: 16px;
+  
+  p {
+    margin: 4px 0;
+    font-size: 12px;
+    color: $text-muted;
+    word-break: break-all;
+    
+    strong {
+      color: $text-color;
+    }
+    
+    code {
+      font-family: 'Monaco', 'Consolas', monospace;
+      font-size: 11px;
+      color: $dark-color;
+    }
+  }
+}
+
+.test-ui-status {
+  .status {
+    padding: 8px 12px;
+    font-size: 13px;
+    border-radius: 4px;
+    background: white;
+    border: 1px solid $border-color;
+    
+    &.status-success {
+      background: rgba($success-color, 0.1);
+      border-color: $success-color;
+      color: color.adjust($success-color, $lightness: -10%);
+    }
+    
+    &.status-error {
+      background: rgba($error-color, 0.1);
+      border-color: $error-color;
+      color: color.adjust($error-color, $lightness: -10%);
+    }
+    
+    &.status-info {
+      background: rgba($info-color, 0.1);
+      border-color: $info-color;
+      color: color.adjust($info-color, $lightness: -10%);
+    }
+  }
+  
+  .progress-bar {
+    height: 6px;
+    margin-top: 8px;
+    background: $border-color;
+    border-radius: 3px;
+    overflow: hidden;
+    
+    .progress-fill {
+      height: 100%;
+      background: linear-gradient(90deg, $primary-color, color.adjust($primary-color, $lightness: 10%));
+      transition: width 0.3s ease;
+    }
+  }
+}
+
+// Viewer Test UI (embedded in modal)
+.viewer-test-ui {
+  margin-top: 16px;
+  padding-top: 16px;
+  border-top: 1px solid $border-color;
+}
+
+// ==========================================
+// Origo Integration Button
+// ==========================================
+
+.o-viewer-plugin {
+  // Inherits Origo button styles
+}
+
+.o-viewer-param-panel {
+  // Inherits Origo button styles
+}
+
+// ==========================================
+// Parameter Panel (floating, draggable)
+// ==========================================
+
+.viewer-param-panel {
+  position: absolute;
+  top: 60px;
+  left: 160px;
+  z-index: 1000;
+  width: 380px;
+  background: white;
+  border: 1px solid $border-color;
+  border-radius: 8px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+  user-select: none;
+
+  &.hidden {
+    display: none;
+  }
+}
+
+.viewer-param-panel-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 14px;
+  background: $dark-color;
+  color: white;
+  border-radius: 8px 8px 0 0;
+  cursor: move;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.viewer-param-panel-close {
+  width: 18px;
+  // height: 18px;
+  cursor: pointer;
+  opacity: 0.7;
+  flex-shrink: 0;
+
+  &::before,
+  &::after {
+    content: '';
+    display: block;
+    position: absolute;
+    width: 14px;
+    height: 2px;
+    background: white;
+    transform-origin: center;
+  }
+
+  &::before {
+    transform: rotate(45deg) translate(3px, 3px);
+  }
+
+  &::after {
+    transform: rotate(-45deg) translate(3px, -3px);
+  }
+
+  &:hover {
+    opacity: 1;
+  }
+}
+
+.viewer-param-panel-body {
+  padding: 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.viewer-param-group {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+
+  label {
+    font-size: 12px;
+    font-weight: 500;
+    color: $text-muted;
+  }
+
+  input {
+    padding: 7px 10px;
+    font-size: 13px;
+    border: 1px solid $border-color;
+    border-radius: 4px;
+    width: 100%;
+    box-sizing: border-box;
+
+    &:focus {
+      outline: none;
+      border-color: $primary-color;
+      box-shadow: 0 0 0 3px rgba($primary-color, 0.12);
+    }
+  }
+}
+
+.viewer-param-actions {
+  display: flex;
+  gap: 8px;
+  padding-top: 4px;
+  flex-wrap: wrap;
+}
+
+.viewer-param-download-progress {
+  margin-top: 8px;
+  background: $border-color;
+  border-radius: 4px;
+  height: 20px;
+  position: relative;
+  overflow: hidden;
+
+  .viewer-param-download-bar {
+    height: 100%;
+    background: $primary-color;
+    width: 0%;
+    transition: width 0.2s ease;
+    border-radius: 4px;
+  }
+
+  .viewer-param-download-label {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 11px;
+    font-weight: 600;
+    color: $text-color;
+    pointer-events: none;
+  }
+}
+
+.viewer-param-btn {
+  flex: 1;
+  padding: 8px 12px;
+  font-size: 13px;
+  font-weight: 500;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background 0.15s ease;
+
+  &.primary {
+    background: $primary-color;
+    color: white;
+
+    &:hover {
+      background: color.adjust($primary-color, $lightness: -10%);
+    }
+  }
+
+  &.secondary {
+    background: $light-color;
+    color: $text-color;
+    border: 1px solid $border-color;
+
+    &:hover {
+      background: $border-color;
+    }
+  }
+
+  &:active {
+    transform: scale(0.98);
+  }
+}
+
+// Responsive adjustments
+@media (max-width: 768px) {
+  .viewer-toolbar {
+    flex-direction: column;
+    gap: 8px;
+    
+    &-left,
+    &-right {
+      width: 100%;
+      justify-content: center;
+    }
+  }
+  
+  .test-ui-buttons {
+    flex-direction: column;
+  }
+  
+  .test-btn {
+    width: 100%;
+    justify-content: center;
+  }
+}

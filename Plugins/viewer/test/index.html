@@ -1,0 +1,753 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Three.js Viewer Plugin - Test Page</title>
+  <!-- Import map for ES modules -->
+  <script type="importmap">
+  {
+    "imports": {
+      "three": "https://unpkg.com/three@0.162.0/build/three.module.js",
+      "three/addons/": "https://unpkg.com/three@0.162.0/examples/jsm/"
+    }
+  }
+  </script>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+      background: #f5f5f5;
+      color: #333;
+      line-height: 1.6;
+    }
+    
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+    
+    header {
+      text-align: center;
+      margin-bottom: 30px;
+    }
+    
+    header h1 {
+      font-size: 28px;
+      color: #1a1a1a;
+      margin-bottom: 8px;
+    }
+    
+    header p {
+      color: #666;
+      font-size: 16px;
+    }
+    
+    .test-panel {
+      background: white;
+      border-radius: 12px;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+      padding: 24px;
+      margin-bottom: 24px;
+    }
+    
+    .test-panel h2 {
+      font-size: 18px;
+      color: #333;
+      margin-bottom: 16px;
+      padding-bottom: 12px;
+      border-bottom: 1px solid #eee;
+    }
+    
+    .form-row {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 16px;
+      margin-bottom: 20px;
+    }
+    
+    .form-group {
+      display: flex;
+      flex-direction: column;
+    }
+    
+    .form-group label {
+      font-size: 13px;
+      font-weight: 600;
+      color: #555;
+      margin-bottom: 6px;
+    }
+    
+    .form-group input {
+      padding: 10px 14px;
+      font-size: 14px;
+      border: 1px solid #ddd;
+      border-radius: 6px;
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+    
+    .form-group input:focus {
+      outline: none;
+      border-color: #007bff;
+      box-shadow: 0 0 0 3px rgba(0,123,255,0.1);
+    }
+    
+    .button-row {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+    
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 12px 24px;
+      font-size: 14px;
+      font-weight: 600;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    
+    .btn:hover {
+      transform: translateY(-1px);
+    }
+    
+    .btn:active {
+      transform: translateY(0);
+    }
+    
+    .btn-primary {
+      background: linear-gradient(135deg, #007bff 0%, #0056b3 100%);
+      color: white;
+      box-shadow: 0 4px 12px rgba(0,123,255,0.3);
+    }
+    
+    .btn-primary:hover {
+      box-shadow: 0 6px 16px rgba(0,123,255,0.4);
+    }
+    
+    .btn-secondary {
+      background: white;
+      color: #333;
+      border: 2px solid #ddd;
+    }
+    
+    .btn-secondary:hover {
+      border-color: #007bff;
+      color: #007bff;
+    }
+    
+    .btn-small {
+      padding: 8px 16px;
+      font-size: 12px;
+    }
+    
+    .btn-danger {
+      background: linear-gradient(135deg, #dc3545 0%, #b02a37 100%);
+      color: white;
+    }
+    
+    #viewer-container {
+      width: 100%;
+      height: 500px;
+      background: #e9ecef;
+      border-radius: 8px;
+      overflow: hidden;
+      position: relative;
+    }
+    
+    .viewer-toolbar {
+      display: flex;
+      justify-content: space-between;
+      padding: 12px;
+      background: #f8f9fa;
+      border-bottom: 1px solid #dee2e6;
+    }
+    
+    .toolbar-group {
+      display: flex;
+      gap: 8px;
+    }
+    
+    .url-display {
+      background: #f8f9fa;
+      padding: 12px;
+      border-radius: 6px;
+      margin-top: 16px;
+      font-family: 'Monaco', 'Consolas', monospace;
+      font-size: 12px;
+      word-break: break-all;
+    }
+    
+    .url-display strong {
+      color: #333;
+    }
+    
+    .url-display code {
+      color: #0056b3;
+    }
+    
+    .status-bar {
+      margin-top: 16px;
+      padding: 12px;
+      background: #f8f9fa;
+      border-radius: 6px;
+    }
+    
+    .status-text {
+      font-size: 14px;
+      color: #666;
+    }
+    
+    .status-text.success { color: #28a745; }
+    .status-text.error { color: #dc3545; }
+    .status-text.info { color: #17a2b8; }
+    
+    .progress-container {
+      height: 6px;
+      background: #e9ecef;
+      border-radius: 3px;
+      margin-top: 8px;
+      overflow: hidden;
+      display: none;
+    }
+    
+    .progress-bar {
+      height: 100%;
+      background: linear-gradient(90deg, #007bff, #00b4d8);
+      width: 0%;
+      transition: width 0.3s ease;
+    }
+    
+    .info-section {
+      margin-top: 30px;
+    }
+    
+    .info-section h3 {
+      font-size: 16px;
+      color: #333;
+      margin-bottom: 12px;
+    }
+    
+    .info-section pre {
+      background: #1e1e1e;
+      color: #d4d4d4;
+      padding: 16px;
+      border-radius: 8px;
+      overflow-x: auto;
+      font-size: 13px;
+      line-height: 1.5;
+    }
+    
+    .info-section code {
+      font-family: 'Monaco', 'Consolas', 'Courier New', monospace;
+    }
+    
+    .keyword { color: #569cd6; }
+    .string { color: #ce9178; }
+    .comment { color: #6a9955; }
+    .function { color: #dcdcaa; }
+    
+    .warning-banner {
+      background: #fff3cd;
+      border: 1px solid #ffc107;
+      border-radius: 8px;
+      padding: 12px 16px;
+      margin-bottom: 20px;
+      color: #856404;
+    }
+    
+    .warning-banner strong {
+      color: #664d03;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>Three.js Viewer Plugin</h1>
+      <p>Development test page for GLB/DXF file viewing</p>
+    </header>
+    
+    <div class="warning-banner" id="cors-warning" style="display: none;">
+      <strong>CORS Notice:</strong> API requests may fail due to CORS when opening from file://. 
+      For full functionality, run via <code>npm start</code> or use a local server.
+    </div>
+    
+    <!-- Test Controls Panel -->
+    <div class="test-panel">
+      <h2>Test Parameters</h2>
+      
+      <div class="form-row">
+        <div class="form-group">
+          <label for="api-base-url">API Base URL</label>
+          <input type="text" id="api-base-url" value="http://localhost:8080">
+        </div>
+        <div class="form-group">
+          <label for="project-id">Project ID</label>
+          <input type="text" id="project-id" value="123123">
+        </div>
+        <div class="form-group">
+          <label for="file-name">File Name</label>
+          <input type="text" id="file-name" value="L-30-V-C000_S (1)">
+        </div>
+      </div>
+      
+      <div class="button-row">
+        <button class="btn btn-primary" id="btn-open-viewer">
+          Open Viewer
+        </button>
+        <button class="btn btn-secondary" id="btn-download">
+          Download Original
+        </button>
+      </div>
+      
+      <div class="url-display">
+        <p><strong>Viewer URL:</strong> <code id="viewer-url"></code></p>
+        <p><strong>Download URL:</strong> <code id="download-url"></code></p>
+      </div>
+    </div>
+    
+    <!-- Viewer Panel -->
+    <div class="test-panel">
+      <h2>3D Viewer</h2>
+      
+      <div class="viewer-toolbar">
+        <div class="toolbar-group">
+          <button class="btn btn-secondary btn-small" id="btn-reset">⟲ Reset View</button>
+          <button class="btn btn-secondary btn-small" id="btn-grid">▦ Grid</button>
+          <button class="btn btn-secondary btn-small" id="btn-axes">⊕ Axes</button>
+        </div>
+        <div class="toolbar-group">
+          <button class="btn btn-secondary btn-small" id="btn-screenshot">Screenshot</button>
+          <button class="btn btn-danger btn-small" id="btn-clear">Clear</button>
+        </div>
+      </div>
+      
+      <div id="viewer-container"></div>
+      
+      <div class="status-bar">
+        <div class="status-text" id="status-text">Ready. Enter parameters and click "Open Viewer" to load a file.</div>
+        <div class="progress-container" id="progress-container">
+          <div class="progress-bar" id="progress-bar"></div>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Integration Example -->
+    <div class="test-panel info-section">
+      <h2>Integration Example</h2>
+      <h3>Using with Origo Map</h3>
+      <pre><code><span class="keyword">var</span> origo = <span class="function">Origo</span>(<span class="string">'/proxy/mapinstances/published/69d8e679ab2afcabb4f526f0'</span>, {
+  baseUrl: <span class="string">'/origo/build/'</span>
+});
+
+origo.<span class="function">on</span>(<span class="string">'load'</span>, <span class="keyword">function</span>(viewer) {
+  <span class="comment">// Initialize the viewer plugin</span>
+  <span class="keyword">var</span> viewerPlugin = <span class="function">ViewerPlugin</span>({
+    apiBaseUrl: <span class="string">"http://localhost:8080"</span>,
+    buttonText: <span class="string">"3D Viewer"</span>,
+    showTestUI: <span class="keyword">false</span>,
+    onLoadSuccess: <span class="keyword">function</span>(model) {
+      console.<span class="function">log</span>(<span class="string">'Model loaded!'</span>, model);
+    }
+  });
+  
+  viewer.<span class="function">addComponent</span>(viewerPlugin);
+  
+  <span class="comment">// Load a file from external search tool</span>
+  viewerPlugin.<span class="function">loadFile</span>(<span class="string">'123123'</span>, <span class="string">'L-30-V-C000_S (1)'</span>);
+});</code></pre>
+      
+      <h3>Standalone Usage (Without Origo)</h3>
+      <pre><code><span class="keyword">import</span> { ThreeViewer, fetchViewerFile } <span class="keyword">from</span> <span class="string">'./viewer-plugin'</span>;
+
+<span class="comment">// Create viewer</span>
+<span class="keyword">const</span> viewer = <span class="keyword">new</span> <span class="function">ThreeViewer</span>(<span class="string">'viewer-container'</span>);
+
+<span class="comment">// Load file</span>
+<span class="keyword">const</span> result = <span class="keyword">await</span> <span class="function">fetchViewerFile</span>(<span class="string">'123123'</span>, <span class="string">'L-30-V-C000_S (1)'</span>);
+<span class="keyword">await</span> viewer.<span class="function">loadModel</span>(result.data, result.fileType);
+
+<span class="comment">// Control the viewer</span>
+viewer.<span class="function">resetCamera</span>();
+viewer.<span class="function">toggleGrid</span>();
+viewer.<span class="function">takeScreenshot</span>();</code></pre>
+    </div>
+  </div>
+
+  <script type="module">
+    // Import Three.js modules
+    import * as THREE from 'three';
+    import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
+    import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
+    import { DRACOLoader } from 'three/addons/loaders/DRACOLoader.js';
+    import { MeshoptDecoder } from 'three/addons/libs/meshopt_decoder.module.js';
+    
+    // Configuration
+    const config = {
+      api: {
+        baseUrl: 'http://localhost:8080',
+        viewerEndpoint: '/api/relationshandling/fetch',
+        downloadEndpoint: '/api/relationshandling/fetch'
+      }
+    };
+    
+    // Show CORS warning if running from file://
+    if (window.location.protocol === 'file:') {
+      document.getElementById('cors-warning').style.display = 'block';
+    }
+    
+    // DOM Elements
+    const apiBaseUrlInput = document.getElementById('api-base-url');
+    const projectIdInput = document.getElementById('project-id');
+    const fileNameInput = document.getElementById('file-name');
+    const viewerUrlDisplay = document.getElementById('viewer-url');
+    const downloadUrlDisplay = document.getElementById('download-url');
+    const statusText = document.getElementById('status-text');
+    const progressContainer = document.getElementById('progress-container');
+    const progressBar = document.getElementById('progress-bar');
+    const viewerContainer = document.getElementById('viewer-container');
+    
+    // Three.js variables
+    let scene, camera, renderer, controls;
+    let loadedModel = null;
+    let grid, axes;
+    
+    // Initialize Three.js
+    function initThreeJS() {
+      // Scene
+      scene = new THREE.Scene();
+      scene.background = new THREE.Color(0xf0f0f0);
+      
+      // Camera
+      const aspect = viewerContainer.clientWidth / viewerContainer.clientHeight;
+      camera = new THREE.PerspectiveCamera(45, aspect, 0.1, 10000);
+      camera.position.set(10, 10, 10);
+      
+      // Renderer
+      renderer = new THREE.WebGLRenderer({ antialias: true });
+      renderer.setSize(viewerContainer.clientWidth, viewerContainer.clientHeight);
+      renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+      renderer.shadowMap.enabled = true;
+      renderer.outputColorSpace = THREE.SRGBColorSpace;
+      viewerContainer.appendChild(renderer.domElement);
+      
+      // Controls
+      controls = new OrbitControls(camera, renderer.domElement);
+      controls.enableDamping = true;
+      controls.dampingFactor = 0.05;
+      
+      // Lights
+      const ambientLight = new THREE.AmbientLight(0xffffff, 0.6);
+      scene.add(ambientLight);
+      
+      const directionalLight = new THREE.DirectionalLight(0xffffff, 0.8);
+      directionalLight.position.set(10, 20, 10);
+      directionalLight.castShadow = true;
+      scene.add(directionalLight);
+      
+      const fillLight = new THREE.DirectionalLight(0xffffff, 0.3);
+      fillLight.position.set(-10, 10, -10);
+      scene.add(fillLight);
+      
+      // Grid
+      grid = new THREE.GridHelper(100, 100, 0x888888, 0xcccccc);
+      scene.add(grid);
+      
+      // Axes
+      axes = new THREE.AxesHelper(5);
+      scene.add(axes);
+      
+      // Handle resize
+      window.addEventListener('resize', onWindowResize);
+      
+      // Animation loop
+      animate();
+      
+      setStatus('Three.js initialized. Ready to load models.', 'success');
+    }
+    
+    function animate() {
+      requestAnimationFrame(animate);
+      controls.update();
+      renderer.render(scene, camera);
+    }
+    
+    function onWindowResize() {
+      camera.aspect = viewerContainer.clientWidth / viewerContainer.clientHeight;
+      camera.updateProjectionMatrix();
+      renderer.setSize(viewerContainer.clientWidth, viewerContainer.clientHeight);
+    }
+    
+    // URL Building
+    function buildViewerUrl() {
+      const baseUrl = apiBaseUrlInput.value;
+      const projectId = projectIdInput.value;
+      const fileName = encodeURIComponent(fileNameInput.value);
+      return `${baseUrl}${config.api.viewerEndpoint}?projectID=${projectId}&fileName=${fileName}&view=true`;
+    }
+    
+    function buildDownloadUrl() {
+      const baseUrl = apiBaseUrlInput.value;
+      const projectId = projectIdInput.value;
+      const fileName = encodeURIComponent(fileNameInput.value);
+      return `${baseUrl}${config.api.downloadEndpoint}?projectID=${projectId}&fileName=${fileName}`;
+    }
+    
+    function updateUrls() {
+      viewerUrlDisplay.textContent = buildViewerUrl();
+      downloadUrlDisplay.textContent = buildDownloadUrl();
+    }
+    
+    // Status management
+    function setStatus(message, type = 'info') {
+      statusText.textContent = message;
+      statusText.className = 'status-text ' + type;
+    }
+    
+    function showProgress(percent) {
+      progressContainer.style.display = 'block';
+      progressBar.style.width = percent + '%';
+    }
+    
+    function hideProgress() {
+      progressContainer.style.display = 'none';
+      progressBar.style.width = '0%';
+    }
+    
+    // Clear model
+    function clearModel() {
+      if (loadedModel) {
+        loadedModel.traverse((child) => {
+          if (child.geometry) child.geometry.dispose();
+          if (child.material) {
+            if (Array.isArray(child.material)) {
+              child.material.forEach(m => m.dispose());
+            } else {
+              child.material.dispose();
+            }
+          }
+        });
+        scene.remove(loadedModel);
+        loadedModel = null;
+      }
+    }
+    
+    // Fit camera to model
+    function fitCameraToModel(object) {
+      const box = new THREE.Box3().setFromObject(object);
+      const size = box.getSize(new THREE.Vector3());
+      const center = box.getCenter(new THREE.Vector3());
+      
+      const maxDim = Math.max(size.x, size.y, size.z);
+      const fov = camera.fov * (Math.PI / 180);
+      const cameraDistance = maxDim / (2 * Math.tan(fov / 2));
+      
+      const direction = new THREE.Vector3(1, 0.5, 1).normalize();
+      camera.position.copy(center).add(direction.multiplyScalar(cameraDistance * 1.5));
+      
+      controls.target.copy(center);
+      controls.update();
+      
+      camera.near = cameraDistance / 100;
+      camera.far = cameraDistance * 100;
+      camera.updateProjectionMatrix();
+    }
+    
+    // Load GLB file
+    function loadGLB(arrayBuffer) {
+      return new Promise((resolve, reject) => {
+        const loader = new GLTFLoader();
+        const dracoLoader = new DRACOLoader();
+        dracoLoader.setDecoderPath('https://www.gstatic.com/draco/versioned/decoders/1.5.6/');
+        loader.setDRACOLoader(dracoLoader);
+        loader.setMeshoptDecoder(MeshoptDecoder);
+        
+        loader.parse(arrayBuffer, '', (gltf) => {
+          loadedModel = gltf.scene;
+          
+          loadedModel.traverse((child) => {
+            if (child.isMesh) {
+              child.castShadow = true;
+              child.receiveShadow = true;
+              if (child.material) {
+                child.material.side = THREE.DoubleSide;
+              }
+            }
+          });
+          
+          scene.add(loadedModel);
+          fitCameraToModel(loadedModel);
+          resolve(loadedModel);
+        }, reject);
+      });
+    }
+    
+    // Load GLB from URL
+    function loadGLBFromUrl(url) {
+      return new Promise((resolve, reject) => {
+        const loader = new GLTFLoader();
+        const dracoLoader = new DRACOLoader();
+        dracoLoader.setDecoderPath('https://www.gstatic.com/draco/versioned/decoders/1.5.6/');
+        loader.setDRACOLoader(dracoLoader);
+        loader.setMeshoptDecoder(MeshoptDecoder);
+        
+        loader.load(url, (gltf) => {
+          loadedModel = gltf.scene;
+          
+          loadedModel.traverse((child) => {
+            if (child.isMesh) {
+              child.castShadow = true;
+              child.receiveShadow = true;
+              if (child.material) {
+                child.material.side = THREE.DoubleSide;
+              }
+            }
+          });
+          
+          scene.add(loadedModel);
+          fitCameraToModel(loadedModel);
+          resolve(loadedModel);
+        }, 
+        (progress) => {
+          if (progress.total) {
+            const percent = Math.round((progress.loaded / progress.total) * 100);
+            showProgress(percent);
+          }
+        },
+        reject);
+      });
+    }
+    
+    // Open viewer
+    async function openViewer() {
+      const url = buildViewerUrl();
+      setStatus('Loading file...', 'info');
+      showProgress(10);
+      
+      try {
+        const response = await fetch(url);
+        
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        
+        showProgress(50);
+        setStatus('Parsing file...', 'info');
+        
+        const arrayBuffer = await response.arrayBuffer();
+        
+        showProgress(70);
+        setStatus('Rendering model...', 'info');
+        
+        clearModel();
+        await loadGLB(arrayBuffer);
+        
+        showProgress(100);
+        setStatus('Model loaded successfully!', 'success');
+        
+        setTimeout(hideProgress, 1000);
+        
+      } catch (error) {
+        setStatus('Error: ' + error.message, 'error');
+        hideProgress();
+        console.error('Load error:', error);
+      }
+    }
+    
+    // Download file
+    async function downloadFile() {
+      const url = buildDownloadUrl();
+      setStatus('Downloading file...', 'info');
+      showProgress(10);
+      
+      try {
+        const response = await fetch(url);
+        
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        
+        showProgress(50);
+        const blob = await response.blob();
+        showProgress(90);
+        
+        const blobUrl = URL.createObjectURL(blob);
+        const link = document.createElement('a');
+        link.href = blobUrl;
+        link.download = fileNameInput.value;
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+        URL.revokeObjectURL(blobUrl);
+        
+        showProgress(100);
+        setStatus('Download complete!', 'success');
+        
+        setTimeout(hideProgress, 1000);
+        
+      } catch (error) {
+        setStatus('Download error: ' + error.message, 'error');
+        hideProgress();
+        console.error('Download error:', error);
+      }
+    }
+    
+    // Event listeners
+    document.getElementById('btn-open-viewer').addEventListener('click', openViewer);
+    document.getElementById('btn-download').addEventListener('click', downloadFile);
+    
+    document.getElementById('btn-reset').addEventListener('click', () => {
+      camera.position.set(10, 10, 10);
+      controls.target.set(0, 0, 0);
+      controls.update();
+      if (loadedModel) fitCameraToModel(loadedModel);
+      setStatus('Camera reset', 'info');
+    });
+    
+    document.getElementById('btn-grid').addEventListener('click', () => {
+      grid.visible = !grid.visible;
+      setStatus('Grid ' + (grid.visible ? 'shown' : 'hidden'), 'info');
+    });
+    
+    document.getElementById('btn-axes').addEventListener('click', () => {
+      axes.visible = !axes.visible;
+      setStatus('Axes ' + (axes.visible ? 'shown' : 'hidden'), 'info');
+    });
+    
+    document.getElementById('btn-screenshot').addEventListener('click', () => {
+      renderer.render(scene, camera);
+      const dataUrl = renderer.domElement.toDataURL('image/png');
+      const link = document.createElement('a');
+      link.href = dataUrl;
+      link.download = 'screenshot.png';
+      link.click();
+      setStatus('Screenshot saved!', 'success');
+    });
+    
+    document.getElementById('btn-clear').addEventListener('click', () => {
+      clearModel();
+      setStatus('Viewer cleared', 'info');
+    });
+    
+    // Update URLs on input change
+    apiBaseUrlInput.addEventListener('input', updateUrls);
+    projectIdInput.addEventListener('input', updateUrls);
+    fileNameInput.addEventListener('input', updateUrls);
+    
+    // Initialize (ES modules are deferred, DOM is ready)
+    initThreeJS();
+    updateUrls();
+  </script>
+</body>
+</html>
