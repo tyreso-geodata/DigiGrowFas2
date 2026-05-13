@@ -14,7 +14,7 @@ Syftet med repot är att samla allt som krävs för att reproducera en miljö sa
 
 | Komponent       | Version  |
 | --------------- | -------- |
-| **Origo**       | (fyll i) |
+| **Origo**       | 2.9.0 |
 | **GeoServer**   | 2.28.0   |
 | **QGIS Server** | 3.44.3-Solothurn |
 | **QGIS Desktop** | 3.40.11 |
