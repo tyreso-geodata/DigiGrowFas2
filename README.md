@@ -29,14 +29,20 @@ Syftet med repot är att samla allt som krävs för att reproducera en miljö sa
 | ------------ | --------------------------------------------------------------- |
 | `/Dokument/` |                |
 | `/Origo/`    | Statisk build av Origo (t.ex. v2.9.0)                           |
+| `/Origo_Admin/`    | Dokumentation Origo Admin, Installations guide                          |
 | `/Plugins/`  | Origo-plugins                                                   |
 | `/Server/`   | Servermiljö: GeoServer, QGIS Server, IIS, Origo-build, Postgres |
-| `/Postgres/` | Installationer och scripts för PostgreSQL/PostGIS               |
+| `/Postgres/` | Installationer och scripts för PostgreSQL/PostGIS, dokumentation RelationshandlingarDB              |
+
 
 
 # Installationer (Servermiljö)
 
 Här finns länkar till installationsguider för Servermiljö.
+
+### **Origo Admin**
+
+[Öppna installationsguide](./Origo_Admin/00-översikt.md)
 
 ### **PostgreSQL / PostGIS**
 
