@@ -5,6 +5,7 @@ Detta repository innehåller konfigurationer, installationer och byggfiler för 
 * **GeoServer** (Tomcat + IIS reverse proxy)
 * **QGIS Server** (IIS FastCGI)
 * **Origo-klient** (statisk build + plugins)
+* **Origo Admin**
 * **Miljöspecifika konfigurationer**
 
 Syftet med repot är att samla allt som krävs för att reproducera en miljö samt säkerställa att installationer och deployments kan versioneras och följas över tid.
@@ -19,7 +20,6 @@ Syftet med repot är att samla allt som krävs för att reproducera en miljö sa
 | **QGIS Server** | 3.44.3-Solothurn |
 | **QGIS Desktop** | 3.40.11 |
 | **Tomcat**      | 9.0.111 |
-| **Node.js**     | (fyll i) |
 | **PostgreSQL**  | 18 |
 
 
