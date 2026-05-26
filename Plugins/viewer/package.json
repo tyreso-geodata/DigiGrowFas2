@@ -1,0 +1,41 @@
+{
+  "name": "viewer-plugin",
+  "version": "1.0.0",
+  "description": "Three.js viewer plugin for GLB/DXF files - Origo integration",
+  "main": "viewer-plugin.js",
+  "scripts": {
+    "start": "npm-run-all --parallel watch-js watch-sass",
+    "watch-js": "webpack-dev-server --config ./tasks/webpack.dev.js --mode development",
+    "watch-sass": "sass --watch --load-path=scss scss/viewer-plugin.scss:../origo/plugins/viewer/viewer-plugin.css",
+    "prewatch-sass": "sass --load-path=scss scss/viewer-plugin.scss:../origo/plugins/viewer/viewer-plugin.css",
+    "build": "webpack --config ./tasks/webpack.prod.js && npm run build-sass",
+    "build-sass": "sass --load-path=scss scss/viewer-plugin.scss:build/css/viewer-plugin.css",
+    "lint": "eslint .",
+    "analyze": "webpack --config ./tasks/webpack.analyze.js"
+  },
+  "author": "Origo",
+  "license": "MIT",
+  "dependencies": {
+    "dxf-parser": "^1.1.2",
+    "npm-run-all2": "^6.2.3",
+    "three": "^0.162.0"
+  },
+  "devDependencies": {
+    "autoprefixer": "^10.4.20",
+    "compression-webpack-plugin": "^11.1.0",
+    "css-loader": "^6.10.0",
+    "eslint": "^8.57.1",
+    "eslint-config-airbnb-base": "^15.0.0",
+    "eslint-plugin-import": "^2.30.0",
+    "mini-css-extract-plugin": "^2.9.1",
+    "postcss-loader": "^8.1.0",
+    "sass": "^1.72.0",
+    "sass-loader": "^14.1.1",
+    "style-loader": "^3.3.4",
+    "webpack": "^5.94.0",
+    "webpack-bundle-analyzer": "^4.10.2",
+    "webpack-cli": "^5.1.4",
+    "webpack-dev-server": "^5.1.0",
+    "webpack-merge": "^6.0.1"
+  }
+}

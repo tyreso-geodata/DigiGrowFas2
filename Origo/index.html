@@ -13,6 +13,7 @@
 		<link rel="preload" href="plugins/globe/globe.css" as="style">
 		<link href="css/style.css" rel="stylesheet">
 		<link href="plugins/globe/globe.css" rel="stylesheet">
+		<link href="plugins/viewer/viewer-plugin.css" rel="stylesheet">
 		<link rel="shortcut icon" href="img/png/logo.png">
 	</head>
 	<body>
@@ -20,6 +21,7 @@
 		</div>
 		<script src="js/origo.js"></script>
     	<script src="plugins/globe/globe.min.js"></script>
+		<script src="plugins/viewer/viewer-plugin.js"></script>
 		<script defer>
 			//Init origo
 			const origo = Origo('index.json');
@@ -65,6 +67,37 @@
 					cesiumTerrainProvider: '../data/terrain/',
 				});
 				viewer.addComponent(globe);
+			});
+		</script>
+		<script type="text/javascript">
+			origo.on('load', function (viewer) {
+				var viewerPlugin = ViewerPlugin({
+				apiBaseUrl: "http://localhost:8080",
+				viewerEndpoint: "/api/relationshandling/fetch",
+				downloadEndpoint: "/api/relationshandling/fetch",
+				buttonText: "Modell-visare",
+				showButton: false,
+				showParameterPanel: true,
+				parameterPanelTitle: "Ladda model",
+				parameterPanelIcon: "#ic_search_24px",
+				tooltipText: "Öppna modell-visaren",
+				showTestUI: false,
+				globeActive: true,
+				
+				onViewerReady: function(threeViewer) {
+					console.log('Viewer ready');
+				},
+				onLoadSuccess: function(model) {
+					console.log('Model loaded', model);
+				},
+				onLoadError: function(error) {
+					console.error('Load error', error);
+				}
+				});
+				
+				viewer.addComponent(viewerPlugin);
+
+				window.viewerPlugin = viewerPlugin;
 			});
 		</script>
 	</body>
