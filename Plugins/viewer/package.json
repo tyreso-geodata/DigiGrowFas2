@@ -6,8 +6,8 @@
   "scripts": {
     "start": "npm-run-all --parallel watch-js watch-sass",
     "watch-js": "webpack-dev-server --config ./tasks/webpack.dev.js --mode development",
-    "watch-sass": "sass --watch --load-path=scss scss/viewer-plugin.scss:../origo/plugins/viewer-plugin.css",
-    "prewatch-sass": "sass --load-path=scss scss/viewer-plugin.scss:../Tomelilla-kommun/origo/plugins/viewer/viewer-plugin.css",
+    "watch-sass": "sass --watch --load-path=scss scss/viewer-plugin.scss:../origo/plugins/viewer/viewer-plugin.css",
+    "prewatch-sass": "sass --load-path=scss scss/viewer-plugin.scss:../origo/plugins/viewer/viewer-plugin.css",
     "build": "webpack --config ./tasks/webpack.prod.js && npm run build-sass",
     "build-sass": "sass --load-path=scss scss/viewer-plugin.scss:build/css/viewer-plugin.css",
     "lint": "eslint .",
