@@ -84,15 +84,8 @@ export function detectFileType(response, fileName) {
  * @returns {{epsg: string|null, translation: number[]|null, position: number[]|null}}
  */
 function extractGeoHeaders(response) {
-  // Log all available headers for debugging
-  console.log('[GeoHeaders] Available headers:');
-  response.headers.forEach((value, key) => {
-    console.log(`  ${key}: ${value}`);
-  });
-  
-  // Headers.get() is case-insensitive
   const epsg = response.headers.get('x-epsg') || null;
-  
+
   const translationStr = response.headers.get('x-translation') || '';
   let translation = null;
   if (translationStr) {
@@ -101,20 +94,16 @@ function extractGeoHeaders(response) {
       translation = parts;
     }
   }
-  
+
   const positionStr = response.headers.get('x-position') || '';
-  console.log('[GeoHeaders] Raw position header:', positionStr, 'EPSG:', epsg, 'Translation:', translationStr);
   let position = null;
   if (positionStr) {
-    console.log('[GeoHeaders] Parsing position string:', positionStr);
     const parts = positionStr.split(',').map(s => parseFloat(s.trim()));
-    console.log('[GeoHeaders] Parsed parts:', parts);
     if (parts.length >= 2 && parts.every(n => !isNaN(n))) {
       position = parts;
     }
   }
-  
-  // Parse rotation heading (degrees)
+
   const rotHeadingStr = response.headers.get('x-rotheading') || '';
   let rotHeading = null;
   if (rotHeadingStr) {
@@ -124,9 +113,7 @@ function extractGeoHeaders(response) {
     }
   }
 
-  const result = { epsg, translation, position, rotHeading };
-  console.log('[GeoHeaders] Final result:', result);
-  return result;
+  return { epsg, translation, position, rotHeading };
 }
 
 /**

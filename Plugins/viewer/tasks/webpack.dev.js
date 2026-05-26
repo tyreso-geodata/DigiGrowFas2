@@ -3,7 +3,7 @@ const common = require('./webpack.common.js');
 
 module.exports = merge(common, {
   output: {
-    path: `${__dirname}/../../Tomelilla-kommun/origo/plugins/viewer`,
+    path: `${__dirname}/../../../origo/plugins/viewer`,
     publicPath: '/build/js',
     filename: 'viewer-plugin.js',
     libraryTarget: 'var',

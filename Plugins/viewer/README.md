@@ -89,6 +89,10 @@ viewerPlugin.open('projectID', 'fileName');
 
 // Download original file
 viewerPlugin.downloadFile('projectID', 'fileName');
+
+// Show the currently loaded model in the 3D globe (requires globeActive: true)
+// Shows a spinner popup while loading; displays an error popup if X-Position is missing
+viewerPlugin.showInMap();
 ```
 
 ### Standalone Usage (Without Origo)
@@ -167,6 +171,7 @@ viewerPlugin.updateConfig({
 | `parameterPanelTitle` | string | `Ladda 3D-fil` | Title shown on the panel header |
 | `projectID` | string | `null` | Initial project ID to load |
 | `fileName` | string | `null` | Initial file name to load |
+| `globeActive` | boolean | `false` | Enable "Visa i kartan" buttons for 3D globe integration (requires Cesium / OL-Cesium via `window.oGlobe`) |
 | `onViewerReady` | function | `null` | Callback when viewer is initialized |
 | `onLoadSuccess` | function | `null` | Callback on successful load |
 | `onLoadError` | function | `null` | Callback on load error |
@@ -243,16 +248,16 @@ GET /api/relationshandling/fetch?projectID={projectID}&fileName={fileName}&view=
 ```
 
 **Supported file types:**
-- **GLB/GLTF** - 3D models (Content-Type: `model/gltf-binary`)
-- **IFC** - Building information models (converted to GLB)
-- **DWG** - CAD drawings (converted to GLB or DXF)
-- **DXF** - CAD exchange format (Content-Type: `application/dxf` or `application/octet-stream`)
+- **GLB/GLTF** - 3D models
+- **IFC** - Building information models
+- **DWG** - CAD drawings
+- **DXF** - CAD exchange format
 
 **Response headers:**
 
 | Header | Type | Description |
 |--------|------|-------------|
-| `Content-Type` | string | MIME type of the response (`model/gltf-binary`, `application/dxf`, `application/octet-stream`) |
+| `Content-Type` | string | MIME type of the response (`model/gltf-binary`, `application/dxf`, `application/ifc`, `application/dwg`) |
 | `X-Position` | string | Model position as `lng,lat,height` (e.g., `13.123456,55.654321,0`) |
 | `X-Translation` | string | Model translation offset as `x,y,z` in meters (e.g., `0,0,0`) |
 | `X-Rotation` | string | Model rotation as `heading,pitch,roll` in degrees (optional) |
@@ -263,6 +268,50 @@ GET /api/relationshandling/fetch?projectID={projectID}&fileName={fileName}&view=
 
 ```
 GET /api/relationshandling/fetch?projectID={projectID}&fileName={fileName}
+```
+
+## Globe Integration — Visa i kartan
+
+When `globeActive: true` is set the plugin exposes a **Visa i kartan** button in two places:
+
+| Location | Element |
+|----------|---------|
+| Viewer toolbar | Button labeled **Visa i kartan** (only visible when a GLB file is open) |
+| Parameter panel | Button below the other action buttons |
+
+### Requirements
+
+- [OL-Cesium](https://openlayers.org/ol-cesium/) must be active and exposed as `window.oGlobe`.
+- [Cesium](https://cesium.com/) must be available as `window.Cesium`.
+- The API response must include the `X-Position` header with valid WGS84 coordinates.
+
+### Behaviour
+
+1. Clicking **Visa i kartan** shows a centred spinner overlay while the model is fetched and positioned.
+2. On success the spinner is dismissed and the Cesium camera flies to the model location.
+3. If the `X-Position` response header is missing or the coordinates are `0,0` an error popup is shown:
+   > *"Filen stöder inte positionering i världen. Ingen geografisk position finns tillgänglig för denna fil."*
+4. Any other error (network, Cesium, etc.) also shows an error popup with a description and an **OK** button to dismiss.
+5. DXF files are rejected immediately — only GLB/GLTF models can be placed in the globe.
+
+### Positioning headers
+
+The backend must expose the following CORS response headers:
+
+| Header | Example | Description |
+|--------|---------|-------------|
+| `X-Position` | `13.123456,55.654321` | Longitude and latitude in WGS84 (**required**) |
+| `X-Translation` | `0,0,12.5` | XYZ offset in metres; Z is used as height |
+| `X-RotHeading` | `45` | Heading in degrees (0 = north); a 180° offset is automatically applied |
+
+### Example
+
+```javascript
+var viewerPlugin = ViewerPlugin({
+  apiBaseUrl: 'http://localhost:8080',
+  globeActive: true   // enables "Visa i kartan"
+});
+viewer.addComponent(viewerPlugin);
 ```
 
 ## Dependencies

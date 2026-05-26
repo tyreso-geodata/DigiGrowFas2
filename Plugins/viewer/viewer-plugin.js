@@ -87,6 +87,53 @@ const ViewerPlugin = function ViewerPlugin(options = {}) {
   let paramPanelEl = null;
   let isPanelVisible = false;
 
+  // ── Globe popup (spinner / error) ──────────────────────────────────────────
+
+  /**
+   * Show a small popup over the map container with a spinner.
+   * Returns the popup element so it can be updated/removed.
+   */
+  function showGlobeSpinnerPopup(message = 'Laddar modell i kartan…') {
+    removeGlobePopup();
+    const popup = document.createElement('div');
+    popup.id = 'viewer-globe-popup';
+    popup.className = 'viewer-globe-popup';
+    popup.innerHTML = `
+      <div class="viewer-globe-popup-inner">
+        <div class="viewer-globe-popup-spinner"></div>
+        <span class="viewer-globe-popup-msg">${message}</span>
+      </div>`;
+    document.body.appendChild(popup);
+    return popup;
+  }
+
+  /**
+   * Update an existing globe popup to show an error message and an OK button.
+   */
+  function showGlobeErrorPopup(message) {
+    removeGlobePopup();
+    const popup = document.createElement('div');
+    popup.id = 'viewer-globe-popup';
+    popup.className = 'viewer-globe-popup';
+    popup.innerHTML = `
+      <div class="viewer-globe-popup-inner viewer-globe-popup-error">
+        <span class="viewer-globe-popup-icon">⚠</span>
+        <span class="viewer-globe-popup-msg">${message}</span>
+        <button class="viewer-globe-popup-ok">OK</button>
+      </div>`;
+    document.body.appendChild(popup);
+    popup.querySelector('.viewer-globe-popup-ok').addEventListener('click', removeGlobePopup);
+    return popup;
+  }
+
+  /** Remove the globe popup if it exists. */
+  function removeGlobePopup() {
+    const existing = document.getElementById('viewer-globe-popup');
+    if (existing) existing.remove();
+  }
+
+  // ──────────────────────────────────────────────────────────────────────────
+
   /**
    * Make a DOM element draggable by its header (id="{elm.id}-draggable") or itself
    */
@@ -269,14 +316,14 @@ const ViewerPlugin = function ViewerPlugin(options = {}) {
   async function showInMapDirect(projID, fName) {
     // Check if it's a DXF file
     if (fName && fName.toLowerCase().endsWith('.dxf')) {
-      alert('DXF-filer kan inte visas i 3D-kartan. Endast GLB-modeller stöds.');
+      showGlobeErrorPopup('DXF-filer kan inte visas i 3D-kartan. Endast GLB-modeller stöds.');
       return;
     }
 
     // Check if globe is available
     const oGlobe = window.oGlobe;
     if (!oGlobe) {
-      alert('Globe/3D-läge är inte aktiverat. Aktivera 3D-läget först.');
+      showGlobeErrorPopup('Globe/3D-läge är inte aktiverat. Aktivera 3D-läget först.');
       return;
     }
 
@@ -289,15 +336,18 @@ const ViewerPlugin = function ViewerPlugin(options = {}) {
 
     const scene = oGlobe.getCesiumScene ? oGlobe.getCesiumScene() : null;
     if (!scene) {
-      alert('Kunde inte komma åt Cesium-scenen.');
+      showGlobeErrorPopup('Kunde inte komma åt Cesium-scenen.');
       return;
     }
 
     const Cesium = window.Cesium;
     if (!Cesium) {
-      alert('Cesium är inte laddat.');
+      showGlobeErrorPopup('Cesium är inte laddat.');
       return;
     }
+
+    // Show spinner popup while fetching
+    showGlobeSpinnerPopup('Hämtar modell…');
 
     // Fetch geo headers with a HEAD or GET request
     const modelUrl = buildViewerUrl(projID, fName);
@@ -307,7 +357,7 @@ const ViewerPlugin = function ViewerPlugin(options = {}) {
       const response = await fetch(modelUrl, { method: 'GET' });
       
       if (!response.ok) {
-        alert(`Kunde inte hämta fil: HTTP ${response.status}`);
+        showGlobeErrorPopup(`Kunde inte hämta fil: HTTP ${response.status}`);
         return;
       }
 
@@ -319,13 +369,13 @@ const ViewerPlugin = function ViewerPlugin(options = {}) {
       console.log('[ViewerPlugin] Direct showInMap - headers:', { positionStr, translationStr, rotHeadingStr });
 
       if (!positionStr) {
-        alert('Position saknas i svaret från servern.');
+        showGlobeErrorPopup('Filen stöder inte positionering i världen. Ingen geografisk position finns tillgänglig för denna fil.');
         return;
       }
 
       const posParts = positionStr.split(',').map(s => parseFloat(s.trim()));
       if (posParts.length < 2 || posParts.some(isNaN)) {
-        alert('Ogiltig positionsdata.');
+        showGlobeErrorPopup('Ogiltig positionsdata i svaret från servern.');
         return;
       }
 
@@ -333,7 +383,7 @@ const ViewerPlugin = function ViewerPlugin(options = {}) {
       const latitude = posParts[1];
 
       if (longitude === 0 && latitude === 0) {
-        alert('Modellen är inte georeferenserad (position är 0,0).');
+        showGlobeErrorPopup('Filen stöder inte positionering i världen. Modellen är inte georeferenserad (position är 0,0).');
         return;
       }
 
@@ -358,6 +408,9 @@ const ViewerPlugin = function ViewerPlugin(options = {}) {
 
       console.log('[ViewerPlugin] Loading model at:', { longitude, latitude, height, headingDegrees: rotHeadingStr, headingRadians, url: modelUrl });
 
+      // Update spinner message while loading into Cesium
+      showGlobeSpinnerPopup('Laddar modell i kartan…');
+
       // Load the model into Cesium using standard ENU frame
       const position = Cesium.Cartesian3.fromDegrees(longitude, latitude, height);
       const hpr = new Cesium.HeadingPitchRoll(headingRadians, 0, 0);
@@ -376,12 +429,13 @@ const ViewerPlugin = function ViewerPlugin(options = {}) {
 
       console.log('[ViewerPlugin] Model added to globe successfully');
 
-      // Fly to the model location
+      // Dismiss spinner and fly to location
+      removeGlobePopup();
       flyToPosition(longitude, latitude, height);
 
     } catch (error) {
       console.error('[ViewerPlugin] Error in showInMapDirect:', error);
-      alert(`Fel vid laddning: ${error.message}`);
+      showGlobeErrorPopup(`Fel vid laddning: ${error.message}`);
     }
   }
 
@@ -598,11 +652,11 @@ const ViewerPlugin = function ViewerPlugin(options = {}) {
     const pos = currentGeoHeaders.position;
     console.log('[ViewerPlugin] showInMap - position:', pos);
     if (!pos) {
-      setViewerStatus('Position saknas i svaret från servern. Kontrollera att X-Position header skickas och exponeras via CORS.', 'error');
+      showGlobeErrorPopup('Filen stöder inte positionering i världen. Ingen geografisk position finns tillgänglig för denna fil.');
       return;
     }
     if (pos[0] === 0 && pos[1] === 0) {
-      setViewerStatus('Modellen är inte georeferenserad (position är 0,0).', 'error');
+      showGlobeErrorPopup('Filen stöder inte positionering i världen. Modellen är inte georeferenserad (position är 0,0).');
       return;
     }
 
@@ -665,8 +719,9 @@ const ViewerPlugin = function ViewerPlugin(options = {}) {
       const hpr = new Cesium.HeadingPitchRoll(headingRadians, 0, 0);
       const modelMatrix = Cesium.Transforms.headingPitchRollToFixedFrame(position, hpr);
 
-      // Load the model asynchronously
-      setViewerStatus(`Laddar modell i 3D-kartan...`, 'info');
+      // Show spinner popup while loading
+      showGlobeSpinnerPopup('Laddar modell i kartan…');
+      setViewerStatus('Laddar modell i 3D-kartan...', 'info');
 
       Cesium.Model.fromGltfAsync({
         url: modelUrl,
@@ -678,6 +733,7 @@ const ViewerPlugin = function ViewerPlugin(options = {}) {
         scene.primitives.add(model);
         scene.requestRender();
 
+        removeGlobePopup();
         setViewerStatus(`Modellen "${currentFileName}" har lagts till i 3D-kartan.`, 'success');
         console.log('[ViewerPlugin] Model added to globe successfully');
 
@@ -685,11 +741,13 @@ const ViewerPlugin = function ViewerPlugin(options = {}) {
         flyToPosition(longitude, latitude, height);
       }).catch((error) => {
         console.error('[ViewerPlugin] Error loading model:', error);
+        showGlobeErrorPopup(`Kunde inte ladda modellen: ${error.message}`);
         setViewerStatus(`Kunde inte ladda modellen: ${error.message}`, 'error');
       });
 
     } catch (error) {
       console.error('[ViewerPlugin] Error adding model to globe:', error);
+      showGlobeErrorPopup(`Kunde inte lägga till modellen i kartan: ${error.message}`);
       setViewerStatus(`Kunde inte lägga till modellen i kartan: ${error.message}`, 'error');
     }
   }
@@ -948,9 +1006,37 @@ const ViewerPlugin = function ViewerPlugin(options = {}) {
       const resp = await fetch('${downloadUrl}');
       if (!resp.ok) { setStatus('Fel: ' + resp.status); return; }
       const blob = await resp.blob();
+
+      // Resolve filename: prefer content-disposition, then derive ext from content-type
+      let dlName = '${fn}';
+      const cd = resp.headers.get('content-disposition');
+      if (cd) {
+        const m = cd.match(/filename[^;=\\n]*=((['"]).*?\\2|[^;\\n]*)/);
+        if (m && m[1]) dlName = m[1].replace(/['"]/g, '');
+      }
+      const knownExts = ['.ifc', '.dwg', '.glb', '.gltf', '.dxf', '.rvt', '.nwd'];
+      if (!knownExts.some(ext => dlName.toLowerCase().endsWith(ext))) {
+        const ct = (resp.headers.get('content-type') || '').toLowerCase();
+        const ctMap = {
+          'model/gltf-binary': '.glb',
+          'model/gltf+json': '.gltf',
+          'application/dxf': '.dxf',
+          'image/vnd.dxf': '.dxf',
+          'application/ifc': '.ifc',
+          'application/x-step': '.ifc',
+          'model/step': '.ifc',
+          'image/vnd.dwg': '.dwg',
+          'application/acad': '.dwg',
+          'application/x-autocad': '.dwg',
+          'application/dwg': '.dwg',
+        };
+        const derived = Object.entries(ctMap).find(([mime]) => ct.includes(mime))?.[1];
+        if (derived) dlName += derived;
+      }
+
       const a = document.createElement('a');
       a.href = URL.createObjectURL(blob);
-      a.download = '${fn}';
+      a.download = dlName;
       a.click();
       setStatus('Nedladdning klar!', true);
     });
