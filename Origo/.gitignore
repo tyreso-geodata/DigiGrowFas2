@@ -8,3 +8,4 @@ plugins
 data/terrain
 data/output
 build/data
+build

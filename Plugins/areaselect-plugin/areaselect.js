@@ -1,6 +1,14 @@
 import Origo from "Origo";
 import Draw, { createBox } from "ol/interaction/Draw";
 import GeoJSON from "ol/format/GeoJSON";
+import proj4 from "proj4";
+import { register } from "ol/proj/proj4";
+
+proj4.defs(
+  "EPSG:3011",
+  "+proj=tmerc +lat_0=0 +lon_0=18 +k=1 +x_0=150000 +y_0=0 +ellps=GRS80 +towgs84=0,0,0,0,0,0,0 +units=m +no_defs",
+);
+register(proj4);
 
 const AreaSelect = function AreaSelect(options = {}) {
   // Konfigurationsalternativ som kan skickas in när pluginet skapas
@@ -299,8 +307,12 @@ const AreaSelect = function AreaSelect(options = {}) {
   function onDrawEnd(e) {
     try {
       const geometry = e.feature.getGeometry();
+      if (!geometry) return;
+
       const geoJsonGeometry = convertToGeoJson(geometry);
-      stopDraw();
+
+      setTimeout(() => stopDraw(), 0);
+
       showConfirmationModal(geoJsonGeometry);
     } catch (err) {
       console.error("AreaSelect Error:", err);
