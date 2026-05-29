@@ -1,0 +1,1030 @@
+#! <?xml version="1.0" encoding="UTF-8" ?>
+#! <WORKSPACE
+#    Command line to run this workspace:
+#        "C:\Program Files\FME 2025.2.4\fme.exe" C:\Users\SEIAMM\Documents\GitHub\DigiGrowFas2\FME\3D-modeller\ASCII2GEOTIFF.fmw
+#          --SourceDataset_ESRIASCIIGRID "\"\"$(FME_MF_DIR)MARKMODELL\01m\ASCII\*.asc\" \"$(FME_MF_DIR)MARKMODELL\01m\ASCII\*.grd\"\""
+#          --DestDataset_GEOTIFF "$(FME_MF_DIR)MARKMODELL\01m\GEOTIFF"
+#          --FME_LAUNCH_VIEWER_APP "YES"
+#    
+#!   A0_PREVIEW_IMAGE="data:image/png;base64,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"
+#!   ARCGIS_COMPATIBILITY="ARCGIS_AUTO"
+#!   ATTR_TYPE_ENCODING="SDF"
+#!   BEGIN_PYTHON=""
+#!   BEGIN_TCL=""
+#!   CATEGORY=""
+#!   DESCRIPTION=""
+#!   DESTINATION="NONE"
+#!   DESTINATION_ROUTING_FILE=""
+#!   DOC_EXTENTS="1388.85 65"
+#!   DOC_TOP_LEFT="-119.497 -295"
+#!   ENABLE_DATA_CACHING="Yes"
+#!   ENABLE_FEATURE_COUNTING="Yes"
+#!   ENABLE_PERFORMANCE_PROFILING="No"
+#!   END_PYTHON=""
+#!   END_TCL=""
+#!   EXPLICIT_BOOKMARK_ORDER="false"
+#!   FME_BUILD_NUM="25835"
+#!   FME_BULK_MODE_THRESHOLD="2000"
+#!   FME_DOCUMENT_GUID="9c5fe382-012f-431b-b9d2-b83e83173abf"
+#!   FME_DOCUMENT_PRIORGUID="54ec5aa7-2c4c-485b-9b21-a88e9372de4a,279b0331-edd6-470f-b67d-b65f9320eaf3,4ba54cae-cf44-43b6-9497-62943355560f,bee5d50b-30d4-474c-ac49-f7862e11a192,e010d796-f365-47ed-a371-e5e0190829a9"
+#!   FME_GEOMETRY_HANDLING="Enhanced"
+#!   FME_IMPLICIT_CSMAP_REPROJECTION_MODE="Auto"
+#!   FME_NAMES_ENCODING="UTF-8"
+#!   FME_REPROJECTION_ENGINE="FME"
+#!   FME_SERVER_SERVICES=""
+#!   FME_STROKE_MAX_DEVIATION="0"
+#!   HISTORY=""
+#!   IGNORE_READER_FAILURE="No"
+#!   LAST_SAVE_BUILD="FME(R) 2025.2.4.0 (20260225 - Build 25835 - WIN64)"
+#!   LAST_SAVE_DATE="2026-05-29T12:35:38"
+#!   LOG_FILE=""
+#!   LOG_MAX_RECORDED_FEATURES="200"
+#!   MARKDOWN_DESCRIPTION=""
+#!   MARKDOWN_USAGE=""
+#!   MAX_LOG_FEATURES="200"
+#!   MULTI_WRITER_DATASET_ORDER="BY_ID"
+#!   PASSWORD=""
+#!   PROMPT_FOR_PARAMS="Yes"
+#!   PYTHON_COMPATIBILITY="310"
+#!   REDIRECT_TERMINATORS="NONE"
+#!   SAVE_ON_PROMPT_AND_RUN="Yes"
+#!   SHOW_ANNOTATIONS="true"
+#!   SHOW_INFO_NODES="true"
+#!   SOURCE="NONE"
+#!   SOURCE_ROUTING_FILE=""
+#!   STOP_AT_BREAKPOINTS="No"
+#!   TERMINATE_REJECTED="YES"
+#!   TITLE=""
+#!   USAGE=""
+#!   USE_MARKDOWN=""
+#!   VIEW_POSITION="-931.259 793.758"
+#!   WARN_INVALID_XFORM_PARAM="Yes"
+#!   WORKSPACE_VERSION="1"
+#!   ZOOM_SCALE="100"
+#! >
+#! <DATASETS>
+#! <DATASET
+#!   IS_SOURCE="true"
+#!   ROLE="READER"
+#!   FORMAT="ESRIASCIIGRID"
+#!   DATASET="$(SourceDataset_ESRIASCIIGRID)"
+#!   KEYWORD="ESRIASCIIGRID_1"
+#!   MULTI_GEOM_ALLOWED="false"
+#!   ATTR_MAX_LENGTH="0"
+#!   ATTR_CASE="ANY"
+#!   FEATURE_TYPE_CASE=""
+#!   FEATURE_TYPE_LENGTH="0"
+#!   FEATURE_TYPE_INVALID_CHARS=""
+#!   ALLOWED_FEAT_TYPES=""
+#!   WRITE_DEFS="true"
+#!   DEFLINE_TEMPLATE=""
+#!   DEFLINE_ATTRS="true"
+#!   EXPOSABLE_ATTRS="esriasciigrid_type char(64) fme_basename char(50) fme_color char(50) fme_dataset char(50) fme_feature_type char(50) fme_fill_color char(50) fme_geometry char(50) fme_primary_axis float fme_rotation float fme_secondary_axis float fme_start_angle float fme_sweep_angle float fme_text_size float fme_text_string char(50) fme_type char(50) multi_reader_full_id integer multi_reader_id integer multi_reader_keyword char(50) multi_reader_type char(50)"
+#!   DEFLINE_PARMS=""
+#!   ATTR_INDEX_TYPES=""
+#!   ATTR_NAME_INVALID_CHARS=""
+#!   SUPPORTS_FEATURE_TYPE_FANOUT="true"
+#!   ENABLED="true"
+#!   DYNAMIC_FEATURE_TYPES_LIST_ON_MERGE="true"
+#!   DATASET_TYPE="FILEDIR"
+#!   FTTR_TYPE="LISTBOX_ENCODED"
+#!   GENERATE_FME_BUILD_NUM="24820"
+#!   COORDSYS="EPSG:3011"
+#!   FEATURE_TYPES=""
+#!   MAX_FEATURES=""
+#!   MAX_FEATURES_PER_FEATURE_TYPE=""
+#!   MIN_FEATURES=""
+#!   START_FEATURE=""
+#! >
+#! <METAFILE_PARAMETER
+#!   NAME="AUTO_FANOUT_ATTRIBUTE"
+#!   VALUE="fme_basename"
+#! />
+#! <METAFILE_PARAMETER
+#!   NAME="FEATURE_TYPE_DEFAULT_NAME"
+#!   VALUE="DEM1"
+#! />
+#! <METAFILE_PARAMETER
+#!   NAME="FEATURE_TYPE_NAME"
+#!   VALUE="DEM File"
+#! />
+#! <METAFILE_PARAMETER
+#!   NAME="READER_AUTO_EXPOSE"
+#!   VALUE="fme_basename char(50)"
+#! />
+#! <METAFILE_PARAMETER
+#!   NAME="READER_DATASET_HINT"
+#!   VALUE="Select the Esri ASCII Grid file(s)"
+#! />
+#! <METAFILE_PARAMETER
+#!   NAME="WRITER_DATASET_HINT"
+#!   VALUE="Specify a folder for the Esri ASCII Grid file"
+#! />
+#! </DATASET>
+#! <DATASET
+#!   IS_SOURCE="false"
+#!   ROLE="WRITER"
+#!   FORMAT="GEOTIFF"
+#!   DATASET="$(DestDataset_GEOTIFF)"
+#!   KEYWORD="GEOTIFF_1"
+#!   MULTI_GEOM_ALLOWED="true"
+#!   ATTR_MAX_LENGTH="64"
+#!   ATTR_CASE="ANY_FIRST_NONNUMERIC"
+#!   FEATURE_TYPE_CASE="ANY"
+#!   FEATURE_TYPE_LENGTH="0"
+#!   FEATURE_TYPE_INVALID_CHARS="&quot;:?*&lt;&gt;|"
+#!   ALLOWED_FEAT_TYPES=""
+#!   WRITE_DEFS="true"
+#!   DEFLINE_TEMPLATE="geotiff_world_file_generation $(_GEOTIFF_WRITER_WORLD_FILE_GENERATION) geotiff_create_tiled_files $(_GEOTIFF_WRITER_CREATE_TILED_FILES) geotiff_tile_size_x $(_GEOTIFF_WRITER_TILE_SIZE_X) geotiff_tile_size_y $(_GEOTIFF_WRITER_TILE_SIZE_Y) geotiff_compression_method $(_GEOTIFF_WRITER_COMPRESSION_METHOD) geotiff_jpeg_compression_level $(_GEOTIFF_WRITER_JPEG_COMPRESSION_LEVEL) geotiff_deflate_compression_level $(_GEOTIFF_WRITER_DEFLATE_COMPRESSION_LEVEL) geotiff_zstd_compression_level $(_GEOTIFF_WRITER_ZSTD_COMPRESSION_LEVEL) geotiff_lerc_max_z_error $(_GEOTIFF_WRITER_LERC_MAX_Z_ERROR) geotiff_tab_file_generation $(_GEOTIFF_WRITER_TAB_FILE_GENERATION) geotiff_number_of_bits_per_cell $(_GEOTIFF_WRITER_NUMBER_OF_BITS_PER_CELL) geotiff_enable_bigtiff $(_GEOTIFF_WRITER_ENABLE_BIGTIFF) geotiff_interleaving_type $(_GEOTIFF_WRITER_INTERLEAVING_TYPE) geotiff_photometric_interpretation $(_GEOTIFF_WRITER_PHOTOMETRIC_INTERPRETATION) geotiff_byte_order $(_GEOTIFF_WRITER_BYTE_ORDER) geotiff_calculate_minmax_tifftags $(_GEOTIFF_WRITER_CALCULATE_MINMAX_TIFFTAGS) geotiff_pyramid_num_levels $(_GEOTIFF_WRITER_PYRAMID_NUM_LEVELS) geotiff_pyramid_interpolation_type $(_GEOTIFF_WRITER_PYRAMID_INTERPOLATION_TYPE) geotiff_pyramid_tile_size $(_GEOTIFF_WRITER_PYRAMID_TILE_SIZE)"
+#!   DEFLINE_ATTRS="true"
+#!   EXPOSABLE_ATTRS="fme_basename char(50) fme_color char(50) fme_dataset char(50) fme_feature_type char(50) fme_fill_color char(50) fme_geometry char(50) fme_primary_axis float fme_rotation float fme_secondary_axis float fme_start_angle float fme_sweep_angle float fme_text_size float fme_text_string char(50) fme_type char(50) geotiff_area_or_point char(255) geotiff_byte_order char(7) geotiff_calculate_minmax_tifftags char(3) geotiff_compression_method char(9) geotiff_create_tiled_files char(3) geotiff_deflate_compression_level integer geotiff_enable_bigtiff char(3) geotiff_exif_aperturevalue char(255) geotiff_exif_artist char(255) geotiff_exif_bodyserialnumber char(255) geotiff_exif_brightnessvalue float geotiff_exif_cameraownername char(255) geotiff_exif_cfa_pattern char(255) geotiff_exif_cfa_repeat_pattern_dim char(255) geotiff_exif_cfapattern char(255) geotiff_exif_colorspace decimal(5,0) geotiff_exif_componentsconfiguration char(255) geotiff_exif_compressedbitsperpixel char(255) geotiff_exif_contrast decimal(5,0) geotiff_exif_copyright char(255) geotiff_exif_customrendered decimal(5,0) geotiff_exif_datetime char(20) geotiff_exif_datetimedigitized char(20) geotiff_exif_datetimeoriginal char(20) geotiff_exif_devicesettingdescription char(255) geotiff_exif_digitalzoomratio char(255) geotiff_exif_exifversion char(4) geotiff_exif_exposurebiasvalue char(255) geotiff_exif_exposureindex float geotiff_exif_exposuremode decimal(5,0) geotiff_exif_exposureprogram decimal(5,0) geotiff_exif_exposuretime char(255) geotiff_exif_filesource char(255) geotiff_exif_flash decimal(5,0) geotiff_exif_flashpixversion char(255) geotiff_exif_fnumber char(255) geotiff_exif_focallength char(255) geotiff_exif_focallengthin35mmfilm decimal(5,0) geotiff_exif_focalplaneresolutionunit decimal(5,0) geotiff_exif_focalplanexresolution char(255) geotiff_exif_focalplaneyresolution char(255) geotiff_exif_gaincontrol decimal(5,0) geotiff_exif_gpsaltitude char(255) geotiff_exif_gpsaltituderef char(255) geotiff_exif_gpsareainformation char(255) geotiff_exif_gpsdatestamp char(10) geotiff_exif_gpsdestbearing char(255) geotiff_exif_gpsdestbearingref char(1) geotiff_exif_gpsdestdistance char(255) geotiff_exif_gpsdestdistanceref char(1) geotiff_exif_gpsdestlatitude char(255) geotiff_exif_gpsdestlatituderef char(1) geotiff_exif_gpsdestlongitude char(255) geotiff_exif_gpsdestlongituderef char(1) geotiff_exif_gpsdifferential decimal(5,0) geotiff_exif_gpsdop char(255) geotiff_exif_gpshpositioningerror float geotiff_exif_gpsimgdirection char(255) geotiff_exif_gpsimgdirectionref char(1) geotiff_exif_gpslatitude char(255) geotiff_exif_gpslatituderef char(1) geotiff_exif_gpslongitude char(255) geotiff_exif_gpslongituderef char(1) geotiff_exif_gpsmapdatum char(255) geotiff_exif_gpsmeasuremode char(1) geotiff_exif_gpsprocessingmethod char(255) geotiff_exif_gpssatellites char(255) geotiff_exif_gpsspeed char(255) geotiff_exif_gpsspeedref char(1) geotiff_exif_gpsstatus char(1) geotiff_exif_gpstimestamp char(255) geotiff_exif_gpstrack char(255) geotiff_exif_gpstrackref char(1) geotiff_exif_gpsversionid char(255) geotiff_exif_imagedescription char(255) geotiff_exif_imageuniqueid char(33) geotiff_exif_inter_color_profile char(255) geotiff_exif_interoperability_index char(255) geotiff_exif_interoperability_version char(255) geotiff_exif_iptc_naa char(255) geotiff_exif_isospeed largeint geotiff_exif_isospeedlatitudeyyy largeint geotiff_exif_isospeedlatitudezzz largeint geotiff_exif_isospeedratings decimal(5,0) geotiff_exif_lensmake char(255) geotiff_exif_lensmodel char(255) geotiff_exif_lensserialnumber char(255) geotiff_exif_lensspecification char(255) geotiff_exif_lightsource decimal(5,0) geotiff_exif_make char(255) geotiff_exif_makernote char(255) geotiff_exif_maxaperturevalue char(255) geotiff_exif_meteringmode decimal(5,0) geotiff_exif_model char(255) geotiff_exif_oecf char(255) geotiff_exif_offsettime char(7) geotiff_exif_offsettimedigitized char(7) geotiff_exif_offsettimeoriginal char(7) geotiff_exif_orientation decimal(5,0) geotiff_exif_pixelxdimension decimal(12,0) geotiff_exif_pixelydimension decimal(12,0) geotiff_exif_primarychromaticities char(255) geotiff_exif_recommendedexposureindex largeint geotiff_exif_referenceblackwhite char(255) geotiff_exif_related_image_file_format char(255) geotiff_exif_related_image_length char(255) geotiff_exif_related_image_width char(255) geotiff_exif_relatedsoundfile char(13) geotiff_exif_resolutionunit decimal(5,0) geotiff_exif_saturation decimal(5,0) geotiff_exif_scenecapturetype decimal(5,0) geotiff_exif_scenetype char(255) geotiff_exif_sensingmethod decimal(5,0) geotiff_exif_sensitivitytype decimal(5,0) geotiff_exif_sharpness decimal(5,0) geotiff_exif_shutterspeedvalue char(255) geotiff_exif_software char(255) geotiff_exif_spatialfrequencyresponse char(255) geotiff_exif_spectralsensitivity char(255) geotiff_exif_standardoutputsensitivity largeint geotiff_exif_subjectarea char(255) geotiff_exif_subjectdistance float geotiff_exif_subjectdistancerange decimal(5,0) geotiff_exif_subjectlocation char(255) geotiff_exif_subsectime char(255) geotiff_exif_subsectime_digitized char(255) geotiff_exif_subsectime_original char(255) geotiff_exif_transferfunction char(7680) geotiff_exif_usercomment char(255) geotiff_exif_whitebalance decimal(5,0) geotiff_exif_whitepoint char(255) geotiff_exif_xpauthor char(255) geotiff_exif_xpcomment char(255) geotiff_exif_xpkeywords char(255) geotiff_exif_xpsubject char(255) geotiff_exif_xptitle char(255) geotiff_exif_xresolution char(255) geotiff_exif_ycbcrcoefficients char(255) geotiff_exif_ycbcrpositioning decimal(5,0) geotiff_exif_yresolution char(255) geotiff_interleaving_type char(3) geotiff_jpeg_compression_level decimal(5,0) geotiff_lerc_max_z_error double geotiff_number_of_bits_per_cell decimal(1,0) geotiff_photometric_interpretation char(10) geotiff_private_keys{}.id integer geotiff_private_keys{}.type char(6) geotiff_private_keys{}.value char(255) geotiff_tab_file_generation char(3) geotiff_tifftag_artist char(255) geotiff_tifftag_copyright char(255) geotiff_tifftag_datetime datetime geotiff_tifftag_documentname char(255) geotiff_tifftag_hostcomputer char(255) geotiff_tifftag_imagedescription char(255) geotiff_tifftag_maxsamplevalue integer geotiff_tifftag_minsamplevalue integer geotiff_tifftag_resolutionunit decimal(1,0) geotiff_tifftag_software char(255) geotiff_tifftag_xresolution float geotiff_tifftag_yresolution float geotiff_tile_size_x integer geotiff_tile_size_y integer geotiff_type char(255) geotiff_world_file_generation char(3) geotiff_zstd_compression_level integer"
+#!   DEFLINE_PARMS="&quot;GUI OPTIONAL NAMEDGROUP geotiff_layer_group geotiff_metadata_group%geotiff_compression_group%geotiff_tile_group%geotiff_generate_pyramids%geotiff_advanced_group Raster&quot; &quot;&quot; &quot;GUI OPTIONAL NAMEDGROUP geotiff_metadata_group geotiff_world_file_generation%geotiff_tab_file_generation Metadata&quot; &quot;&quot; &quot;GUI OPTIONAL DISCLOSUREGROUP geotiff_tile_group geotiff_create_tiled_files%geotiff_tile_size_x%geotiff_tile_size_y File Structure&quot; &quot;&quot; &quot;GUI OPTIONAL DISCLOSUREGROUP geotiff_compression_group geotiff_compression_method%geotiff_jpeg_compression_level%geotiff_deflate_compression_level%geotiff_zstd_compression_level%geotiff_lerc_max_z_error Compression&quot; &quot;&quot; &quot;GUI ACTIVEDISCLOSUREGROUP geotiff_generate_pyramids geotiff_pyramid_num_levels%geotiff_pyramid_interpolation_type%geotiff_pyramid_tile_size Generate Pyramids&quot; no &quot;GUI OPTIONAL DISCLOSUREGROUP geotiff_advanced_group geotiff_byte_order%geotiff_calculate_minmax_tifftags%geotiff_enable_bigtiff%geotiff_interleaving_type%geotiff_number_of_bits_per_cell%geotiff_photometric_interpretation Advanced&quot; &quot;&quot; &quot;GUI CHOICE_OR_ATTR geotiff_world_file_generation yes%no Generate World File&quot; no &quot;GUI ACTIVECHOICE_LOOKUP_ENCODED_OR_ATTR geotiff_create_tiled_files Tiles,yes%Cloud&lt;space&gt;Optimized&lt;space&gt;Tiles,cog,++geotiff_interleaving_type+BIP%Strips,no,geotiff_tile_size_x,geotiff_tile_size_y Layout&quot; no &quot;GUI OPTIONAL INTEGER_OR_ATTR geotiff_tile_size_x Number of Columns per Tile&quot; &quot;&quot; &quot;GUI OPTIONAL INTEGER_OR_ATTR geotiff_tile_size_y Number of Rows per Tile&quot; &quot;&quot; &quot;GUI ACTIVECHOICE_LOOKUP_OR_ATTR geotiff_compression_method JPEG,jpeg,geotiff_deflate_compression_level,geotiff_zstd_compression_level,geotiff_lerc_max_z_error%DEFLATE,deflate,geotiff_jpeg_compression_level,geotiff_zstd_compression_level,geotiff_lerc_max_z_error%LZW,lzw,geotiff_jpeg_compression_level,geotiff_deflate_compression_level,geotiff_zstd_compression_level,geotiff_lerc_max_z_error%ZSTD,zstd,geotiff_jpeg_compression_level,geotiff_deflate_compression_level,geotiff_lerc_max_z_error%Pack&lt;space&gt;Bits,pack-bits,geotiff_jpeg_compression_level,geotiff_deflate_compression_level,geotiff_zstd_compression_level,geotiff_lerc_max_z_error%CCITT&lt;space&gt;RLE,ccitt-rle,geotiff_jpeg_compression_level,geotiff_deflate_compression_level,geotiff_zstd_compression_level,geotiff_lerc_max_z_error%CCITT&lt;space&gt;FAX3,ccitt-fax3,geotiff_jpeg_compression_level,geotiff_deflate_compression_level,geotiff_zstd_compression_level,geotiff_lerc_max_z_error%CCITT&lt;space&gt;FAX4,ccitt-fax4,geotiff_jpeg_compression_level,geotiff_deflate_compression_level,geotiff_zstd_compression_level,geotiff_lerc_max_z_error%LERC,lerc,geotiff_jpeg_compression_level,geotiff_deflate_compression_level,geotiff_zstd_compression_level%LERC&lt;space&gt;DEFLATE,lerc_deflate,geotiff_jpeg_compression_level,geotiff_zstd_compression_level%LERC&lt;space&gt;ZSTD,lerc_zstd,geotiff_jpeg_compression_level,geotiff_deflate_compression_level%None,none,geotiff_jpeg_compression_level,geotiff_deflate_compression_level,geotiff_lerc_max_z_error Compression Method&quot; none &quot;GUI RANGE_SLIDER_OR_ATTR geotiff_jpeg_compression_level 0%100%0%OFF JPEG Compression Level (0 - 100)&quot; 25 &quot;GUI RANGE_SLIDER_OR_ATTR geotiff_deflate_compression_level 1%9%0%OFF DEFLATE Compression Level (1 - 9)&quot; 6 &quot;GUI RANGE_SLIDER_OR_ATTR geotiff_zstd_compression_level 1%22%0%OFF ZSTD Compression Level (1 - 22)&quot; 9 &quot;GUI RANGE_SLIDER_OR_ATTR geotiff_lerc_max_z_error 0%MAX%MAX%OFF LERC Error Tolerance&quot; 0 &quot;GUI CHOICE_OR_ATTR geotiff_tab_file_generation yes%no Generate TAB File&quot; no &quot;GUI OPTIONAL INTEGER_OR_ATTR geotiff_number_of_bits_per_cell Number of Bits per Cell (1 - 32)&quot; &quot;&quot; &quot;GUI CHOICE_OR_ATTR geotiff_enable_bigtiff yes%no Enable BigTIFF&quot; no &quot;GUI CHOICE_OR_ATTR geotiff_interleaving_type BSQ%BIP Interleaving Type&quot; BSQ &quot;GUI CHOICE_OR_ATTR geotiff_photometric_interpretation Auto%MinIsBlack%MinIsWhite%YCbCr Photometric Interpretation&quot; Auto &quot;GUI LOOKUP_CHOICE_OR_ATTR geotiff_byte_order Machine,machine%LSB%MSB Byte Order&quot; machine &quot;GUI CHOICE_OR_ATTR geotiff_calculate_minmax_tifftags yes%no Calculate Min/Max TIFF Tags&quot; no &quot;GUI WHOLE_LINE INTEGER_OR_ATTR geotiff_pyramid_num_levels Number of Levels to Generate&quot; &quot;&quot; &quot;GUI WHOLE_LINE LOOKUP_CHOICE_OR_ATTR geotiff_pyramid_interpolation_type Nearest&lt;space&gt;Neighbor,NearestNeighbor%Bilinear,Bilinear%Bicubic,Bicubic Interpolation Type&quot; NearestNeighbor &quot;GUI WHOLE_LINE CHOICE_OR_ATTR geotiff_pyramid_tile_size 64%128%256%512%1024%2048%4096 Number of Rows/Columns per Tile&quot; 128 "
+#!   ATTR_INDEX_TYPES=""
+#!   ATTR_NAME_INVALID_CHARS="&quot; ()"
+#!   SUPPORTS_FEATURE_TYPE_FANOUT="true"
+#!   ENABLED="true"
+#!   DYNAMIC_FEATURE_TYPES_LIST_ON_MERGE="true"
+#!   DATASET_TYPE="FILEURLDIR"
+#!   FTTR_TYPE=""
+#!   GENERATE_FME_BUILD_NUM="24820"
+#!   COORDSYS="EPSG:3011"
+#!   FANOUT_EXPRESSION="&lt;Unused&gt;"
+#!   FANOUT_GROUP="NO"
+#! >
+#! <METAFILE_PARAMETER
+#!   NAME="ADVANCED_PARMS"
+#!   VALUE="GEOTIFF_IN_IGNORE_RASTER_TYPE_KEY GEOTIFF_IN_PYRAMID_LEVEL GEOTIFF_IN_PREFER_FILE_CS_UNITS GEOTIFF_IN_READ_OFFSETS_IN_CS_UNITS GEOTIFF_OUT_IGNORE_RASTER_TYPE_KEY GEOTIFF_OUT_WRITE_OFFSETS_IN_CS_UNITS GEOTIFF_OUT_WRITE_PROJECTED_COORDSYS_AS_EPSG_CODE GEOTIFF_OUT_WRITE_GEOGRAPHIC_COORDSYS_AS_EPSG_CODE GEOTIFF_OUT_WRITE_GEOGRAPHIC_KEYS_FOR_PROJECTED_COORDSYS GEOTIFF_OUT_WRITE_ESRI_COMPATIBLE_COORDSYS"
+#! />
+#! <METAFILE_PARAMETER
+#!   NAME="AUTO_FANOUT_ATTRIBUTE"
+#!   VALUE="fme_basename"
+#! />
+#! <METAFILE_PARAMETER
+#!   NAME="FEATURE_TYPE_DEFAULT_NAME"
+#!   VALUE="Raster1"
+#! />
+#! <METAFILE_PARAMETER
+#!   NAME="FEATURE_TYPE_NAME"
+#!   VALUE="Raster File"
+#! />
+#! <METAFILE_PARAMETER
+#!   NAME="MIME_TYPE"
+#!   VALUE="image/TIFF"
+#! />
+#! <METAFILE_PARAMETER
+#!   NAME="NETWORK_AUTHENTICATION"
+#!   VALUE="YES"
+#! />
+#! <METAFILE_PARAMETER
+#!   NAME="READER_AUTO_EXPOSE"
+#!   VALUE="fme_basename char(50)"
+#! />
+#! <METAFILE_PARAMETER
+#!   NAME="READER_DATASET_HINT"
+#!   VALUE="Select the GeoTIFF file(s)"
+#! />
+#! <METAFILE_PARAMETER
+#!   NAME="WRITER_DATASET_HINT"
+#!   VALUE="Specify a folder for the GeoTIFF file"
+#! />
+#! </DATASET>
+#! </DATASETS>
+#! <DATA_TYPES>
+#! <DATA_TYPE
+#!   IS_SOURCE="true"
+#!   FORMAT_TYPE="char(width)"
+#!   FME_TYPE="fme_varchar(width)"
+#!   FORMAT="ESRIASCIIGRID"
+#! />
+#! <DATA_TYPE
+#!   IS_SOURCE="true"
+#!   FORMAT_TYPE="char(width)"
+#!   FME_TYPE="fme_varbinary(width)"
+#!   FORMAT="ESRIASCIIGRID"
+#! />
+#! <DATA_TYPE
+#!   IS_SOURCE="true"
+#!   FORMAT_TYPE="char(width)"
+#!   FME_TYPE="fme_char(width)"
+#!   FORMAT="ESRIASCIIGRID"
+#! />
+#! <DATA_TYPE
+#!   IS_SOURCE="true"
+#!   FORMAT_TYPE="char(width)"
+#!   FME_TYPE="fme_binary(width)"
+#!   FORMAT="ESRIASCIIGRID"
+#! />
+#! <DATA_TYPE
+#!   IS_SOURCE="true"
+#!   FORMAT_TYPE="char(254)"
+#!   FME_TYPE="fme_buffer"
+#!   FORMAT="ESRIASCIIGRID"
+#! />
+#! <DATA_TYPE
+#!   IS_SOURCE="true"
+#!   FORMAT_TYPE="char(254)"
+#!   FME_TYPE="fme_binarybuffer"
+#!   FORMAT="ESRIASCIIGRID"
+#! />
+#! <DATA_TYPE
+#!   IS_SOURCE="true"
+#!   FORMAT_TYPE="char(254)"
+#!   FME_TYPE="fme_xml"
+#!   FORMAT="ESRIASCIIGRID"
+#! />
+#! <DATA_TYPE
+#!   IS_SOURCE="true"
+#!   FORMAT_TYPE="char(254)"
+#!   FME_TYPE="fme_json"
+#!   FORMAT="ESRIASCIIGRID"
+#! />
+#! <DATA_TYPE
+#!   IS_SOURCE="true"
+#!   FORMAT_TYPE="datetime"
+#!   FME_TYPE="fme_datetime"
+#!   FORMAT="ESRIASCIIGRID"
+#! />
+#! <DATA_TYPE
+#!   IS_SOURCE="true"
+#!   FORMAT_TYPE="time"
+#!   FME_TYPE="fme_time"
+#!   FORMAT="ESRIASCIIGRID"
+#! />
+#! <DATA_TYPE
+#!   IS_SOURCE="true"
+#!   FORMAT_TYPE="date"
+#!   FME_TYPE="fme_date"
+#!   FORMAT="ESRIASCIIGRID"
+#! />
+#! <DATA_TYPE
+#!   IS_SOURCE="true"
+#!   FORMAT_TYPE="decimal(width,decimal)"
+#!   FME_TYPE="fme_decimal(width,decimal)"
+#!   FORMAT="ESRIASCIIGRID"
+#! />
+#! <DATA_TYPE
+#!   IS_SOURCE="true"
+#!   FORMAT_TYPE="float"
+#!   FME_TYPE="fme_real64"
+#!   FORMAT="ESRIASCIIGRID"
+#! />
+#! <DATA_TYPE
+#!   IS_SOURCE="true"
+#!   FORMAT_TYPE="float"
+#!   FME_TYPE="fme_real32"
+#!   FORMAT="ESRIASCIIGRID"
+#! />
+#! <DATA_TYPE
+#!   IS_SOURCE="true"
+#!   FORMAT_TYPE="integer"
+#!   FME_TYPE="fme_int32"
+#!   FORMAT="ESRIASCIIGRID"
+#! />
+#! <DATA_TYPE
+#!   IS_SOURCE="true"
+#!   FORMAT_TYPE="largeint"
+#!   FME_TYPE="fme_int64"
+#!   FORMAT="ESRIASCIIGRID"
+#! />
+#! <DATA_TYPE
+#!   IS_SOURCE="true"
+#!   FORMAT_TYPE="decimal(20,0)"
+#!   FME_TYPE="fme_uint64"
+#!   FORMAT="ESRIASCIIGRID"
+#! />
+#! <DATA_TYPE
+#!   IS_SOURCE="true"
+#!   FORMAT_TYPE="largeint"
+#!   FME_TYPE="fme_uint32"
+#!   FORMAT="ESRIASCIIGRID"
+#! />
+#! <DATA_TYPE
+#!   IS_SOURCE="true"
+#!   FORMAT_TYPE="logical"
+#!   FME_TYPE="fme_boolean"
+#!   FORMAT="ESRIASCIIGRID"
+#! />
+#! <DATA_TYPE
+#!   IS_SOURCE="true"
+#!   FORMAT_TYPE="smallint"
+#!   FME_TYPE="fme_int16"
+#!   FORMAT="ESRIASCIIGRID"
+#! />
+#! <DATA_TYPE
+#!   IS_SOURCE="true"
+#!   FORMAT_TYPE="integer"
+#!   FME_TYPE="fme_uint16"
+#!   FORMAT="ESRIASCIIGRID"
+#! />
+#! <DATA_TYPE
+#!   IS_SOURCE="true"
+#!   FORMAT_TYPE="smallint"
+#!   FME_TYPE="fme_int8"
+#!   FORMAT="ESRIASCIIGRID"
+#! />
+#! <DATA_TYPE
+#!   IS_SOURCE="true"
+#!   FORMAT_TYPE="smallint"
+#!   FME_TYPE="fme_uint8"
+#!   FORMAT="ESRIASCIIGRID"
+#! />
+#! <DATA_TYPE
+#!   IS_SOURCE="false"
+#!   FORMAT_TYPE="char(width)"
+#!   FME_TYPE="fme_varchar(width)"
+#!   FORMAT="GEOTIFF"
+#! />
+#! <DATA_TYPE
+#!   IS_SOURCE="false"
+#!   FORMAT_TYPE="char(width)"
+#!   FME_TYPE="fme_varbinary(width)"
+#!   FORMAT="GEOTIFF"
+#! />
+#! <DATA_TYPE
+#!   IS_SOURCE="false"
+#!   FORMAT_TYPE="char(width)"
+#!   FME_TYPE="fme_char(width)"
+#!   FORMAT="GEOTIFF"
+#! />
+#! <DATA_TYPE
+#!   IS_SOURCE="false"
+#!   FORMAT_TYPE="char(width)"
+#!   FME_TYPE="fme_binary(width)"
+#!   FORMAT="GEOTIFF"
+#! />
+#! <DATA_TYPE
+#!   IS_SOURCE="false"
+#!   FORMAT_TYPE="char(254)"
+#!   FME_TYPE="fme_buffer"
+#!   FORMAT="GEOTIFF"
+#! />
+#! <DATA_TYPE
+#!   IS_SOURCE="false"
+#!   FORMAT_TYPE="char(254)"
+#!   FME_TYPE="fme_binarybuffer"
+#!   FORMAT="GEOTIFF"
+#! />
+#! <DATA_TYPE
+#!   IS_SOURCE="false"
+#!   FORMAT_TYPE="char(254)"
+#!   FME_TYPE="fme_xml"
+#!   FORMAT="GEOTIFF"
+#! />
+#! <DATA_TYPE
+#!   IS_SOURCE="false"
+#!   FORMAT_TYPE="char(254)"
+#!   FME_TYPE="fme_json"
+#!   FORMAT="GEOTIFF"
+#! />
+#! <DATA_TYPE
+#!   IS_SOURCE="false"
+#!   FORMAT_TYPE="datetime"
+#!   FME_TYPE="fme_datetime"
+#!   FORMAT="GEOTIFF"
+#! />
+#! <DATA_TYPE
+#!   IS_SOURCE="false"
+#!   FORMAT_TYPE="time"
+#!   FME_TYPE="fme_time"
+#!   FORMAT="GEOTIFF"
+#! />
+#! <DATA_TYPE
+#!   IS_SOURCE="false"
+#!   FORMAT_TYPE="date"
+#!   FME_TYPE="fme_date"
+#!   FORMAT="GEOTIFF"
+#! />
+#! <DATA_TYPE
+#!   IS_SOURCE="false"
+#!   FORMAT_TYPE="decimal(width,decimal)"
+#!   FME_TYPE="fme_decimal(width,decimal)"
+#!   FORMAT="GEOTIFF"
+#! />
+#! <DATA_TYPE
+#!   IS_SOURCE="false"
+#!   FORMAT_TYPE="float"
+#!   FME_TYPE="fme_real64"
+#!   FORMAT="GEOTIFF"
+#! />
+#! <DATA_TYPE
+#!   IS_SOURCE="false"
+#!   FORMAT_TYPE="float"
+#!   FME_TYPE="fme_real32"
+#!   FORMAT="GEOTIFF"
+#! />
+#! <DATA_TYPE
+#!   IS_SOURCE="false"
+#!   FORMAT_TYPE="integer"
+#!   FME_TYPE="fme_int32"
+#!   FORMAT="GEOTIFF"
+#! />
+#! <DATA_TYPE
+#!   IS_SOURCE="false"
+#!   FORMAT_TYPE="largeint"
+#!   FME_TYPE="fme_int64"
+#!   FORMAT="GEOTIFF"
+#! />
+#! <DATA_TYPE
+#!   IS_SOURCE="false"
+#!   FORMAT_TYPE="decimal(20,0)"
+#!   FME_TYPE="fme_uint64"
+#!   FORMAT="GEOTIFF"
+#! />
+#! <DATA_TYPE
+#!   IS_SOURCE="false"
+#!   FORMAT_TYPE="largeint"
+#!   FME_TYPE="fme_uint32"
+#!   FORMAT="GEOTIFF"
+#! />
+#! <DATA_TYPE
+#!   IS_SOURCE="false"
+#!   FORMAT_TYPE="logical"
+#!   FME_TYPE="fme_boolean"
+#!   FORMAT="GEOTIFF"
+#! />
+#! <DATA_TYPE
+#!   IS_SOURCE="false"
+#!   FORMAT_TYPE="smallint"
+#!   FME_TYPE="fme_int16"
+#!   FORMAT="GEOTIFF"
+#! />
+#! <DATA_TYPE
+#!   IS_SOURCE="false"
+#!   FORMAT_TYPE="integer"
+#!   FME_TYPE="fme_uint16"
+#!   FORMAT="GEOTIFF"
+#! />
+#! <DATA_TYPE
+#!   IS_SOURCE="false"
+#!   FORMAT_TYPE="smallint"
+#!   FME_TYPE="fme_int8"
+#!   FORMAT="GEOTIFF"
+#! />
+#! <DATA_TYPE
+#!   IS_SOURCE="false"
+#!   FORMAT_TYPE="smallint"
+#!   FME_TYPE="fme_uint8"
+#!   FORMAT="GEOTIFF"
+#! />
+#! </DATA_TYPES>
+#! <GEOM_TYPES>
+#! <GEOM_TYPE
+#!   IS_SOURCE="true"
+#!   FORMAT_TYPE="esriasciigrid_raster"
+#!   FME_TYPE="fme_raster"
+#!   FORMAT="ESRIASCIIGRID"
+#! />
+#! <GEOM_TYPE
+#!   IS_SOURCE="true"
+#!   FORMAT_TYPE="fme_no_map"
+#!   FME_TYPE="fme_point"
+#!   FORMAT="ESRIASCIIGRID"
+#! />
+#! <GEOM_TYPE
+#!   IS_SOURCE="true"
+#!   FORMAT_TYPE="fme_no_map"
+#!   FME_TYPE="fme_no_geom"
+#!   FORMAT="ESRIASCIIGRID"
+#! />
+#! <GEOM_TYPE
+#!   IS_SOURCE="true"
+#!   FORMAT_TYPE="fme_no_map"
+#!   FME_TYPE="fme_text"
+#!   FORMAT="ESRIASCIIGRID"
+#! />
+#! <GEOM_TYPE
+#!   IS_SOURCE="true"
+#!   FORMAT_TYPE="fme_no_map"
+#!   FME_TYPE="fme_line"
+#!   FORMAT="ESRIASCIIGRID"
+#! />
+#! <GEOM_TYPE
+#!   IS_SOURCE="true"
+#!   FORMAT_TYPE="fme_no_map"
+#!   FME_TYPE="fme_arc"
+#!   FORMAT="ESRIASCIIGRID"
+#! />
+#! <GEOM_TYPE
+#!   IS_SOURCE="true"
+#!   FORMAT_TYPE="fme_no_map"
+#!   FME_TYPE="fme_area"
+#!   FORMAT="ESRIASCIIGRID"
+#! />
+#! <GEOM_TYPE
+#!   IS_SOURCE="true"
+#!   FORMAT_TYPE="fme_no_map"
+#!   FME_TYPE="fme_rectangle"
+#!   FORMAT="ESRIASCIIGRID"
+#! />
+#! <GEOM_TYPE
+#!   IS_SOURCE="true"
+#!   FORMAT_TYPE="fme_no_map"
+#!   FME_TYPE="fme_rounded_rectangle"
+#!   FORMAT="ESRIASCIIGRID"
+#! />
+#! <GEOM_TYPE
+#!   IS_SOURCE="true"
+#!   FORMAT_TYPE="fme_no_map"
+#!   FME_TYPE="fme_ellipse"
+#!   FORMAT="ESRIASCIIGRID"
+#! />
+#! <GEOM_TYPE
+#!   IS_SOURCE="true"
+#!   FORMAT_TYPE="fme_no_map"
+#!   FME_TYPE="fme_surface"
+#!   FORMAT="ESRIASCIIGRID"
+#! />
+#! <GEOM_TYPE
+#!   IS_SOURCE="true"
+#!   FORMAT_TYPE="fme_no_map"
+#!   FME_TYPE="fme_solid"
+#!   FORMAT="ESRIASCIIGRID"
+#! />
+#! <GEOM_TYPE
+#!   IS_SOURCE="true"
+#!   FORMAT_TYPE="fme_no_map"
+#!   FME_TYPE="fme_point_cloud"
+#!   FORMAT="ESRIASCIIGRID"
+#! />
+#! <GEOM_TYPE
+#!   IS_SOURCE="true"
+#!   FORMAT_TYPE="fme_no_map"
+#!   FME_TYPE="fme_voxel_grid"
+#!   FORMAT="ESRIASCIIGRID"
+#! />
+#! <GEOM_TYPE
+#!   IS_SOURCE="true"
+#!   FORMAT_TYPE="fme_no_map"
+#!   FME_TYPE="fme_collection"
+#!   FORMAT="ESRIASCIIGRID"
+#! />
+#! <GEOM_TYPE
+#!   IS_SOURCE="false"
+#!   FORMAT_TYPE="geotiff_raster"
+#!   FME_TYPE="fme_raster"
+#!   FORMAT="GEOTIFF"
+#! />
+#! <GEOM_TYPE
+#!   IS_SOURCE="false"
+#!   FORMAT_TYPE="geotiff_none"
+#!   FME_TYPE="fme_no_geom"
+#!   FORMAT="GEOTIFF"
+#! />
+#! <GEOM_TYPE
+#!   IS_SOURCE="false"
+#!   FORMAT_TYPE="fme_no_map"
+#!   FME_TYPE="fme_point"
+#!   FORMAT="GEOTIFF"
+#! />
+#! <GEOM_TYPE
+#!   IS_SOURCE="false"
+#!   FORMAT_TYPE="fme_no_map"
+#!   FME_TYPE="fme_text"
+#!   FORMAT="GEOTIFF"
+#! />
+#! <GEOM_TYPE
+#!   IS_SOURCE="false"
+#!   FORMAT_TYPE="fme_no_map"
+#!   FME_TYPE="fme_line"
+#!   FORMAT="GEOTIFF"
+#! />
+#! <GEOM_TYPE
+#!   IS_SOURCE="false"
+#!   FORMAT_TYPE="fme_no_map"
+#!   FME_TYPE="fme_arc"
+#!   FORMAT="GEOTIFF"
+#! />
+#! <GEOM_TYPE
+#!   IS_SOURCE="false"
+#!   FORMAT_TYPE="fme_no_map"
+#!   FME_TYPE="fme_area"
+#!   FORMAT="GEOTIFF"
+#! />
+#! <GEOM_TYPE
+#!   IS_SOURCE="false"
+#!   FORMAT_TYPE="fme_no_map"
+#!   FME_TYPE="fme_ellipse"
+#!   FORMAT="GEOTIFF"
+#! />
+#! <GEOM_TYPE
+#!   IS_SOURCE="false"
+#!   FORMAT_TYPE="fme_no_map"
+#!   FME_TYPE="fme_rectangle"
+#!   FORMAT="GEOTIFF"
+#! />
+#! <GEOM_TYPE
+#!   IS_SOURCE="false"
+#!   FORMAT_TYPE="fme_no_map"
+#!   FME_TYPE="fme_rounded_rectangle"
+#!   FORMAT="GEOTIFF"
+#! />
+#! <GEOM_TYPE
+#!   IS_SOURCE="false"
+#!   FORMAT_TYPE="fme_no_map"
+#!   FME_TYPE="fme_no_geom"
+#!   FORMAT="GEOTIFF"
+#! />
+#! <GEOM_TYPE
+#!   IS_SOURCE="false"
+#!   FORMAT_TYPE="fme_no_map"
+#!   FME_TYPE="fme_surface"
+#!   FORMAT="GEOTIFF"
+#! />
+#! <GEOM_TYPE
+#!   IS_SOURCE="false"
+#!   FORMAT_TYPE="fme_no_map"
+#!   FME_TYPE="fme_solid"
+#!   FORMAT="GEOTIFF"
+#! />
+#! <GEOM_TYPE
+#!   IS_SOURCE="false"
+#!   FORMAT_TYPE="fme_no_map"
+#!   FME_TYPE="fme_point_cloud"
+#!   FORMAT="GEOTIFF"
+#! />
+#! <GEOM_TYPE
+#!   IS_SOURCE="false"
+#!   FORMAT_TYPE="fme_no_map"
+#!   FME_TYPE="fme_voxel_grid"
+#!   FORMAT="GEOTIFF"
+#! />
+#! <GEOM_TYPE
+#!   IS_SOURCE="false"
+#!   FORMAT_TYPE="geotiff_none"
+#!   FME_TYPE="fme_collection"
+#!   FORMAT="GEOTIFF"
+#! />
+#! </GEOM_TYPES>
+#! <FEATURE_TYPES>
+#! <FEATURE_TYPE
+#!   IS_SOURCE="true"
+#!   NODE_NAME="ESRIASCIIGRID"
+#!   FEATURE_TYPE_NAME=""
+#!   FEATURE_TYPE_NAME_QUALIFIER=""
+#!   IS_EDITABLE="false"
+#!   IDENTIFIER="2"
+#!   POSITION="-119.49737497374974 -230"
+#!   BOUNDING_RECT="-119.49737497374974 -230 482 65"
+#!   ORDER="500000000000000"
+#!   COLLAPSED="true"
+#!   KEYWORD="ESRIASCIIGRID_1"
+#!   PARMS_EDITED="true"
+#!   ENABLED="true"
+#!   FEAT_GEOMTYPE="esriasciigrid_raster"
+#!   HIDDEN_USER_ATTRS=""
+#!   MERGE_FILTER=""
+#!   MERGE_FILTER_TYPE="FILTER_TYPE_GLOB"
+#!   MERGE_FILTER_CASE_SENSITIVE="true"
+#!   DYNAMIC_SCHEMA="false"
+#! >
+#!     <FEAT_GEOMETRY NAME="" TYPE="esriasciigrid_raster" SPATIAL_TYPE=""/>
+#!     <FEAT_ATTRIBUTE ATTR_NAME="fme_basename" ATTR_TYPE="char(50)"  EXPOSABLE_ATTR="true" ATTR_HAS_PORT="true" ATTR_VALUE=""/>
+#! </FEATURE_TYPE>
+#! <FEATURE_TYPE
+#!   IS_SOURCE="false"
+#!   NODE_NAME="Raster1"
+#!   FEATURE_TYPE_NAME="@Value(fme_basename)"
+#!   FEATURE_TYPE_NAME_QUALIFIER=""
+#!   IS_EDITABLE="false"
+#!   IDENTIFIER="3"
+#!   POSITION="584.34984349843489 -230"
+#!   BOUNDING_RECT="584.34984349843489 -230 685 65"
+#!   ORDER="500000000000000"
+#!   COLLAPSED="false"
+#!   KEYWORD="GEOTIFF_1"
+#!   PARMS_EDITED="false"
+#!   ENABLED="true"
+#!   FEAT_GEOMTYPE=""
+#!   SCHEMA_ATTRIBUTE_SOURCE="0"
+#! >
+#!     <FEAT_GEOMETRY NAME="" TYPE="" SPATIAL_TYPE=""/>
+#!     <FEAT_ATTRIBUTE ATTR_NAME="fme_basename" ATTR_TYPE="char(50)"  EXPOSABLE_ATTR="true" ATTR_HAS_PORT="true" ATTR_VALUE=""/>
+#!     <DEFLINE_PARM PARM_NAME="geotiff_advanced_group" PARM_VALUE=""/>
+#!     <DEFLINE_PARM PARM_NAME="geotiff_byte_order" PARM_VALUE="machine"/>
+#!     <DEFLINE_PARM PARM_NAME="geotiff_calculate_minmax_tifftags" PARM_VALUE="no"/>
+#!     <DEFLINE_PARM PARM_NAME="geotiff_compression_group" PARM_VALUE=""/>
+#!     <DEFLINE_PARM PARM_NAME="geotiff_compression_method" PARM_VALUE="none"/>
+#!     <DEFLINE_PARM PARM_NAME="geotiff_create_tiled_files" PARM_VALUE="no"/>
+#!     <DEFLINE_PARM PARM_NAME="geotiff_deflate_compression_level" PARM_VALUE="6"/>
+#!     <DEFLINE_PARM PARM_NAME="geotiff_enable_bigtiff" PARM_VALUE="no"/>
+#!     <DEFLINE_PARM PARM_NAME="geotiff_generate_pyramids" PARM_VALUE="NO"/>
+#!     <DEFLINE_PARM PARM_NAME="geotiff_interleaving_type" PARM_VALUE="BSQ"/>
+#!     <DEFLINE_PARM PARM_NAME="geotiff_jpeg_compression_level" PARM_VALUE="25"/>
+#!     <DEFLINE_PARM PARM_NAME="geotiff_layer_group" PARM_VALUE=""/>
+#!     <DEFLINE_PARM PARM_NAME="geotiff_lerc_max_z_error" PARM_VALUE="0"/>
+#!     <DEFLINE_PARM PARM_NAME="geotiff_metadata_group" PARM_VALUE=""/>
+#!     <DEFLINE_PARM PARM_NAME="geotiff_number_of_bits_per_cell" PARM_VALUE=""/>
+#!     <DEFLINE_PARM PARM_NAME="geotiff_photometric_interpretation" PARM_VALUE="Auto"/>
+#!     <DEFLINE_PARM PARM_NAME="geotiff_pyramid_interpolation_type" PARM_VALUE="&lt;Unused&gt;"/>
+#!     <DEFLINE_PARM PARM_NAME="geotiff_pyramid_num_levels" PARM_VALUE="&lt;Unused&gt;"/>
+#!     <DEFLINE_PARM PARM_NAME="geotiff_pyramid_tile_size" PARM_VALUE="&lt;Unused&gt;"/>
+#!     <DEFLINE_PARM PARM_NAME="geotiff_tab_file_generation" PARM_VALUE="no"/>
+#!     <DEFLINE_PARM PARM_NAME="geotiff_tile_group" PARM_VALUE=""/>
+#!     <DEFLINE_PARM PARM_NAME="geotiff_tile_size_x" PARM_VALUE=""/>
+#!     <DEFLINE_PARM PARM_NAME="geotiff_tile_size_y" PARM_VALUE=""/>
+#!     <DEFLINE_PARM PARM_NAME="geotiff_world_file_generation" PARM_VALUE="no"/>
+#!     <DEFLINE_PARM PARM_NAME="geotiff_zstd_compression_level" PARM_VALUE="9"/>
+#! </FEATURE_TYPE>
+#! </FEATURE_TYPES>
+#! <FMESERVER>
+#! <READER_DATASETS>
+#! <DATASET
+#!   NAME="ESRIASCIIGRID_1"
+#!   OVERRIDE="-ESRIASCIIGRID_1_DATASET"
+#!   DATASET="ESRIASCIIGRID_1/*.grd&quot;&quot;"
+#! />
+#! </READER_DATASETS>
+#! <WRITER_DATASETS>
+#! <DATASET
+#!   NAME="GEOTIFF_1"
+#!   OVERRIDE="-GEOTIFF_1_DATASET"
+#!   DATASET="GEOTIFF_1/GEOTIFF"
+#! />
+#! </WRITER_DATASETS>
+#! </FMESERVER>
+#! <GLOBAL_PARAMETERS>
+#! <GLOBAL_PARAMETER
+#!   GUI_LINE="GUI MULTIFILE SourceDataset_ESRIASCIIGRID INCLUDE_WEB_BROWSER%ASC_Files/GRD_Files(*.asc;*.grd)|*.asc;*.grd|ASC_Files(*.asc)|*.asc|GRD_Files(*.grd)|*.grd|Archive_Files(*.7z;*.7zip;*.rar;*.rvz;*.tar;*.tar.bz2;*.tar.gz;*.tgz;*.zip;*.zipx)|*.7z;*.7zip;*.rar;*.rvz;*.tar;*.tar.bz2;*.tar.gz;*.tgz;*.zip;*.zipx|Compressed_Files(*.bz2;*.gz)|*.bz2;*.gz|All_Files(*)|* Source Esri ASCII Grid File(s):"
+#!   DEFAULT_VALUE="&quot;&quot;$(FME_MF_DIR)MARKMODELL\01m\ASCII\*.asc&quot; &quot;$(FME_MF_DIR)MARKMODELL\01m\ASCII\*.grd&quot;&quot;"
+#!   IS_STAND_ALONE="false"
+#! />
+#! <GLOBAL_PARAMETER
+#!   GUI_LINE="GUI DIRNAME DestDataset_GEOTIFF Destination GeoTIFF Folder:"
+#!   DEFAULT_VALUE="$(FME_MF_DIR)MARKMODELL\01m\GEOTIFF"
+#!   IS_STAND_ALONE="false"
+#! />
+#! </GLOBAL_PARAMETERS>
+#! <USER_PARAMETERS
+#!   FORM="eyJwYXJhbWV0ZXJzIjpbeyJuYW1lIjoiU291cmNlRGF0YXNldF9FU1JJQVNDSUlHUklEIiwicHJvbXB0IjoiU291cmNlIEVzcmkgQVNDSUkgR3JpZCBGaWxlKHMpOiIsInZhbHVlVHlwZSI6InN0cmluZyIsImRlZmF1bHRWYWx1ZSI6IlwiXCIkKEZNRV9NRl9ESVIpTUFSS01PREVMTFxcMDFtXFxBU0NJSVxcKi5hc2NcIiBcIiQoRk1FX01GX0RJUilNQVJLTU9ERUxMXFwwMW1cXEFTQ0lJXFwqLmdyZFwiXCIiLCJ0eXBlIjoiZmlsZSIsImFjY2Vzc01vZGUiOiJyZWFkIiwiaXRlbXNUb1NlbGVjdCI6ImZpbGVzIiwic2VsZWN0TXVsdGlwbGUiOnRydWUsInZhbGlkYXRlRXhpc3RlbmNlIjpmYWxzZSwiZmlsdGVycyI6W3siZmlsdGVyIjpbIiouYXNjIiwiKi5ncmQiXSwiZGVzY3JpcHRpb24iOiJBU0MgRmlsZXMvR1JEIEZpbGVzIn0seyJmaWx0ZXIiOlsiKi5hc2MiXSwiZGVzY3JpcHRpb24iOiJBU0MgRmlsZXMifSx7ImZpbHRlciI6WyIqLmdyZCJdLCJkZXNjcmlwdGlvbiI6IkdSRCBGaWxlcyJ9LHsiZmlsdGVyIjpbIiouN3oiLCIqLjd6aXAiLCIqLnJhciIsIioucnZ6IiwiKi50YXIiLCIqLnRhci5iejIiLCIqLnRhci5neiIsIioudGd6IiwiKi56aXAiLCIqLnppcHgiXSwiZGVzY3JpcHRpb24iOiJBcmNoaXZlIEZpbGVzIn0seyJmaWx0ZXIiOlsiKi5iejIiLCIqLmd6Il0sImRlc2NyaXB0aW9uIjoiQ29tcHJlc3NlZCBGaWxlcyJ9LHsiZmlsdGVyIjpbIioiXSwiZGVzY3JpcHRpb24iOiJBbGwgRmlsZXMifV0sImluY2x1ZGVXZWJCcm93c2VyIjp0cnVlfSx7Im5hbWUiOiJEZXN0RGF0YXNldF9HRU9USUZGIiwicHJvbXB0IjoiRGVzdGluYXRpb24gR2VvVElGRiBGb2xkZXI6IiwidmFsdWVUeXBlIjoic3RyaW5nIiwiZGVmYXVsdFZhbHVlIjoiJChGTUVfTUZfRElSKU1BUktNT0RFTExcXDAxbVxcR0VPVElGRiIsInR5cGUiOiJmaWxlIiwiYWNjZXNzTW9kZSI6IndyaXRlIiwiaXRlbXNUb1NlbGVjdCI6ImZvbGRlcnMiLCJzZWxlY3RNdWx0aXBsZSI6ZmFsc2UsInZhbGlkYXRlRXhpc3RlbmNlIjpmYWxzZX1dfQ=="
+#! >
+#! <PARAMETER_INFO>
+#!     <INFO NAME="SourceDataset_ESRIASCIIGRID" 
+#!   DEFAULT_VALUE="&quot;&quot;$(FME_MF_DIR)MARKMODELL\01m\ASCII\*.asc&quot; &quot;$(FME_MF_DIR)MARKMODELL\01m\ASCII\*.grd&quot;&quot;"
+#!   SCOPE="DEPENDENT"
+#!   GENERATED_GUI_LINE="true"
+#!   GUI_LINE="GUI MULTIFILE SourceDataset_ESRIASCIIGRID INCLUDE_WEB_BROWSER%ASC_Files/GRD_Files(*.asc;*.grd)|*.asc;*.grd|ASC_Files(*.asc)|*.asc|GRD_Files(*.grd)|*.grd|Archive_Files(*.7z;*.7zip;*.rar;*.rvz;*.tar;*.tar.bz2;*.tar.gz;*.tgz;*.zip;*.zipx)|*.7z;*.7zip;*.rar;*.rvz;*.tar;*.tar.bz2;*.tar.gz;*.tgz;*.zip;*.zipx|Compressed_Files(*.bz2;*.gz)|*.bz2;*.gz|All_Files(*)|* Source Esri ASCII Grid File(s):"
+#! />
+#!     <INFO NAME="DestDataset_GEOTIFF" 
+#!   DEFAULT_VALUE="$(FME_MF_DIR)MARKMODELL\01m\GEOTIFF"
+#!   SCOPE="DEPENDENT"
+#!   GENERATED_GUI_LINE="true"
+#!   GUI_LINE="GUI DIRNAME DestDataset_GEOTIFF Destination GeoTIFF Folder:"
+#! />
+#! </PARAMETER_INFO>
+#! </USER_PARAMETERS>
+#! <COMMENTS>
+#! </COMMENTS>
+#! <CONSTANTS>
+#! </CONSTANTS>
+#! <BOOKMARKS>
+#! </BOOKMARKS>
+#! <TRANSFORMERS>
+#! </TRANSFORMERS>
+#! <FEAT_LINKS>
+#! <FEAT_LINK
+#!   IDENTIFIER="5"
+#!   SOURCE_NODE="2"
+#!   TARGET_NODE="3"
+#!   SOURCE_PORT_DESC="-1"
+#!   TARGET_PORT_DESC="-1"
+#!   ENABLED="true"
+#!   EXECUTION_IDX="0"
+#!   HIDDEN="false"
+#!   COLOUR="0.050980392156862744,0.050980392156862744,0.047058823529411764,1"
+#!   PEN_WIDTH="4"
+#!   PEN_STYLE="1"
+#!   LINK_STYLE_NAME="&lt;Default&gt;"
+#!   EXTRA_POINTS=""
+#! />
+#! </FEAT_LINKS>
+#! <BREAKPOINTS>
+#! </BREAKPOINTS>
+#! <ATTR_LINKS>
+#! </ATTR_LINKS>
+#! <SUBDOCUMENTS>
+#! </SUBDOCUMENTS>
+#! <LOOKUP_TABLES>
+#! </LOOKUP_TABLES>
+#! </WORKSPACE>
+
+FME_PYTHON_VERSION 310
+ARCGIS_COMPATIBILITY ARCGIS_AUTO
+GUI IGNORE SourceDataset_ESRIASCIIGRID_1,ESRIASCIIGRID_IN_USE_SEARCH_ENVELOPE_ESRIASCIIGRID_1,ESRIASCIIGRID_IN_SEARCH_ENVELOPE_MINX_ESRIASCIIGRID_1,ESRIASCIIGRID_IN_SEARCH_ENVELOPE_MINY_ESRIASCIIGRID_1,ESRIASCIIGRID_IN_SEARCH_ENVELOPE_MAXX_ESRIASCIIGRID_1,ESRIASCIIGRID_IN_SEARCH_ENVELOPE_MAXY_ESRIASCIIGRID_1,ESRIASCIIGRID_IN_SEARCH_ENVELOPE_COORDINATE_SYSTEM_ESRIASCIIGRID_1,ESRIASCIIGRID_IN_CLIP_TO_ENVELOPE_ESRIASCIIGRID_1,ESRIASCIIGRID_IN_NETWORK_AUTHENTICATION_ESRIASCIIGRID_1,DestDataset_GEOTIFF_1,GEOTIFF_OUT_GEOTIFF_WRT_ADV_PARM_GROUP_GEOTIFF_1,GEOTIFF_OUT_WRITE_OFFSETS_IN_CS_UNITS_GEOTIFF_1,GEOTIFF_OUT_WRITE_PROJECTED_COORDSYS_AS_EPSG_CODE_GEOTIFF_1,GEOTIFF_OUT_WRITE_GEOGRAPHIC_COORDSYS_AS_EPSG_CODE_GEOTIFF_1,GEOTIFF_OUT_WRITE_GEOGRAPHIC_KEYS_FOR_PROJECTED_COORDSYS_GEOTIFF_1,GEOTIFF_OUT_WRITE_ESRI_COMPATIBLE_COORDSYS_GEOTIFF_1,GEOTIFF_OUT_IGNORE_RASTER_TYPE_KEY_GEOTIFF_1
+# ============================================================================
+DEFAULT_MACRO SourceDataset_ESRIASCIIGRID ""$(FME_MF_DIR)MARKMODELL\01m\ASCII\*.asc" "$(FME_MF_DIR)MARKMODELL\01m\ASCII\*.grd""
+
+DEFAULT_MACRO DestDataset_GEOTIFF $(FME_MF_DIR)MARKMODELL\01m\GEOTIFF
+
+# ============================================================================
+INCLUDE [ if {{$(SourceDataset_ESRIASCIIGRID$encode)} == {}} { puts_real {Parameter 'SourceDataset_ESRIASCIIGRID' must be given a value.}; exit 1; }; ]
+INCLUDE [ if {{$(DestDataset_GEOTIFF$encode)} == {}} { puts_real {Parameter 'DestDataset_GEOTIFF' must be given a value.}; exit 1; }; ]
+#! START_HEADER
+#! START_WB_HEADER
+READER_TYPE MULTI_READER
+MULTI_READER_TYPE{0} ESRIASCIIGRID
+MULTI_READER_KEYWORD{0} ESRIASCIIGRID_1
+MULTI_READER_GEN_DIRECTIVES{0} ESRIASCIIGRID_EXPOSE_FORMAT_ATTRS,,SEARCH_ENVELOPE_COORDINATE_SYSTEM,,USE_SEARCH_ENVELOPE,NO,SEARCH_ENVELOPE_MAXY,0,SEARCH_ENVELOPE_MINX,0,_MERGE_SCHEMAS,YES,CLIP_TO_ENVELOPE,NO,SEARCH_ENVELOPE_MINY,0,GROUP_BY_DATASET,No,_EXTRA_DATASETS,C:<backslash>Users<backslash>SEIAMM<backslash>Documents<backslash>tyres<u00f6><backslash>BLOCK_1000<backslash>MARKMODELL<backslash>10m<backslash>ASCII<backslash>*.grd,SEARCH_ENVELOPE_MAXX,0,READER_META_ATTRIBUTES,fme_basename,EXPOSE_ATTRS_GROUP,
+WRITER_TYPE MULTI_WRITER
+WRITER_KEYWORD PRIMARY_DEST
+PRIMARY_DEST_DATASET_ORDER BY_ID
+PRIMARY_DEST_FIRST_WRITER_ID 0
+PRIMARY_DEST_TYPE{0} GEOTIFF
+PRIMARY_DEST_KEYWORD{0} GEOTIFF_1
+PRIMARY_DEST_GEN_DIRECTIVES{0} FORMAT_ATTRIBUTES_OVERRIDE_FEATURE_TYPE_PARAMETERS,No,WRITE_GEOGRAPHIC_KEYS_FOR_PROJECTED_COORDSYS,Yes,IGNORE_RASTER_TYPE_KEY,No,COORDINATE_SYSTEM_GRANULARITY,FEATURE,ADD_WRITER_NEXT_ACTION,automatic,WRITE_ESRI_COMPATIBLE_COORDSYS,No,WRITE_PROJECTED_COORDSYS_AS_EPSG_CODE,Yes,DESTINATION_DATASETTYPE_VALIDATION,Yes,GEOTIFF_WRT_ADV_PARM_GROUP,,WRITE_OFFSETS_IN_CS_UNITS,Yes,WRITE_GEOGRAPHIC_COORDSYS_AS_EPSG_CODE,Yes
+#! END_WB_HEADER
+#! START_WB_HEADER
+MACRO WB_KEYWORD "ESRIASCIIGRID_1"
+#! END_WB_HEADER
+#! START_SOURCE_HEADER ESRIASCIIGRID ESRIASCIIGRID_1
+# ============================================================================
+# The following GUI line prompts for a folder to be used as the
+# source of the ESRIASCIIGRID based files.
+# The user input is stored in a macro, which is then used to define
+# the dataset to be read.
+# The dataset this mapping file was generated from was:
+#! END_SOURCE_HEADER
+#! START_WB_HEADER
+DEFAULT_MACRO SourceDataset
+INCLUDE [ if {{$(SourceDataset)} != ""} {                        \
+ puts {DEFAULT_MACRO SourceDataset_ESRIASCIIGRID_1 $(SourceDataset)}     \
+ } ]
+#! END_WB_HEADER
+#! START_SOURCE_HEADER ESRIASCIIGRID ESRIASCIIGRID_1
+DEFAULT_MACRO SourceDataset_ESRIASCIIGRID_1 $(SourceDataset_ESRIASCIIGRID)
+GUI MULTIFILE SourceDataset_ESRIASCIIGRID_1 ASC_Files(*.asc)/GRD_Files(*.grd)|*.asc;*.grd|ASC_Files(*.asc)|*.asc|GRD_Files(*.grd)|*.grd|All_Files(*)|* Source Esri ASCII Grid File(s):
+DEFAULT_MACRO ESRIASCIIGRID_IN_READER_META_ATTRIBUTES_ESRIASCIIGRID_1 fme_basename
+ESRIASCIIGRID_1_READER_META_ATTRIBUTES "$(ESRIASCIIGRID_IN_READER_META_ATTRIBUTES_ESRIASCIIGRID_1)"
+DEFAULT_MACRO ESRIASCIIGRID_IN_GROUP_BY_DATASET_ESRIASCIIGRID_1 No
+ESRIASCIIGRID_1_GROUP_BY_DATASET "$(ESRIASCIIGRID_IN_GROUP_BY_DATASET_ESRIASCIIGRID_1)"
+DEFAULT_MACRO ESRIASCIIGRID_IN_EXPOSE_ATTRS_GROUP_ESRIASCIIGRID_1 
+ESRIASCIIGRID_1_EXPOSE_ATTRS_GROUP "$(ESRIASCIIGRID_IN_EXPOSE_ATTRS_GROUP_ESRIASCIIGRID_1)"
+# Include this file in source setting section to add external search envelope processing
+# Zero as a default means we don't do any search -- this makes workbench happier
+DEFAULT_MACRO ESRIASCIIGRID_IN_USE_SEARCH_ENVELOPE_ESRIASCIIGRID_1 NO
+ESRIASCIIGRID_1_USE_SEARCH_ENVELOPE "$(ESRIASCIIGRID_IN_USE_SEARCH_ENVELOPE_ESRIASCIIGRID_1)"
+GUI ACTIVEDISCLOSUREGROUP ESRIASCIIGRID_IN_USE_SEARCH_ENVELOPE_ESRIASCIIGRID_1 ESRIASCIIGRID_IN_SEARCH_ENVELOPE_MINX_ESRIASCIIGRID_1%ESRIASCIIGRID_IN_SEARCH_ENVELOPE_MINY_ESRIASCIIGRID_1%ESRIASCIIGRID_IN_SEARCH_ENVELOPE_MAXX_ESRIASCIIGRID_1%ESRIASCIIGRID_IN_SEARCH_ENVELOPE_MAXY_ESRIASCIIGRID_1%ESRIASCIIGRID_IN_SEARCH_ENVELOPE_COORDINATE_SYSTEM_ESRIASCIIGRID_1%ESRIASCIIGRID_IN_CLIP_TO_ENVELOPE_ESRIASCIIGRID_1%ESRIASCIIGRID_IN_SEARCH_METHOD%ESRIASCIIGRID_IN_SEARCH_METHOD_FILTER%ESRIASCIIGRID_IN_SEARCH_ORDER%ESRIASCIIGRID_IN_SEARCH_FEATURE%ESRIASCIIGRID_IN_DUMMY_SEARCH_ENVELOPE_PARAMETER Use Search Envelope
+# ===========================================================================
+GUI LOOKUP ESRIASCIIGRID_IN_SEARCH_ENVELOPE_MINX_ESRIASCIIGRID_1 <Unused>,0 
+DEFAULT_MACRO ESRIASCIIGRID_IN_SEARCH_ENVELOPE_MINX_ESRIASCIIGRID_1 0
+ESRIASCIIGRID_1_SEARCH_ENVELOPE "$(ESRIASCIIGRID_IN_SEARCH_ENVELOPE_MINX_ESRIASCIIGRID_1)"
+GUI OPTIONAL FLOAT ESRIASCIIGRID_IN_SEARCH_ENVELOPE_MINX_ESRIASCIIGRID_1 Minimum X:
+# ===========================================================================
+GUI LOOKUP ESRIASCIIGRID_IN_SEARCH_ENVELOPE_MINY_ESRIASCIIGRID_1 <Unused>,0 
+DEFAULT_MACRO ESRIASCIIGRID_IN_SEARCH_ENVELOPE_MINY_ESRIASCIIGRID_1 0
+ESRIASCIIGRID_1_SEARCH_ENVELOPE "$(ESRIASCIIGRID_IN_SEARCH_ENVELOPE_MINY_ESRIASCIIGRID_1)"
+GUI OPTIONAL FLOAT ESRIASCIIGRID_IN_SEARCH_ENVELOPE_MINY_ESRIASCIIGRID_1 Minimum Y:
+# ===========================================================================
+GUI LOOKUP ESRIASCIIGRID_IN_SEARCH_ENVELOPE_MAXX_ESRIASCIIGRID_1 <Unused>,0 
+DEFAULT_MACRO ESRIASCIIGRID_IN_SEARCH_ENVELOPE_MAXX_ESRIASCIIGRID_1 0
+ESRIASCIIGRID_1_SEARCH_ENVELOPE "$(ESRIASCIIGRID_IN_SEARCH_ENVELOPE_MAXX_ESRIASCIIGRID_1)"
+GUI OPTIONAL FLOAT ESRIASCIIGRID_IN_SEARCH_ENVELOPE_MAXX_ESRIASCIIGRID_1 Maximum X:
+# ===========================================================================
+GUI LOOKUP ESRIASCIIGRID_IN_SEARCH_ENVELOPE_MAXY_ESRIASCIIGRID_1 <Unused>,0 
+DEFAULT_MACRO ESRIASCIIGRID_IN_SEARCH_ENVELOPE_MAXY_ESRIASCIIGRID_1 0
+ESRIASCIIGRID_1_SEARCH_ENVELOPE "$(ESRIASCIIGRID_IN_SEARCH_ENVELOPE_MAXY_ESRIASCIIGRID_1)"
+GUI OPTIONAL FLOAT ESRIASCIIGRID_IN_SEARCH_ENVELOPE_MAXY_ESRIASCIIGRID_1 Maximum Y:
+# ===========================================================================
+GUI LOOKUP ESRIASCIIGRID_IN_SEARCH_ENVELOPE_COORDINATE_SYSTEM_ESRIASCIIGRID_1 <Unused>, 
+DEFAULT_MACRO ESRIASCIIGRID_IN_SEARCH_ENVELOPE_COORDINATE_SYSTEM_ESRIASCIIGRID_1 
+ESRIASCIIGRID_1_SEARCH_ENVELOPE "$(ESRIASCIIGRID_IN_SEARCH_ENVELOPE_COORDINATE_SYSTEM_ESRIASCIIGRID_1)"
+GUI OPTIONAL COORDSYS ESRIASCIIGRID_IN_SEARCH_ENVELOPE_COORDINATE_SYSTEM_ESRIASCIIGRID_1 Search Envelope Coordinate System:
+# ===========================================================================
+# BUG18999: We now have a soft clip to fall back on like native spatial index
+# thus we are reintroducing the clip to envelop as an option for users.
+# Defualt to soft clip as per the existing database readers we are emulating
+GUI LOOKUP ESRIASCIIGRID_IN_CLIP_TO_ENVELOPE_ESRIASCIIGRID_1 <Unused>,NO 
+DEFAULT_MACRO ESRIASCIIGRID_IN_CLIP_TO_ENVELOPE_ESRIASCIIGRID_1 NO
+ESRIASCIIGRID_1_CLIP_TO_ENVELOPE "$(ESRIASCIIGRID_IN_CLIP_TO_ENVELOPE_ESRIASCIIGRID_1)"
+GUI OPTIONAL CHECKBOX ESRIASCIIGRID_IN_CLIP_TO_ENVELOPE_ESRIASCIIGRID_1 YES%NO Clip to Search Envelope
+# ===========================================================================
+DEFAULT_MACRO ESRIASCIIGRID_IN_NETWORK_AUTHENTICATION_ESRIASCIIGRID_1 
+ESRIASCIIGRID_1_NETWORK_AUTHENTICATION "$(ESRIASCIIGRID_IN_NETWORK_AUTHENTICATION_ESRIASCIIGRID_1)"
+GUI OPTIONAL AUTHENTICATOR ESRIASCIIGRID_IN_NETWORK_AUTHENTICATION_ESRIASCIIGRID_1 CONTAINER%GROUP%CONTAINER_TITLE%"Network Authentication"%PROMPT_TYPE%NETWORK Network Authentication
+# ============================================================================
+DEFAULT_MACRO ESRIASCIIGRID_IN_ATTRIBUTE_READING_ESRIASCIIGRID_1 ALL
+ESRIASCIIGRID_1_ATTRIBUTE_READING "$(ESRIASCIIGRID_IN_ATTRIBUTE_READING_ESRIASCIIGRID_1)"
+# ============================================================================
+ESRIASCIIGRID_1_GENERATE_FME_BUILD_NUM 24820
+ESRIASCIIGRID_1_DATASET "$(SourceDataset_ESRIASCIIGRID_1)"
+#! END_SOURCE_HEADER
+#! START_WB_HEADER
+MACRO WB_KEYWORD "GEOTIFF_1"
+#! END_WB_HEADER
+#! START_DEST_HEADER GEOTIFF GEOTIFF_1
+# The following GUI lines prompt for a GEOTIFF file to be used as the
+# the destination of the data.
+# The user input is stored in a macro, which is then used to define
+# the dataset to be written.
+#! END_DEST_HEADER
+#! START_WB_HEADER
+DEFAULT_MACRO DestDataset
+INCLUDE [ if {"$(DestDataset)" != ""} {                          \
+ puts {DEFAULT_MACRO DestDataset_GEOTIFF_1 $(DestDataset)}         \
+ } ]
+#! END_WB_HEADER
+#! START_DEST_HEADER GEOTIFF GEOTIFF_1
+DEFAULT_MACRO DestDataset_GEOTIFF_1 $(DestDataset_GEOTIFF)
+GUI DIRNAME DestDataset_GEOTIFF_1 Destination GeoTIFF Folder:
+DEFAULT_MACRO _GEOTIFF_WRITER_WORLD_FILE_GENERATION_GEOTIFF_1 no
+DEFAULT_MACRO _GEOTIFF_WRITER_CREATE_TILED_FILES_GEOTIFF_1 no
+DEFAULT_MACRO _GEOTIFF_WRITER_TILE_SIZE_X_GEOTIFF_1 
+DEFAULT_MACRO _GEOTIFF_WRITER_TILE_SIZE_Y_GEOTIFF_1 
+DEFAULT_MACRO _GEOTIFF_WRITER_COMPRESSION_METHOD_GEOTIFF_1 none
+DEFAULT_MACRO _GEOTIFF_WRITER_JPEG_COMPRESSION_LEVEL_GEOTIFF_1 25
+DEFAULT_MACRO _GEOTIFF_WRITER_DEFLATE_COMPRESSION_LEVEL_GEOTIFF_1 6
+DEFAULT_MACRO _GEOTIFF_WRITER_ZSTD_COMPRESSION_LEVEL_GEOTIFF_1 9
+DEFAULT_MACRO _GEOTIFF_WRITER_LERC_MAX_Z_ERROR_GEOTIFF_1 0
+DEFAULT_MACRO _GEOTIFF_WRITER_TAB_FILE_GENERATION_GEOTIFF_1 no
+DEFAULT_MACRO _GEOTIFF_WRITER_NUMBER_OF_BITS_PER_CELL_GEOTIFF_1 
+DEFAULT_MACRO _GEOTIFF_WRITER_ENABLE_BIGTIFF_GEOTIFF_1 no
+DEFAULT_MACRO _GEOTIFF_WRITER_INTERLEAVING_TYPE_GEOTIFF_1 BSQ
+DEFAULT_MACRO _GEOTIFF_WRITER_PHOTOMETRIC_INTERPRETATION_GEOTIFF_1 Auto
+DEFAULT_MACRO _GEOTIFF_WRITER_BYTE_ORDER_GEOTIFF_1 machine
+DEFAULT_MACRO _GEOTIFF_WRITER_CALCULATE_MINMAX_TIFFTAGS_GEOTIFF_1 no
+DEFAULT_MACRO _GEOTIFF_WRITER_GENERATE_PYRAMIDS_GEOTIFF_1 no
+DEFAULT_MACRO _GEOTIFF_WRITER_PYRAMID_NUM_LEVELS_GEOTIFF_1 
+DEFAULT_MACRO _GEOTIFF_WRITER_PYRAMID_INTERPOLATION_TYPE_GEOTIFF_1 NearestNeighbor
+DEFAULT_MACRO _GEOTIFF_WRITER_PYRAMID_TILE_SIZE_GEOTIFF_1 128
+DEFAULT_MACRO GEOTIFF_OUT_FORMAT_ATTRIBUTES_OVERRIDE_FEATURE_TYPE_PARAMETERS_GEOTIFF_1 No
+GEOTIFF_1_FORMAT_ATTRIBUTES_OVERRIDE_FEATURE_TYPE_PARAMETERS "$(GEOTIFF_OUT_FORMAT_ATTRIBUTES_OVERRIDE_FEATURE_TYPE_PARAMETERS_GEOTIFF_1)"
+DEFAULT_MACRO GEOTIFF_OUT_GEOTIFF_WRT_ADV_PARM_GROUP_GEOTIFF_1 FME_DISCLOSURE_CLOSED
+GUI OPTIONAL DISCLOSUREGROUP GEOTIFF_OUT_GEOTIFF_WRT_ADV_PARM_GROUP_GEOTIFF_1 GEOTIFF_OUT_WRITE_OFFSETS_IN_CS_UNITS_GEOTIFF_1%GEOTIFF_OUT_WRITE_PROJECTED_COORDSYS_AS_EPSG_CODE_GEOTIFF_1%GEOTIFF_OUT_WRITE_GEOGRAPHIC_COORDSYS_AS_EPSG_CODE_GEOTIFF_1%GEOTIFF_OUT_WRITE_GEOGRAPHIC_KEYS_FOR_PROJECTED_COORDSYS_GEOTIFF_1%GEOTIFF_OUT_WRITE_ESRI_COMPATIBLE_COORDSYS_GEOTIFF_1%GEOTIFF_OUT_IGNORE_RASTER_TYPE_KEY_GEOTIFF_1 Advanced
+DEFAULT_MACRO GEOTIFF_OUT_WRITE_OFFSETS_IN_CS_UNITS_GEOTIFF_1 Yes
+GEOTIFF_1_WRITE_OFFSETS_IN_CS_UNITS "$(GEOTIFF_OUT_WRITE_OFFSETS_IN_CS_UNITS_GEOTIFF_1)"
+GUI CHOICE GEOTIFF_OUT_WRITE_OFFSETS_IN_CS_UNITS_GEOTIFF_1 Yes%No Offsets in Coordinate System Units:
+DEFAULT_MACRO GEOTIFF_OUT_WRITE_PROJECTED_COORDSYS_AS_EPSG_CODE_GEOTIFF_1 Yes
+GEOTIFF_1_WRITE_PROJECTED_COORDSYS_AS_EPSG_CODE "$(GEOTIFF_OUT_WRITE_PROJECTED_COORDSYS_AS_EPSG_CODE_GEOTIFF_1)"
+GUI CHOICE GEOTIFF_OUT_WRITE_PROJECTED_COORDSYS_AS_EPSG_CODE_GEOTIFF_1 Yes%No Write Projected Coordinate System as EPSG Code:
+DEFAULT_MACRO GEOTIFF_OUT_WRITE_GEOGRAPHIC_COORDSYS_AS_EPSG_CODE_GEOTIFF_1 Yes
+GEOTIFF_1_WRITE_GEOGRAPHIC_COORDSYS_AS_EPSG_CODE "$(GEOTIFF_OUT_WRITE_GEOGRAPHIC_COORDSYS_AS_EPSG_CODE_GEOTIFF_1)"
+GUI CHOICE GEOTIFF_OUT_WRITE_GEOGRAPHIC_COORDSYS_AS_EPSG_CODE_GEOTIFF_1 Yes%No Write Geographic Coordinate System as EPSG Code:
+DEFAULT_MACRO GEOTIFF_OUT_WRITE_GEOGRAPHIC_KEYS_FOR_PROJECTED_COORDSYS_GEOTIFF_1 Yes
+GEOTIFF_1_WRITE_GEOGRAPHIC_KEYS_FOR_PROJECTED_COORDSYS "$(GEOTIFF_OUT_WRITE_GEOGRAPHIC_KEYS_FOR_PROJECTED_COORDSYS_GEOTIFF_1)"
+GUI CHOICE GEOTIFF_OUT_WRITE_GEOGRAPHIC_KEYS_FOR_PROJECTED_COORDSYS_GEOTIFF_1 Yes%No Write Geographic Keys for Projected Coordinate Systems:
+DEFAULT_MACRO GEOTIFF_OUT_WRITE_ESRI_COMPATIBLE_COORDSYS_GEOTIFF_1 No
+GEOTIFF_1_WRITE_ESRI_COMPATIBLE_COORDSYS "$(GEOTIFF_OUT_WRITE_ESRI_COMPATIBLE_COORDSYS_GEOTIFF_1)"
+GUI CHOICE GEOTIFF_OUT_WRITE_ESRI_COMPATIBLE_COORDSYS_GEOTIFF_1 Yes%No Write Esri-Compatible Coordinate System:
+DEFAULT_MACRO GEOTIFF_OUT_IGNORE_RASTER_TYPE_KEY_GEOTIFF_1 No
+GEOTIFF_1_IGNORE_RASTER_TYPE_KEY "$(GEOTIFF_OUT_IGNORE_RASTER_TYPE_KEY_GEOTIFF_1)"
+GUI CHOICE GEOTIFF_OUT_IGNORE_RASTER_TYPE_KEY_GEOTIFF_1 Yes%No Ignore Raster Type Key:
+# ============================================================================
+# Opt in for destination dataset type vs format type validation
+DEFAULT_MACRO GEOTIFF_OUT_DESTINATION_DATASETTYPE_VALIDATION_GEOTIFF_1 Yes
+GEOTIFF_1_DESTINATION_DATASETTYPE_VALIDATION "$(GEOTIFF_OUT_DESTINATION_DATASETTYPE_VALIDATION_GEOTIFF_1)"
+DEFAULT_MACRO GEOTIFF_OUT_COORDINATE_SYSTEM_GRANULARITY_GEOTIFF_1 FEATURE
+GEOTIFF_1_COORDINATE_SYSTEM_GRANULARITY "$(GEOTIFF_OUT_COORDINATE_SYSTEM_GRANULARITY_GEOTIFF_1)"
+DEFAULT_MACRO GEOTIFF_OUT_FORMAT_ATTRIBUTES_OVERRIDE_FEATURE_TYPE_PARAMETERS_GEOTIFF_1 No
+GEOTIFF_1_FORMAT_ATTRIBUTES_OVERRIDE_FEATURE_TYPE_PARAMETERS "$(GEOTIFF_OUT_FORMAT_ATTRIBUTES_OVERRIDE_FEATURE_TYPE_PARAMETERS_GEOTIFF_1)"
+# ============================================================================
+GEOTIFF_1_GENERATE_FME_BUILD_NUM 24820
+GEOTIFF_1_DATASET "$(DestDataset_GEOTIFF_1)"
+#! END_DEST_HEADER
+#! START_WB_HEADER
+#! END_WB_HEADER
+#! END_HEADER
+
+LOG_FILENAME "$(FME_MF_DIR)$(WORKSPACE_NAME).log"
+LOG_APPEND NO
+LOG_MAX_FEATURES 200
+LOG_MAX_RECORDED_FEATURES 200
+FME_REPROJECTION_ENGINE FME
+FME_IMPLICIT_CSMAP_REPROJECTION_MODE Auto
+FME_GEOMETRY_HANDLING Enhanced
+FME_STROKE_MAX_DEVIATION 0
+FME_NAMES_ENCODING UTF-8
+FME_BULK_MODE_THRESHOLD 2000
+LAST_SAVE_BUILD "FME 2025.2.4.0 (20260225 - Build 25835 - WIN64)"
+DEFAULT_MACRO DATASET_KEYWORD_ESRIASCIIGRID_1 ESRIASCIIGRID_1
+DEFAULT_MACRO DATASET_KEYWORD_GEOTIFF_1 GEOTIFF_1
+# -------------------------------------------------------------------------
+
+ESRIASCIIGRID_1_READER_META_ATTRIBUTES fme_basename fme_feature_type
+
+# -------------------------------------------------------------------------
+
+ESRIASCIIGRID_1_COORDINATE_SYSTEM EPSG:3011
+GEOTIFF_1_COORDINATE_SYSTEM EPSG:3011
+MULTI_READER_CONTINUE_ON_READER_FAILURE No
+
+# -------------------------------------------------------------------------
+
+MACRO FME_VIEWER_APP fmedatainspector
+# -------------------------------------------------------------------------
+ESRIASCIIGRID_1_DEF ESRIASCIIGRID
+# -------------------------------------------------------------------------
+
+FACTORY_DEF * RoutingFactory   FACTORY_NAME "Router and Unexpected Input Remover"   COMMAND_PARM_EVALUATION SINGLE_PASS   MULTI_READER_KEYWORD $(DATASET_KEYWORD_ESRIASCIIGRID_1)   INPUT FEATURE_TYPE *    ROUTE ESRIASCIIGRID ESRIASCIIGRID_1::ESRIASCIIGRID multi_reader_keyword,$(DATASET_KEYWORD_ESRIASCIIGRID_1) TO FME_GENERIC ::ESRIASCIIGRID ALIAS_GEOMETRY    MERGE_INPUT Yes   OUTPUT ROUTED FEATURE_TYPE *
+ESRIASCIIGRID_1_MERGE_DEF ESRIASCIIGRID_1::ESRIASCIIGRID EXACT ESRIASCIIGRID
+# -------------------------------------------------------------------------
+
+FACTORY_DEF * TeeFactory    FACTORY_NAME "ESRIASCIIGRID_ESRIASCIIGRID_1 Splitter"    INPUT FEATURE_TYPE ESRIASCIIGRID    OUTPUT FEATURE_TYPE ESRIASCIIGRID_ESRIASCIIGRID_1
+DEFAULT_MACRO WB_CURRENT_CONTEXT
+# -------------------------------------------------------------------------
+
+FACTORY_DEF * RoutingFactory FACTORY_NAME "Destination Feature Type Routing Correlator"   COMMAND_PARM_EVALUATION SINGLE_PASS   INPUT FEATURE_TYPE *    ROUTE FME_GENERIC ESRIASCIIGRID_ESRIASCIIGRID_1 TO GEOTIFF __GO_TO_FINAL_OUTPUT_ROUTER__ multi_writer_id,0,<at>SupplyAttributes<openparen>ENCODED<comma>fme_template_feature_type<comma>Raster1<closeparen>,<at>EvaluateExpression<openparen>ATTR_CREATE_EXPR<comma>__wb_out_feat_type__<comma><lt>at<gt>Value<lt>openparen<gt>fme_basename<lt>closeparen<gt><comma>Raster1<closeparen> COORDINATE_SYSTEM EPSG:3011 GEOMETRY   FEATURE_TYPE_ATTRIBUTE __wb_out_feat_type__   OUTPUT ROUTED FEATURE_TYPE *    OUTPUT NOT_ROUTED FEATURE_TYPE __nuke_me__ @Tcl2("FME_StatMessage 818059 [FME_GetAttribute fme_template_feature_type] 818060 818061 fme_warn")
+# -------------------------------------------------------------------------
+
+FACTORY_DEF * TeeFactory   FACTORY_NAME "Final Output Nuker"   INPUT FEATURE_TYPE __nuke_me__
+
+# -------------------------------------------------------------------------
+GEOTIFF_1_DEF Raster1   geotiff_world_file_generation no   geotiff_create_tiled_files   no   geotiff_tile_size_x          ""   geotiff_tile_size_y          ""   geotiff_compression_method   none   geotiff_jpeg_compression_level 25   geotiff_deflate_compression_level 6   geotiff_zstd_compression_level 9   geotiff_lerc_max_z_error     0   geotiff_tab_file_generation  no   geotiff_number_of_bits_per_cell ""   geotiff_enable_bigtiff       no   geotiff_interleaving_type    BSQ   geotiff_photometric_interpretation Auto   geotiff_byte_order           machine   geotiff_calculate_minmax_tifftags no   geotiff_generate_pyramids    NO
