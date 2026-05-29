@@ -1,4 +1,4 @@
-# RUNBOOK: Felsökning och återställning
+# Felsökning och återställning
 
 > **Index:** [00-översikt.md](./00-översikt.md)
 
