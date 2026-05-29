@@ -1,4 +1,4 @@
-# RUNBOOK: Backup och uppgradering
+# Backup och uppgradering
 
 > **Index:** [00-översikt.md](./00-översikt.md)
 

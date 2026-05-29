@@ -1,4 +1,4 @@
-# RUNBOOK: Förutsättningar och installation
+# Förutsättningar och installation
 
 > **Index:** [00-översikt.md](./00-översikt.md)
 
