@@ -12,7 +12,7 @@ Flöde:
 - "Om det är en annan filtyp än DWG eller IFC avbryts flödet."
 - "Skickar DWG-jobb till FME Flow (dwg2view.fmw) med parametrar; väntar på resultat."
 - "Registrerar fil och metadata i PostGIS (lageryta.projekt + lageryta.filer + lageryta.fil_fastighet). Geometri tas från _geometry."
-- "Kopierar originalfilen till $(ROTMAP)\$(PROJEKTNAMN)_$(PROJEKT_ID)."
+- "Kopierar originalfilen till filservern."
 
 ### ovriga_handlingar_metadata.fmw
 Mycket likt huvudflödet ovan, men för "övriga handlingar" och med extra dokumentparametrar (t.ex. handlingstyp/skede/sökbar_synlig).
