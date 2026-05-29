@@ -28,7 +28,7 @@ Syftet med repot är att samla allt som krävs för att reproducera en miljö sa
 | Katalog      | Innehåll                                                        |
 | ------------ | --------------------------------------------------------------- |
 | `/Dokument/` |                |
-| `/FME/`    | FME-scriptför handlingar, metadata, och 3D-modeller                           |
+| `/FME/`    | FME-script för handlingar, metadata, och 3D-modeller                           |
 | `/Origo/`    | Statisk build av Origo (t.ex. v2.9.0)                           |
 | `/Origo_Admin/`    | Dokumentation Origo Admin, Installationsguide                          |
 | `/Plugins/`  | Origo-plugins                                                   |
