@@ -110,7 +110,7 @@ Konfiguration för FME Flow och IIS:
 
 ### För att dynamic_parameters.fmw, relationshandlingar_metadata.fmw och ovriga_handlingar_metadata.fmw ska fungera och skapa GLB-filer krävs följande
 Krav för GLB-konvertering:
-- Dessa Python-paket (ifcopenshell, pyproj, trimesh, pygltflib, concave-hull, scikit-learn, scipy) behöver installeras både i lokal FME och i FME Flow-engine där jobbet körs.
+- Dessa Python-paket (ifcopenshell, pyproj, trimesh, pygltflib, concave-hull, scikit-learn, scipy) behöver installeras både i FME Workbench och i FME Flow.
 -  Installeras med:
 	python -m pip install ifcopenshell pyproj trimesh pygltflib concave-hull scikit-learn scipy --target "X:\Safe Software\Fme{Flow}\resources\engine\Plugins\Python\python313"
 - FME Workbench kan behöva köras som administratör om Python-anropet inte hittar paketen.
