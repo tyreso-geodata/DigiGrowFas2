@@ -27,9 +27,9 @@ Flöde:
 Specialiserat underflöde för DWG-konvertering till visningsformat.
 
 Flöde:
-- "Kontrollerar om DWG:filen innhåller 3D-data"
-- "Om DWG:n inte innhåller 3D-data sparas filen som DXF för att kunna visualiseras i kartan"
-- "Om filen innehåller 3D-data så skapas en glb-fil med hjälp av ett python-script"
+- Kontrollerar om DWG:filen innhåller 3D-data
+- Om DWG:n inte innhåller 3D-data sparas filen som DXF för att kunna visualiseras i kartan
+- Om filen innehåller 3D-data så skapas en glb-fil med hjälp av ett python-script
 
 ### Relationshandling_API.fmw
 API-workspace (Data Virtualization) för hämtning av metadata och filer för visning och nedladdning.
@@ -82,3 +82,35 @@ flowchart LR
 	L -.stödjer.-> A
 	L -.stödjer.-> A2
 ```
+
+## Krav
+
+### För att Relationshandling_API.fmw och visualisering av 3D-data ska fungera krävs följande
+Konfiguration för FME Flow och IIS:
+- Workspace:t behöver publiceras som en FME Flow Data Virtualization API-tjänst.
+- För visualisering i klienten behöver API-svaret skicka följande headers:
+	- `x-epsg`
+	- `x-position`
+	- `x-translation`
+	- `x-rotheading`
+- I FME Flow ställs detta in under Network Settings i fältet `Access-Control-Expose-Headers`, där följande värde behöver anges:
+	- `x-epsg, x-position, x-translation, x-rotheading`
+- Om lösningen ligger bakom IIS behöver även IIS exponera samma headers. Lägg till följande i site:ens `web.config`:
+
+```xml
+<system.webServer>
+	<httpProtocol>
+		<customHeaders>
+			<add name="Access-Control-Expose-Headers"
+					 value="x-epsg, x-position, x-translation, x-rotheading" />
+		</customHeaders>
+	</httpProtocol>
+</system.webServer>
+```
+
+### För att dynamic_parameters.fmw, relationshandlingar_metadata.fmw och ovriga_handlingar_metadata.fmw ska fungera och skapa GLB-filer krävs följande
+Krav för GLB-konvertering:
+- Dessa Python-paket (ifcopenshell, pyproj, trimesh, pygltflib, concave-hull, scikit-learn, scipy) behöver installeras både i lokal FME och i FME Flow-engine där jobbet körs.
+-  Installeras med:
+	python -m pip install ifcopenshell pyproj trimesh pygltflib concave-hull scikit-learn scipy --target "X:\Safe Software\Fme{Flow}\resources\engine\Plugins\Python\python313"
+- FME Workbench kan behöva köras som administratör om Python-anropet inte hittar paketen.
