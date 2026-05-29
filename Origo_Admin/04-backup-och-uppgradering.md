@@ -8,10 +8,10 @@ Origo Admin lagrar kartkonfiguration i MongoDB och uppladdade mediafiler (ikoner
 
 Tyresö IT ansvarar för VM-backup på vCenter-nivå. Den backupen skyddar mot total VM-krasch eller diskhavereri. Applikationsbackupen nedan är ett komplement som skyddar mot dataförlust på applikationsnivå, exempelvis om en felaktig konfigurationsändring görs eller om någon av misstag kör `docker compose down -v`.
 
-|Backup-typ|Vad|Frekvens|Skyddar mot|
-|---|---|---|---|
-|**Daglig applikationsbackup**|MongoDB-dump + uppladdade mediafiler|Dagligen kl 02:00|Dataförlust, felaktig konfiguration|
-|**VM-backup (Tyresö IT)**|Hela VM:en|Enligt Tyresö policy|Total VM-krasch, korrupt disk|
+| Backup-typ                    | Vad                                  | Frekvens             | Skyddar mot                         |
+| ----------------------------- | ------------------------------------ | -------------------- | ----------------------------------- |
+| **Daglig applikationsbackup** | MongoDB-dump + uppladdade mediafiler | Dagligen kl 02:00    | Dataförlust, felaktig konfiguration |
+| **VM-backup (Tyresö IT)**     | Hela VM:en                           | Enligt Tyresö policy | Total VM-krasch, korrupt disk       |
 
 ### 7.1 Skapa backup-kataloger
 
@@ -25,7 +25,7 @@ sudo chown $USER:$USER /opt/backups/uploads
 ### 7.2 Skapa backup-skript
 
 ```bash
-# Kör denna för att path som ska läggas in i filen nere, uppdatera om det som visas inte är PROJECT_DIR="/home/origoadmin/origo-admin"
+# Kör pwd för att se din nuvarande sökväg. Uppdatera PROJECT_DIR i skriptet nedan om den skiljer sig från /home/origoadmin/origo-admin
 pwd
 ```
 
@@ -34,7 +34,6 @@ micro /opt/backups/mongodb/backup.sh
 ```
 
 Klistra in och **anpassa** `BACKUP_NAME`, `PROJECT_DIR` och MongoDB-lösenordet:
-
 
 ```bash
 #!/bin/bash
@@ -60,8 +59,7 @@ COMPOSE_FILES="-f docker-compose.yaml -f docker-compose.override.yaml -f docker-
 cd "$PROJECT_DIR" || exit 1
 
 # --- MongoDB-backup ---
-docker compose $COMPOSE_FILES exec -T mongodb mongodump --uri="mongodb://root:<MONGODB-LÖSENORD>
-@localhost/origoadmin?authSource=admin" --archive --gzip > "$BACKUP_DIR/$BACKUP_NAME-$TIMESTAMP.gz"
+docker compose $COMPOSE_FILES exec -T mongodb mongodump --uri="mongodb://root:<MONGODB-LÖSENORD>@localhost/origoadmin?authSource=admin" --archive --gzip > "$BACKUP_DIR/$BACKUP_NAME-$TIMESTAMP.gz"
 
 if [ $? -eq 0 ]; then
   echo "$(date): MongoDB backup OK - $BACKUP_NAME-$TIMESTAMP.gz" >> "$BACKUP_DIR/backup.log"
@@ -131,7 +129,7 @@ ls -lt /opt/backups/mongodb/origo-backup-prod-*.gz | head -5
 
 ```bash
 cd ~/origo-admin
-origo-authentik exec -T mongodb mongorestore --uri="mongodb://root:<MONGODB-LÖSENORD>@localhost/origoadmin?authSource=admin" --gzip --drop --archive < /opt/backups/mongodb/origo-backup-prod-20260409_1151.gz
+origo-authentik exec -T mongodb mongorestore --uri="mongodb://root:<MONGODB-LÖSENORD>@localhost/origoadmin?authSource=admin" --gzip --drop --archive < /opt/backups/mongodb/origo-backup-prod-<ÅÅÅÅMMDD_HHMM>.gz
 ```
 
 #### Mediafiler (uploads)
@@ -142,7 +140,7 @@ ls -lt /opt/backups/uploads/origo-backup-prod-uploads-*.tar.gz | head -5
 
 ```bash
 cd ~/origo-admin
-origo-authentik exec -T server sh -c "rm -rf /data/uploads/* && tar xzf - -C /data/uploads" < /opt/backups/uploads/origo-backup-prod-uploads-20260409_1151.tar.gz
+origo-authentik exec -T server sh -c "rm -rf /data/uploads/* && tar xzf - -C /data/uploads" < /opt/backups/uploads/origo-backup-prod-uploads-<ÅÅÅÅMMDD_HHMM>.tar.gz
 ```
 
 > **Viktigt:** Återställ alltid MongoDB och mediafiler från samma tidpunkt.

@@ -4,19 +4,15 @@ Denna guide visar hur du sätter upp en säker lösning där en Windows-server (
 
 **Runbooken är identisk för test- och produktionsmiljön.** Skillnaden mellan miljöerna ligger enbart i `.env` och `docker-compose.override.local.yaml`. Båda miljöerna använder Authentik som IdP.
 
----
-
 ## Vilket dokument behöver jag?
 
-| Vad vill du göra? | Dokument |
-|---|---|
-| Ny installation (VM → IIS uppe) | [01-förutsättningar-och-installation.md](01-förutsättningar-och-installation.md) |
-| Manuella källkodsfixar (buggfixar + proxy för publika kartor) | [02-källkodsfixar.md](02-källkodsfixar.md) |
-| Koppla Origo-kartklienten, lägga till lager | [03-kartklient-och-lager.md](03-kartklient-och-lager.md) |
-| Backup, återställning, uppgradera repot | [04-backup-och-uppgradering.md](04-backup-och-uppgradering.md) |
-| Något har gått sönder - snabbåterställning eller VM-krasch | [05-felsökning-och-återställning.md](05-felsökning-och-återställning.md) |
-
----
+| Vad vill du göra?                                                                                                                    | Dokument                                                                         |
+| ------------------------------------------------------------------------------------------------------------------------------------ | -------------------------------------------------------------------------------- |
+| Ny installation (VM → IIS uppe)                                                                                                      | [01-förutsättningar-och-installation.md](01-förutsättningar-och-installation.md) |
+| Obligatoriska källkodsfixar, buggfixar + proxy för publika kartor. Måste göras vid nyinstallation och kontrolleras efter `git pull`. | [02-källkodsfixar.md](02-källkodsfixar.md)                                       |
+| Koppla Origo-kartklienten, lägga till lager                                                                                          | [03-kartklient-och-lager.md](03-kartklient-och-lager.md)                         |
+| Backup, återställning, uppgradera repot                                                                                              | [04-backup-och-uppgradering.md](04-backup-och-uppgradering.md)                   |
+| Något har gått sönder - snabbåterställning eller VM-krasch                                                                           | [05-felsökning-och-återställning.md](05-felsökning-och-återställning.md)         |
 
 ## Arkitekturprinciper
 
@@ -53,8 +49,6 @@ Portar som måste vara öppna:
 
 > **Viktigt:** Port 3050 måste vara nåbar för alla användare som ska logga in i Origo Admin - inte bara administratörer.
 
----
-
 ### Driftlägen
 
 Systemet startas med:
@@ -77,15 +71,11 @@ Följande värden är de enda som skiljer sig mellan test och prod:
 |`BACKUP_NAME` i backup-skript|`origo-backup-test`|`origo-backup-prod`|
 |URL:er i `.env` och lokal override|Test-URL:er|Prod-URL:er|
 
----
-
 ## Identitetsprovider och AD/Entra ID
 
 Systemet är konfigurerat med Authentik som identitetsprovider (IdP). Authentik hanterar inloggning och behörigheter för Origo Admin.
 
 Om ni i framtiden vill byta till AD/Entra ID via er Microsoft-miljö - kontakta oss så hjälper vi er med det bytet.
-
----
 
 ## Kända buggar i repot
 
@@ -114,8 +104,6 @@ Fix: Sätt `NODE_ENV: development` under `build.args` för både `server` och `p
 **6. `NEXT_PUBLIC_PROXY_URL` och `NEXT_PUBLIC_BASE_PATH` som Docker-miljövariabler**
 `NEXT_PUBLIC_`-variabler bäddas in vid byggtid och läses inte från Docker-miljövariabler vid runtime. Klientens Dockerfile saknar dessa som ARG, vilket gör att de aldrig bäddas in om de bara sätts i override-filen.
 Fix: Sätt dem i `client/.env.production` innan bygget. Se steg 3.5 i [01-förutsättningar-och-installation.md](01-förutsättningar-och-installation.md).
-
----
 
 ## Verifiering
 

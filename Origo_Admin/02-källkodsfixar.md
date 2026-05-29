@@ -2,6 +2,7 @@
 
 > **Index:** [00-översikt.md](./00-översikt.md)
 
+
 Dessa ändringar görs manuellt i källkoden och måste **återupprepas efter `git pull`** om de skrivs över. Kontrollera alltid att de finns kvar efter en uppdatering.
 
 **Ordning vid nyinstallation:**

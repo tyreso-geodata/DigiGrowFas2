@@ -30,7 +30,7 @@ origo-authentik up -d
 origo-authentik ps
 ```
 
-> **Viktigt:** Om du kör `git checkout .` för att återställa repo-filer skrivs alla buggfixarna i [02-källkodsfixar.md](https://claude.ai/chat/02-k%C3%A4llkodsfixar.md) över. Återskapa dem och bygg om.
+> **Viktigt:** Om du kör `git checkout .` för att återställa repo-filer skrivs alla buggfixarna i [02-källkodsfixar.md](02-källkodsfixar.md) över. Återskapa dem och bygg om.
 
 ### Steg B: Återställ konfiguration från repo + backup
 
@@ -51,8 +51,8 @@ ls -lt /opt/backups/mongodb/origo-backup-prod-env-* | head -5
 ls -lt /opt/backups/mongodb/origo-backup-prod-override-*.yaml | head -5
 
 # Kopiera senaste versionen (ersätt tidsstämpel med den du vill använda)
-cp /opt/backups/mongodb/origo-backup-prod-env-20260304_0200 .env
-cp /opt/backups/mongodb/origo-backup-prod-override-20260304_0200.yaml docker-compose.override.local.yaml
+cp /opt/backups/mongodb/origo-backup-prod-env-<ÅÅÅÅMMDD_HHMM> .env
+cp /opt/backups/mongodb/origo-backup-prod-override-<ÅÅÅÅMMDD_HHMM>.yaml docker-compose.override.local.yaml
 chmod 600 .env docker-compose.override.local.yaml
 
 origo-authentik up -d
@@ -69,7 +69,7 @@ origo-authentik ps
 > # (hämta från lösenordshanterare eller dokumentation)
 > ```
 > 
-> Återskapa sedan lokal override enligt mallen i steg 3.4 i [01-förutsättningar-och-installation.md](https://claude.ai/chat/01-f%C3%B6ruts%C3%A4ttningar-och-installation.md). Skydda filen efteråt med `chmod 600 .env docker-compose.override.local.yaml`.
+> Återskapa sedan lokal override enligt mallen i steg 3.4 i [01-förutsättningar-och-installation.md](01-förutsättningar-och-installation.md). Skydda filen efteråt med `chmod 600 .env docker-compose.override.local.yaml`.
 
 ### Steg C: Återställ från daglig backup
 
@@ -87,10 +87,10 @@ origo-authentik ps server
 ls -lt /opt/backups/mongodb/origo-backup-prod-[0-9]*.gz | head -5
 
 # Återställ (ersätt tidsstämpel)
-origo-authentik exec -T mongodb mongorestore --uri="mongodb://root:<MONGODB-LÖSENORD>@localhost/origoadmin?authSource=admin" --gzip --drop --archive < /opt/backups/mongodb/origo-backup-prod-20260304_0200.gz
+origo-authentik exec -T mongodb mongorestore --uri="mongodb://root:<MONGODB-LÖSENORD>@localhost/origoadmin?authSource=admin" --gzip --drop --archive < /opt/backups/mongodb/origo-backup-prod-<ÅÅÅÅMMDD_HHMM>.gz
 
 # Återställ mediafiler (samma tidsstämpel)
-origo-authentik exec -T server sh -c "rm -rf /data/uploads/* && tar xzf - -C /data/uploads" < /opt/backups/uploads/origo-backup-prod-uploads-20260304_0200.tar.gz
+origo-authentik exec -T server sh -c "rm -rf /data/uploads/* && tar xzf - -C /data/uploads" < /opt/backups/uploads/origo-backup-prod-uploads-<ÅÅÅÅMMDD_HHMM>.tar.gz
 
 # Starta resterande tjänster
 origo-authentik up -d
@@ -122,7 +122,7 @@ sudo journalctl -u docker --since "1 hour ago"
 
 - [ ] Identifierat vad som gått fel (Steg A–D)
 - [ ] Repo-filer i känt tillstånd (`git checkout .`)
-- [ ] Buggfixar i [02-källkodsfixar.md](https://claude.ai/chat/02-k%C3%A4llkodsfixar.md) återskapade efter `git checkout .`
+- [ ] Buggfixar i [02-källkodsfixar.md](02-källkodsfixar.md) återskapade efter `git checkout .`
 - [ ] `.env` och lokal override korrekta
 - [ ] Docker-tjänster uppe och healthy (`origo-authentik ps`)
 - [ ] MongoDB återställd vid behov (Steg C)
@@ -171,15 +171,15 @@ origo-authentik ps server
 ls -lt /opt/backups/mongodb/origo-backup-prod-[0-9]*.gz | head -5
 
 # Återställ (ersätt tidsstämpel med den du vill använda)
-origo-authentik exec -T mongodb mongorestore --uri="mongodb://root:<MONGODB-LÖSENORD>@localhost/origoadmin?authSource=admin" --gzip --drop --archive < /opt/backups/mongodb/origo-backup-prod-20260304_0200.gz
+origo-authentik exec -T mongodb mongorestore --uri="mongodb://root:<MONGODB-LÖSENORD>@localhost/origoadmin?authSource=admin" --gzip --drop --archive < /opt/backups/mongodb/origo-backup-prod-<ÅÅÅÅMMDD_HHMM>.gz
 
 # Återställ mediafiler (samma tidsstämpel)
-origo-authentik exec -T server sh -c "rm -rf /data/uploads/* && tar xzf - -C /data/uploads" < /opt/backups/uploads/origo-backup-prod-uploads-20260304_0200.tar.gz
+origo-authentik exec -T server sh -c "rm -rf /data/uploads/* && tar xzf - -C /data/uploads" < /opt/backups/uploads/origo-backup-prod-uploads-<ÅÅÅÅMMDD_HHMM>.tar.gz
 ```
 
 > Återställ alltid MongoDB och mediafiler från samma tidpunkt. Data som lagts in efter senaste applikationsbackup (kl 02:00) kan inte återställas och får läggas in manuellt igen.
 
-### Steg 5: Verifiera allt
+### Steg 4: Verifiera allt
 
 ```bash
 origo-authentik ps
@@ -194,7 +194,7 @@ curl -s http://localhost:3000 > /dev/null && echo "Klient OK" || echo "Klient ne
 2. Logga in > Fungerar autentisering?
 3. Kontrollera kartinstanser > Finns datan från senaste backupen?
 
-### Steg 6: Verifiera backup-schemat
+### Steg 5: Verifiera backup-schemat
 
 ```bash
 crontab -l | grep backup

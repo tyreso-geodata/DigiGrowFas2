@@ -22,7 +22,6 @@ IIS (<PUBLIK-URL>)
     └── /application/o > Redirect till Authentik (VM port 3050)
 ```
 
----
 
 > **Förutsättning innan du börjar:** Fas 6.1 i [02-källkodsfixar.md](02-källkodsfixar.md) måste vara gjord. Den öppnar proxyn för oinloggade användare så att Origo-kartklienten kan hämta kartinstanser utan inloggning.
 
