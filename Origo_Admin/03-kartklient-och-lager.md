@@ -1,4 +1,4 @@
-# RUNBOOK: Kartklient och lager
+# Kartklient och lager
 
 > **Index:** [00-översikt.md](./00-översikt.md)
 
