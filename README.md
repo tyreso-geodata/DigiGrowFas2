@@ -5,6 +5,7 @@ Detta repository innehåller konfigurationer, installationer och byggfiler för 
 * **GeoServer** (Tomcat + IIS reverse proxy)
 * **QGIS Server** (IIS FastCGI)
 * **Origo-klient** (statisk build + plugins)
+* **Origo Admin**
 * **Miljöspecifika konfigurationer**
 
 Syftet med repot är att samla allt som krävs för att reproducera en miljö samt säkerställa att installationer och deployments kan versioneras och följas över tid.
@@ -14,12 +15,11 @@ Syftet med repot är att samla allt som krävs för att reproducera en miljö sa
 
 | Komponent       | Version  |
 | --------------- | -------- |
-| **Origo**       | (fyll i) |
+| **Origo**       | 2.9.0 |
 | **GeoServer**   | 2.28.0   |
 | **QGIS Server** | 3.44.3-Solothurn |
 | **QGIS Desktop** | 3.40.11 |
 | **Tomcat**      | 9.0.111 |
-| **Node.js**     | (fyll i) |
 | **PostgreSQL**  | 18 |
 
 
@@ -29,14 +29,20 @@ Syftet med repot är att samla allt som krävs för att reproducera en miljö sa
 | ------------ | --------------------------------------------------------------- |
 | `/Dokument/` |                |
 | `/Origo/`    | Statisk build av Origo (t.ex. v2.9.0)                           |
+| `/Origo_Admin/`    | Dokumentation Origo Admin, Installationsguide                          |
 | `/Plugins/`  | Origo-plugins                                                   |
 | `/Server/`   | Servermiljö: GeoServer, QGIS Server, IIS, Origo-build, Postgres |
-| `/Postgres/` | Installationer och scripts för PostgreSQL/PostGIS               |
+| `/Postgres/` | Installationer och scripts för PostgreSQL/PostGIS, dokumentation RelationshandlingarDB              |
+
 
 
 # Installationer (Servermiljö)
 
 Här finns länkar till installationsguider för Servermiljö.
+
+### **Origo Admin**
+
+[Öppna installationsguide](./Origo_Admin/00-översikt.md)
 
 ### **PostgreSQL / PostGIS**
 
