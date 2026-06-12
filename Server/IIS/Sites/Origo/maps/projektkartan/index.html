@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Projektkartan - DigiGrow</title>
+  <link href="/origo/build/css/style.css" rel="stylesheet">
+  <link href="/origo/build/css/digifilter.css" rel="stylesheet">
+  <link href="/origo/build/css/viewer-plugin.css" rel="stylesheet">
+  
+  <!-- Favicons -->
+  <link rel="apple-touch-icon" sizes="180x180" href="/favicon/apple-touch-icon.png">
+  <link rel="shortcut icon" href="https://www.tyreso.se/webdav/files/System/resources/graphics/icons/favicon-16x16.png">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/ol@v6.15.1/ol.css"> 
+</head>
+<body>
+  <!-- Header -->
+  <!-- FIX M6: removed the orphan </div> that appeared between the draw-search-btn
+       and the <nav>. There was no matching opening <div> for it; it caused the
+       browser to silently repair the tree in quirks mode, pushing the nav and logo
+       outside the header's flex context. -->
+  <header class="header">
+    <div class="header-brand">
+      Projektkartan
+    </div>
+    <button class="header-toggle-btn" id="header-toggle-btn">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M6 9l6 6 6-6" />
+      </svg>
+      Visa projektlistan
+    </button>
+    <button class="header-toggle-btn" id="draw-search-btn">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M12 2L2 7l10 5 10-5-10-5z"/>
+        <path d="M2 17l10 5 10-5"/>
+        <path d="M2 12l10 5 10-5"/>
+      </svg>
+      Rita sökyta
+    </button>
+    <nav class="header-nav">
+      <a href="https://kommunkarta.tyreso.se/origo/kartor/projektkartan/om-projektkartan/" class="header-link" target="_blank">Om projektkartan</a>
+      <a href="https://kommunkarta.tyreso.se/origo/kartor/3d/" class="header-link" target="_blank">3D-kartan</a>
+    </nav>
+    <img src="https://www.tyreso.se/webdav/files/System/resources/graphics/logo.svg" 
+         class="header-logo" 
+         alt="Tyresö kommuns logotyp" />
+  </header>
+
+  <!-- Map Container -->
+  <div class="map-container">
+    <div id="app-wrapper"></div>
+  </div>
+
+  <!-- Project Selector Panel -->
+  <div class="project-selector collapsed" id="project-selector">
+    <div class="selector-header">
+      <h2 class="selector-title">Projektlista</h2>
+      <button class="close-btn" id="close-selector">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M18 6L6 18M6 6l12 12"/>
+        </svg>
+      </button>
+    </div>
+    <div class="project-list" id="project-list"></div>
+  </div>
+
+  <!-- Features -->
+  <div class="features-panel" id="features-panel">
+    <div class="features-header">
+      <h2 class="features-title">Träffar inom projektområdet</h2>
+      <button class="close-btn" id="close-features">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M18 6L6 18M6 6l12 12"/>
+        </svg>
+      </button>
+    </div>
+    
+    <!-- Tab Navigation -->
+    <div class="features-tabs">
+      <button class="features-tab active" data-tab="arenden">LEX - Ärenden</button>
+      <button class="features-tab" data-tab="handlingar">LEX - Handlingar</button>
+      <button class="features-tab" data-tab="filer">Övriga handlingar</button>
+    </div>
+    
+    <!-- Ärenden -->
+    <div class="tab-content active" id="tab-arenden">
+      <div class="arenden-search">
+        <input type="text" 
+               id="arenden-search-input" 
+               placeholder="Sök efter rubrik, diarienummer, fastighet...">
+      </div>
+      
+      <div class="features-filter" id="features-filter" style="display: none;">
+        <div class="filter-label">Filtrera efter ärendetyp</div>
+        <div class="filter-dropdown-wrapper">
+          <button class="filter-dropdown-btn" id="filter-dropdown-btn">
+            <span id="filter-btn-text">Alla ärendetyper</span>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <polyline points="6 9 12 15 18 9"/>
+            </svg>
+          </button>
+          <div class="filter-dropdown-menu" id="filter-dropdown-menu"></div>
+        </div>
+      </div>
+
+      <div class="features-filter" id="arenden-sort-wrapper">
+        <div class="filter-label">Sortera efter</div>
+        <div class="filter-dropdown-wrapper">
+          <select id="arenden-sort-select" style="
+            width: 100%;
+            padding: 8px;
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            background: var(--surface);
+            font-size: 13px;
+            color: var(--text);
+            cursor: pointer;
+            outline: none;
+            font-family: inherit;
+          ">
+            <option value="default">Standardordning</option>
+            <option value="alpha-asc">Alfabetisk ordning A-Ö</option>
+            <option value="alpha-desc">Alfabetisk ordning Ö-A</option>
+            <option value="date-desc">Datum, nyast först</option>
+            <option value="date-asc">Datum, äldst först</option>
+            <option value="diarie-asc">Diarienummer, alfabetisk ordning A-Ö</option>
+          </select>
+        </div>
+      </div>
+      
+      <div class="features-content" id="features-content"></div>
+    </div>
+    
+    <!-- Handlingar -->
+    <div class="tab-content" id="tab-handlingar">
+      <div class="handlingar-search">
+        <input type="text" 
+               id="handlingar-search-input" 
+               placeholder="Sök efter rubrik, diarienummer, fastighet...">
+      </div>
+      
+      <div class="handlingar-filter">
+        <div class="filter-label">Filtrera efter beteckning</div>
+        <div class="handlingar-filter-dropdown-wrapper">
+          <button class="handlingar-filter-dropdown-btn" id="handlingar-filter-dropdown-btn">
+            <span id="handlingar-filter-btn-text">Alla beteckningar</span>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <polyline points="6 9 12 15 18 9"/>
+            </svg>
+          </button>
+          <div class="handlingar-filter-dropdown-menu" id="handlingar-filter-dropdown-menu"></div>
+        </div>
+      </div>
+      
+      <div class="handlingar-date-filter">
+        <div class="date-filter-inputs">
+          <div class="date-input-group">
+            <label for="handlingar-date-from">Registrerad från:</label>
+            <input type="date" 
+                   id="handlingar-date-from" 
+                   class="date-input">
+          </div>
+          <div class="date-input-group">
+            <label for="handlingar-date-to">Registrerad till:</label>
+            <input type="date" 
+                   id="handlingar-date-to" 
+                   class="date-input">
+          </div>
+        </div>
+      </div>
+      
+      <div class="handlingar-list" id="handlingar-list"></div>
+    </div>
+
+    <!-- Relationshandlingar -->
+    <div class="tab-content" id="tab-filer">
+      <div class="arenden-search">
+        <input type="text"
+               id="filer-search-input"
+               placeholder="Sök efter filnamn, skede, etapp...">
+      </div>
+
+      <div class="handlingar-filter">
+        <div class="filter-label">Filtrera efter skede</div>
+        <div class="handlingar-filter-dropdown-wrapper">
+          <button class="handlingar-filter-dropdown-btn" id="filer-sked-dropdown-btn">
+            <span id="filer-sked-btn-text">Alla skeden</span>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <polyline points="6 9 12 15 18 9"/>
+            </svg>
+          </button>
+          <div class="handlingar-filter-dropdown-menu" id="filer-sked-dropdown-menu"></div>
+        </div>
+      </div>
+
+      <div class="handlingar-list" id="filer-list"></div>
+    </div>
+  </div>
+
+  <script>
+    window.PROJECTS_CONFIG = [
+      {
+        id: 1,
+        name: "Bollmoravägen",
+        status: "pausade",
+        image: "/origo/build/data/projekt/1.jpg",
+        projectmanager: "Naser Daabas"
+      },
+      {
+        id: 2,
+        name: "Norra Tyresö Centrum",
+        status: "pagande",
+        image: "/origo/build/data/projekt/2.png",
+        projectmanager: "Leif Ledarsson",
+        subprojects: [
+          { id: 15, name: "Etapp 1, Småa" },
+          { id: 16, name: "Etapp 2" },
+          { id: 12, name: "Etapp 2, kvarter 6" },
+          { id: 18, name: "Etapp 3" },
+          { id: 14, name: "Etapp 3, kvarter 11" },
+          { id: 13, name: "Ishallen" },
+        ]
+      },
+      {
+        id: 22,
+        name: "Granängstorget - kvarter A & B",
+        status: "pagande",
+        image: "/origo/build/data/projekt/22.jpg",
+        projectmanager: "Sara Ledarsson"
+      },
+      {
+        id: 26,
+        name: "Trollbäckens centrum, etapp 1",
+        status: "pagande",
+        image: "/origo/build/data/projekt/26.jpg",
+        projectmanager: "Gunnar Ledarsson"
+      },
+      {
+        id: 27,
+        name: "Kumla 3:1247, Fornuddens gamla skola",
+        status: "avslutade",
+        image: "/origo/build/data/projekt/27.jpg",
+        projectmanager: "Anna Ledarsson"
+      },
+      {
+        id: 24,
+        name: "Wättingebacken etapp 1",
+        status: "pagande",
+        image: "/origo/build/data/projekt/24.jpg",
+        projectmanager: "Anna Ledarsson"
+      },
+      {
+        id: 25,
+        name: "Wättingebacken etapp 2",
+        status: "pagande",
+        image: "/origo/build/data/projekt/25.jpg",
+        projectmanager: "Anna Ledarsson"
+      },
+      {
+        id: 21,
+        name: "Detaljplan för Tigerögat 1, 2 och 3",
+        status: "pagande",
+        image: "/origo/build/data/projekt/21.jpg",
+        projectmanager: "Anna Ledarsson"
+      },
+      {
+        id: 20,
+        name: "Detaljplan för Lindalshöjden",
+        status: "pagande",
+        image: "/origo/build/data/projekt/20.jpg",
+        projectmanager: "Anna Ledarsson"
+      }
+    ];
+  </script>
+
+  <script src="/origo/build/js/tyrorigo.min.js"></script>
+
+  <script src="/origo/build/plugins/digifilter_2.min.js"></script>
+  <script src="/origo/build/plugins/areaselect.min.js"></script>
+  <script src="/origo/build/plugins/viewer-plugin.min.js"></script>
+  <!--<script src="/origo/build/digifilter-plugin/src/digifilter.js"></script> -->
+  <link rel="stylesheet" href="/origo/build/plugins/areaselect.css" />
+  <script>
+    const origo = Origo('/origo/kartor/projektkartan/index.json', {
+      baseUrl: '/origo/build/'
+    });
+
+    origo.on('load', function (viewer) {
+      var viewerPlugin = ViewerPlugin({
+        apiBaseUrl: "https://fme01.tyreso.se",
+        viewerEndpoint: "/api/relationshandlingar/fetch",
+        downloadEndpoint: "/api/relationshandlingar/fetch",
+        buttonText: "Modell-visare",
+        showButton: false,
+        showParameterPanel: true,
+        parameterPanelTitle: "Ladda model",
+        parameterPanelIcon: "#ic_search_24px",
+        tooltipText: "Öppna modell-visaren",
+        showTestUI: false,
+        
+        onViewerReady: function(threeViewer) {
+          console.log('Viewer ready');
+        },
+        onLoadSuccess: function(model) {
+          console.log('Model loaded', model);
+        },
+        onLoadError: function(error) {
+          console.error('Load error', error);
+        }
+      });
+      
+      viewer.addComponent(viewerPlugin);
+
+      window.viewerPlugin = viewerPlugin;
+
+      // ── DigiFilter ────────────────────────────────────────────────────────
+      const digiFilter = DigiFilter({
+        wfsBase:          'https://kommunkarta.tyreso.se/geoserver/wfs',
+        wfsSrs:           'EPSG:3011',
+        wfsTypename:      'projekt_y',
+        layerName:        'projekt_y',
+        wfsWorkspace:     'projektkarta',
+        arendeLayer:      'lex_arende_y',
+        handlingLayer:    'lex_handling_y',
+        kommentarLayer:   'projektkarta_kommentar_p',
+        filerLayer:       'filer',
+        lexHandlingBase:  'https://kommunkarta.tyreso.se/lex_handling/view/',
+        queryableLayers:  ['lex_arende_y'],
+        arendeAttributes: {
+          id:           'arende_id',
+          title:        'rubrik',
+          type:         'arendetyp',
+          property:     'fastighet',
+          diarieNumber: 'diarie_nummer',
+          created:      'skapad'
+        },
+        handlingAttributes: {
+          id:          'handling_id',
+          label:       'beteckning',
+          description: 'beskrivning',
+          registered:  'registrerat',
+          arendeId:    'arende_id'
+        },
+        projektAttributes: {
+          projektNr: 'projekt_nr'
+        },
+        filerAttributes: {
+          projektetapp: 'projektetapp',
+          filnamn:      'filnamn',
+          fil_sokvag:   'fil_sokvag',
+          filtyp:       'filtyp',
+          skapad_datum: 'skapad_datum',
+          andrad_datum: 'andrad_datum',
+          disciplin:    'disciplin',
+          skede:        'skede',
+          upprattat_av: 'upprattat_av',
+          projektid:    'projekt_id'
+        }
+      });
+      viewer.addComponent(digiFilter);
+
+      var areaSelect = areaselect({
+        destinations: [
+          { label: "Ny projektyta",            url: "https://fme01.tyreso.se/fmeserver/apps/projektyta" },
+          { label: "Ny relationshandling",     url: "https://fme01.tyreso.se/fmeserver/apps/Relationshandlingar" },
+          { label: "Ny övrig fil",             url: "https://fme01.tyreso.se/fmeserver/apps/Handlingar" },
+        ],
+        tooltipText: "Rita projektyta eller lägg till ny fil/relationshandling",
+      });
+      viewer.addComponent(areaSelect);
+
+    });
+  </script>
+
+</body>
+</html>

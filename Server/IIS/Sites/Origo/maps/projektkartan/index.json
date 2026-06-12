@@ -11,8 +11,8 @@
       "name": "about",
       "options": {
         "buttonText": "Om kartan",
-        "title": "Om cykelkartan",
-        "content": "Cykelkarta är en karttjänst som använder <a href='https://github.com/origo-map'>Origo</a> som &auml;r ett ramverk f&ouml;r webbkartor."
+        "title": "Om projektkartan",
+        "content": "Projektkartan erbjuder ett digitalt nav för datasamordning i samhällsbyggnadsprocessens tidiga skeden. Utredningar, förstudier och riktlinjer samlade, sökbara och geotaggade. <a href='https://kommunkarta.tyreso.se/origo/kartor/projektkartan/om-projektkartan/'>Läs mer här.</a>"
       }
     },
     {
@@ -51,13 +51,6 @@
             "buttonImage": "img/png/Mapspace.png"
           },
           {
-            "name": "Cesium",
-            "tooltipText": "Cesium",
-            "method": "LatLon",
-            "url": "https://mkartan.tyreso.se/cesium_test?view={{LON}},{{LAT}},1000",
-            "buttonImage": "img/png/Cesium.png"
-          },
-          {
             "name": "IsyRoad",
             "tooltipText": "IsyRoad",
             "method": "XY",
@@ -87,6 +80,19 @@
         "zoomLevel": 17,
         "autoEnable": false,
         "hideWhenEmbedded": false
+      }
+    },
+	{
+      "name": "search",
+      "options": {
+          "url": "https://kommunkarta.tyreso.se/origoserver/search",
+          "layerNameAttribute": "TYPE",
+          "idAttribute": "GID",
+          "searchAttribute": "NAMN",
+          "geometryAttribute": "GEOM",
+          "hintText": "Sök adress eller fastighet...",
+          "groupSuggestions":true,																		
+          "titleAttribute": "TITLE" 
       }
     },
     {
@@ -218,6 +224,9 @@
     "local_wfs": {
       "url": "https://kommunkarta.tyreso.se/geoserver/wfs"
     },
+	"sok": {
+      "url": "https://kommunkarta.tyreso.se/geoserver/origodata/wfs"
+    },
     "projekt": {
       "url": "https://kommunkarta.tyreso.se/geoserver/wfs"
     },
@@ -240,7 +249,7 @@
     {
       "name": "kartunderlag",
       "title": "Kartunderlag",
-      "expanded": true
+      "expanded": false
     },
 	  {
       "name": "framtidskarta",
@@ -248,13 +257,8 @@
       "expanded": false
     },
     {
-      "name": "arende",
-      "title": "Ärende - LEX",
-      "expanded": false
-    },
-    {
       "name": "lager",
-      "title": "Testlager",
+      "title": "Underlag - projektkarta",
       "expanded": false
     }
   ],
@@ -270,8 +274,38 @@
       "type": "GEOJSON",
       "visible": true
     },
+	{
+      "name": "bal_adressplats_p",
+      "title": "Adresspunkter",
+      "source": "sok",
+      "style": "cirkel",
+      "type": "WFS",
+      "queryable": true,
+      "visible": false,
+      "attributes": [
+        {
+          "name": "td_adress",
+          "title": "Name:"
+        }
+      ]
+    },
     {
-      "name": "shn_handling_y",
+      "name": "fastigheter_y",
+      "title": "Fastigheter",
+      "queryable": true,
+      "source": "sok",
+      "style": "highlight",
+      "type": "WFS",
+      "visible": false,
+      "attributes": [
+        {
+          "name": "rk_fastigh",
+          "title": "Name:"
+        }
+      ]
+    },
+    {
+      "name": "lex_handling_y",
       "source": "local_wfs",
       "type": "WFS",
       "isTable": true,
@@ -295,10 +329,10 @@
       ]
     },
     {
-      "name": "shn_arende_y",
-	    "title": "Arende - SHN",
+      "name": "lex_arende_y",
+	    "title": "Arende - LEX",
       "queryable": true,
-      "group": "arende",
+      "group": "lager",
       "source": "local_wfs",
       "style": "highlight",
       "type": "WFS",
@@ -341,18 +375,28 @@
       ],
       "relatedLayers": [
         {
-          "layerName": "shn_handling_y",
+          "layerName": "lex_handling_y",
           "FK": "arende_id",
           "PK": "arende_id",
           "featureTitle": "beskrivning",
           "promoteAttribs": [
           {
             "parentName": "kopplad_handling",
-            "html": "<details style='margin:8px 0; border:1px solid #ccc; border-radius:6px; background:#fafafa;'><summary style='padding:8px 10px; font-weight:bold; font-size:14px; cursor:pointer; list-style:none;'>{{beskrivning}} <span style='font-weight:normal; color:#666;'>({{filtyp}})</span></summary><div style='padding:6px 10px 10px 10px; border-top:1px solid #eee; margin-top:4px;'><b>Typ:</b> {{beteckning}}<br><b>Registrerad:</b> {{handregdatum}}<br><b>Filtyp:</b> {{filtyp}}<br><b>ID:</b> {{handling_id}}<br><br><a target='_blank' href='https://kommunkarta.tyreso.se/lex_handling/view/{{handling_id}}'>Visa handlingen</a><br><a target='_blank' href='https://kommunkarta.tyreso.se/lex_handling/download/{{handling_id}}'>Ladda ner handling</a></div></details>"
+            "html": "<details style='margin:8px 0; border:1px solid #ccc; border-radius:6px; background:#fafafa;'><summary style='padding:8px 10px; font-weight:bold; font-size:14px; cursor:pointer; list-style:none;'>{{beskrivning}} <span style='font-weight:normal; color:#666;'>({{filtyp}})</span></summary><div style='padding:6px 10px 10px 10px; border-top:1px solid #eee; margin-top:4px;'><b>Typ:</b> {{beteckning}}<br><b>Registrerad:</b> {{registrerat}}<br><b>Filtyp:</b> {{filtyp}}<br><b>ID:</b> {{handling_id}}<br><br><a target='_blank' href='https://kommunkarta.tyreso.se/lex_handling/view/{{handling_id}}'>Visa handlingen</a><br><a target='_blank' href='https://kommunkarta.tyreso.se/lex_handling/download/{{handling_id}}'>Ladda ner handling</a></div></details>"
           }
           ]
         }
       ]
+    },
+    {
+      "attribution": "&copy Tyresö kommun",
+      "name": "filer",
+      "title": "relationshandlingar",
+      "group": "lager",
+      "type": "WFS",
+      "source": "projekt",
+      "queryable": true,
+      "visible": false
     },
     {
       "attribution": "&copy Tyresö kommun",
@@ -361,7 +405,7 @@
       "group": "lager",
       "type": "WFS",
       "source": "projekt",
-      "style": "g_detaljplan",
+      "style": "projekt_style",
       "featureinfoTitle": "{{name}}",
       "infowindow": "sidebar",
       "queryable": true,
@@ -375,8 +419,8 @@
           "title": "Projektnamn: "
         },
         {
-          "name": "projekt_ledare",
-          "title": "Projektledare: "
+          "name": "typ",
+          "title": "Typ av projekt: "
         },
         {
           "name": "beskrivning",
@@ -387,18 +431,15 @@
           "title": "Status: "
         },
         {
-          "name": "paborjad",
-          "title": "Projektstart: "
+          "name": "delprojekt",
+          "title": "Delprojekt till: "
         },
         {
           "name": "avslutas",
           "title": "Planerat projektslut: "
         },
         {
-          "html": "<br><a target='_blank' href='#'>Länk till sharepoint</a>"
-        },
-        {
-          "html": "<br><a href='javascript:void(0)' class='lex-trigger-link' data-projektnr='{{projekt_nr}}'>Visa LEX-ärenden samt tillhörande handlingar</a>"
+          "html": "<br><a target='_blank' href='#'>Länk till projektets SharePoint-sida</a>"
         }
       ]
     },
@@ -491,7 +532,7 @@
     },
 	{
       "name": "framtidabus",
-      "title": "Framtida busnät",
+      "title": "Framtida bussnät",
       "source": "framtidabus",
       "format": "image/png",
       "group": "framtidskarta",
@@ -554,6 +595,48 @@
           "fill": {
             "color": "rgba(245,245,66,0)"
           }
+        }
+      ]
+    ],
+    "projekt_style": [
+      [
+        {
+          "fill": { "color": "rgba(57,127,163,0.75)" },
+          "stroke": { "color": "rgba(37,107,143,0.5)", "width": 1 },
+          "filter": "[typ] == 'Förstudie'",
+          "label": "Förstudie"
+        }
+      ],
+      [
+        {
+          "fill": { "color": "rgba(237,155,79,0.75)" },
+          "stroke": { "color": "rgba(217,135,59,0.5)", "width": 1 },
+          "filter": "[typ] == 'Bygg- och anläggningsprojekt'",
+          "label": "Bygg- och anläggningsprojekt"
+        }
+      ],
+      [
+        {
+          "fill": { "color": "rgba(107,157,104,0.75)" },
+          "stroke": { "color": "rgba(80,130,80,0.5)", "width": 1 },
+          "filter": "[typ] == 'Detaljplaneprojekt'",
+          "label": "Detaljplaneprojekt"
+        }
+      ],
+      [
+        {
+          "fill": { "color": "rgba(241,103,74,0.75)" },
+          "stroke": { "color": "rgba(220,80,54,0.5)", "width": 1 },
+          "filter": "[typ] == 'Bygg-och anläggningsprojekt och detaljplan'",
+          "label": "Bygg, anläggning och detaljplan"
+        }
+      ],
+      [
+        {
+          "fill": { "color": "rgba(222,116,226,0.1)" },
+          "stroke": { "color": "rgba(0,0,0,2)", "width": 1 },
+          "filter": "[typ] == 'Paraply'",
+          "label": "Paraplyprojekt"
         }
       ]
     ],
