@@ -1,5 +1,10 @@
 # Projektöversikt – Digigrow Fas 2
 
+### **Disclaimer**
+DigiGrow Fas 2 genomfördes som ett tidsbegränsat innovationsprojekt med begränsade resurser. Även om alla plugins fungerar är koden inte fullständigt optimerad och kan effektiviseras eller förenklas. Ändringar i projektet kan därför komma att ske successivt.
+
+
+### **Inledning**
 Detta repository innehåller konfigurationer, installationer och byggfiler för den Origo-baserade kartklienten samt tillhörande serverkomponenter:
 
 * **GeoServer** (Tomcat + IIS reverse proxy)
