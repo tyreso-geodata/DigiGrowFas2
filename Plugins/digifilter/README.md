@@ -134,7 +134,7 @@ DigiFilter förväntar sig fyra lager/datakällor. Namnen på dessa anges i Digi
 
 ## 3. Konfiguration i index.html
 
-# Det finns en exempel index.html i detta repo som kan nyttjas, se nedan för mer information.
+### Det finns en exempel index.html i detta repo som kan nyttjas, se nedan för mer information.
 
 All konfiguration sker i `DigiFilter({...})`-anropet i `index.html`. Nedan är en genomgång av varje nyckel.
 
