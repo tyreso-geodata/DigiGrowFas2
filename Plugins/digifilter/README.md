@@ -1,8 +1,8 @@
 # DigiFilter – Origo-plugin för Projektkartan
 
-# PLEASE NOTE THAT THIS IS A WORK-IN-PROGRESS VERSION, NOT YET OFFICIALLY RELEASED
+## PLEASE NOTE THAT THIS IS A WORK-IN-PROGRESS VERSION, NOT YET OFFICIALLY RELEASED
 
-DigiFilter är ett plugin till Origo som möjliggör för sökning och filtrering på projektnivå och möjliggör för en så kallad Projektkata (resultatet av projektet DigiGrow Fas 2 - Tyresö kommun). Pluginet möjliggör för följande funktioner i kartan:
+DigiFilter är ett plugin till Origo som möjliggör för sökning och filtrering på projektnivå och möjliggör för en så kallad projektkata (resultatet av projektet DigiGrow Fas 2, Tyresö kommun). Pluginet möjliggör för följande funktioner i kartan:
 
 - En **projektväljare** (panel med projekt grupperade på status: pågående, pausade, avslutade), som zoomar kartan till valt projektområde.
 - En **träffpanel** som visar träffar på ett antal fördefinerade lager som geografiskt ligger inom det valda projektets utbredning.
@@ -27,16 +27,16 @@ index.json
  └─ kontroller: sök, legend, etc.
 
 DigiFilter-modulen
- ├─ config.js            → global konfiguration (sätts en gång via initConfig)
- ├─ wfsClient.js         → alla WFS-anrop (GetFeature, Intersects-sökningar)
- ├─ mapControls.js       → zoom, highlight, lagerstyrning
- ├─ ui/projectPanel.js   → projektlistan till vänster
- ├─ ui/featuresPanel.js  → fliken "Ärenden"
- ├─ ui/handlingarPanel.js→ fliken "Handlingar"
- ├─ ui/filerPanel.js     → fliken "Övriga handlingar"
- ├─ ui/drawSearch.js     → "Rita sökyta"
- ├─ ui/modals.js         → detaljvyer/popup-fönster
- └─ editorFix.js         → låser redigeringsverktyg när editorn inte är öppen
+ ├─ config.js               → global konfiguration (sätts en gång via initConfig)
+ ├─ wfsClient.js            → alla WFS-anrop (GetFeature, Intersects-sökningar)
+ ├─ mapControls.js          → zoom, highlight, lagerstyrning
+ ├─ ui/projectPanel.js      → projektlistan till vänster
+ ├─ ui/featuresPanel.js     → fliken "Ärenden"
+ ├─ ui/handlingarPanel.js   → fliken "Handlingar"
+ ├─ ui/filerPanel.js        → fliken "Övriga handlingar"
+ ├─ ui/drawSearch.js        → "Rita sökyta"
+ ├─ ui/modals.js            → detaljvyer/popup-fönster
+ └─ editorFix.js            → låser redigeringsverktyg när editorn inte är öppen
 ```
 
 Allt nedan beskriver vad som krävs i **index.json** (kartans lager) och **index.html** (DigiFilter-konfigurationen) för att kopplingen mellan dem ska fungera.
@@ -185,7 +185,7 @@ window.PROJECTS_CONFIG = [
     name: "Bollmoravägen",
     status: "pausade",
     image: "/origo/build/data/projekt/1.jpg",
-    projectmanager: "Naser Daabas"
+    projectmanager: "Leif Ledarsson"
   },
   {
     id: 2,
