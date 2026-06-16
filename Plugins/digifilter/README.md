@@ -57,22 +57,22 @@ DigiFilter förväntar sig fyra lager/datakällor. Namnen på dessa anges i Digi
     - Hämta projektets utbredning (extent) när användaren klickar på ett projekt i listan.
     - Beräkna den WKT-polygon som sedan används för att söka i övriga lager.
   - `style` styr hur projektytorna ritas (t.ex. `projekt_style` i exemplet, med olika färger per `typ`).
-  - Klick på en projektyta i kartan ska trigga samma zoom/sökflöde som klick i projektlistan – detta sker automatiskt via DigiFilter, men kräver att lagrets `name` matchar `layerName` i konfigurationen.
+  - Klick på en projektyta i kartan ska trigga samma zoom/sökflöde som klick i projektlistan, detta sker automatiskt via DigiFilter, men kräver att lagrets `name` matchar `layerName` i konfigurationen.
 
 ### 2.2 Ärendelager (`arendeLayer`)
 
 - **Exempel:** `arende_y`
 - **Typ:** WFS, `queryable: true`, ska ingå i `queryableLayers` (se nedan), bör vara `visible: false` som standard (DigiFilter visar/döljer det själv).
-- **Krav – attribut som måste finnas och pekas ut i `arendeAttributes`:**
+- **Krav, attribut som måste finnas och pekas ut i `arendeAttributes`:**
 
   | Nyckel i `arendeAttributes` | Beskrivning | Exempel på fältnamn |
   |---|---|---|
   | `id`           | Unikt id för ärendet, används för koppling till handlingar och highlight | `arende_id` |
   | `title`        | Ärendets rubrik, visas i listan och i detaljvyn | `rubrik` |
-  | `type`         | Ärendetyp – används för filterdropdownen "Filtrera efter ärendetyp" | `arendetyp` |
-  | `property`     | Fastighetsbeteckning – visas i listan och kan sökas på | `fastighet` |
-  | `diarieNumber` | Diarienummer – visas, kan sökas på och sorteras på | `diarie_nummer` |
-  | `created`      | Skapad-/registreringsdatum – används för datumsortering | `skapad` |
+  | `type`         | Ärendetyp används för filterdropdownen "Filtrera efter ärendetyp" | `arendetyp` |
+  | `property`     | Fastighetsbeteckning visas i listan och kan sökas på | `fastighet` |
+  | `diarieNumber` | Diarienummer visas, kan sökas på och sorteras på | `diarie_nummer` |
+  | `created`      | Skapad-/registreringsdatum används för datumsortering | `skapad` |
 
   - Geometrin används för att avgöra vilka ärenden som ligger inom projektytan (eller den ritade sökytan).
   - För att highlight ska fungera (klick på ärende → markering i kartan) måste `id` motsvara feature-id eller ett attribut som går att matcha mot kartans features.
@@ -80,15 +80,15 @@ DigiFilter förväntar sig fyra lager/datakällor. Namnen på dessa anges i Digi
 ### 2.3 Handlingslager (`handlingLayer`)
 
 - **Exempel:** `handling_y`
-- **Typ:** WFS, normalt en tabell (`isTable: true`, ingen geometri behövs) – kopplas till ärendelagret via FK/PK.
+- **Typ:** WFS, normalt en tabell (`isTable: true`, ingen geometri behövs) kopplas till ärendelagret via FK/PK.
 - **Krav – attribut i `handlingAttributes`:**
 
   | Nyckel | Beskrivning | Exempel |
   |---|---|---|
   | `id`         | Unikt id för handlingen | `handling_id` |
-  | `label`      | "Beteckning" – visas och används i filterdropdownen "Filtrera efter beteckning" | `beteckning` |
+  | `label`      | "Beteckning" visas och används i filterdropdownen "Filtrera efter beteckning" | `beteckning` |
   | `description`| Beskrivande text, visas i listan och används vid fritextsökning | `beskrivning` |
-  | `registered` | Registreringsdatum – används av datumfiltret "Registrerad från/till" | `registrerat` |
+  | `registered` | Registreringsdatum används av datumfiltret "Registrerad från/till" | `registrerat` |
   | `arendeId`   | Främmande nyckel mot ärendet (`arendeAttributes.id`) | `arende_id` |
 
   - DigiFilter hämtar alla handlingar vars `arendeId` matchar ärenden inom projektområdet (batchat i grupper om 20).
@@ -105,15 +105,15 @@ DigiFilter förväntar sig fyra lager/datakällor. Namnen på dessa anges i Digi
 
     | Nyckel | Beskrivning | Exempel |
     |---|---|---|
-    | `filnamn`      | Filens namn – visas i listan, sökbart | `filnamn` |
-    | `fil_sokvag`   | Sökväg/länk till filen – visas som klickbar länk i detaljvyn | `fil_sokvag` |
+    | `filnamn`      | Filens namn visas i listan, sökbart | `filnamn` |
+    | `fil_sokvag`   | Sökväg/länk till filen visas som klickbar länk i detaljvyn | `fil_sokvag` |
     | `filtyp`       | Filtyp | `filtyp` |
-    | `skapad_datum` | Skapad-datum – visas, formateras (YYYY-MM-DD) | `skapad_datum` |
-    | `andrad_datum` | Ändrad-datum – visas i detaljvyn | `andrad_datum` |
-    | `disciplin`    | Disciplin – sökbart | `disciplin` |
-    | `skede`        | Skede – används för filterdropdownen "Filtrera efter skede" och är sökbart | `skede` |
-    | `upprattat_av` | Upprättat av – visas i detaljvyn | `upprattat_av` |
-    | `projektetapp` | Projektetapp – visas och är sökbart | `projektetapp` |
+    | `skapad_datum` | Skapad-datum visas, formateras (YYYY-MM-DD) | `skapad_datum` |
+    | `andrad_datum` | Ändrad-datum visas i detaljvyn | `andrad_datum` |
+    | `disciplin`    | Disciplin ökbart | `disciplin` |
+    | `skede`        | Skede används för filterdropdownen "Filtrera efter skede" och är sökbart | `skede` |
+    | `upprattat_av` | Upprättat av visas i detaljvyn | `upprattat_av` |
+    | `projektetapp` | Projektetapp visas och är sökbart | `projektetapp` |
     | `projektid`    | Koppling till projektets id (för 3D-visaren, se avsnitt 2.6) | `projekt_id` |
 
 ### 2.6 Projekttabell för 3D-visaren (`projekt` i WFS-workspace)
@@ -121,7 +121,7 @@ DigiFilter förväntar sig fyra lager/datakällor. Namnen på dessa anges i Digi
 - Utöver `projekt_y` förväntar `filerPanel.js` att det finns en separat WFS-tabell/lager kallad **`projekt`** i samma workspace (`wfsWorkspace`), med minst attributen:
   - `id` (matchas mot `filerAttributes.projektid`, dvs `filer`-lagrets `projekt_id`)
   - `projektnummer` (det "riktiga" projektnumret som skickas vidare till 3D-visaren/ViewerPlugin)
-  - Detta används enbart när `window.viewerPlugin` finns och en fil i "Övriga handlingar" har ett `projektid`. Om tabellen saknas eller sökningen misslyckas döljer pluginet bara 3D-knapparna – ingen krasch.
+  - Detta används enbart när `window.viewerPlugin` finns och en fil i "Övriga handlingar" har ett `projektid`. Om tabellen saknas eller sökningen misslyckas döljer pluginet bara 3D-knapparna.
 
 ### 2.7 `queryableLayers`
 
