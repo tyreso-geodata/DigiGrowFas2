@@ -1,4 +1,4 @@
-# DigiFilter – Origo-plugin för Projektkartan
+# DigiFilter
 
 ## PLEASE NOTE THAT THIS IS A WORK-IN-PROGRESS VERSION, NOT YET OFFICIALLY RELEASED
 
@@ -14,7 +14,7 @@ Detta dokument beskriver vad som måste finnas på plats (lager, attribut, konfi
 
 ---
 
-## 1. Översikt – hur allt hänger ihop
+## 1. Översikt
 
 ```
 index.html
@@ -176,7 +176,7 @@ const digiFilter = DigiFilter({
 
 ---
 
-## 4. Projektlistan – `window.PROJECTS_CONFIG`
+## 4. Projektlistan `window.PROJECTS_CONFIG`
 
 Projektväljaren (vänster panel) renderas helt utifrån en global JS-array som definieras direkt i `index.html`:
 
